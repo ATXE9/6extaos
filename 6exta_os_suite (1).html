@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="tr"><head><script data-bard-client-injected="true">(function(firebaseConfig, initialAuthToken, appId) {
+        window.__firebase_config = firebaseConfig;
+        window.__initial_auth_token = initialAuthToken;
+        window.__app_id = appId;
+            })("\n{\n  \"apiKey\": \"AIzaSyCqyCcs2R2e7AegGjvFAwG98wlamtbHvZY\",\n  \"authDomain\": \"bard-frontend.firebaseapp.com\",\n  \"projectId\": \"bard-frontend\",\n  \"storageBucket\": \"bard-frontend.firebasestorage.app\",\n  \"messagingSenderId\": \"175205271074\",\n  \"appId\": \"1:175205271074:web:2b7bd4d34d33bf38e6ec7b\"\n}\n","eyJhbGciOiJSUzI1NiIsImtpZCI6IjExNjRiNzdiNDMzZDdhMDAyMWI4NjE4YjhjYTU3ZTMyZGI5MWUxMTMiLCJ0eXAiOiJKV1QifQ.eyJzdWIiOiJmaXJlYmFzZS1hZG1pbnNkay1mYnN2Y0BiYXJkLWZyb250ZW5kLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwiYXVkIjoiaHR0cHM6Ly9pZGVudGl0eXRvb2xraXQuZ29vZ2xlYXBpcy5jb20vZ29vZ2xlLmlkZW50aXR5LmlkZW50aXR5dG9vbGtpdC52MS5JZGVudGl0eVRvb2xraXQiLCJ1aWQiOiIwNzcyNzI4ODQxMzQxMjMzMTU2MSIsImlzcyI6ImZpcmViYXNlLWFkbWluc2RrLWZic3ZjQGJhcmQtZnJvbnRlbmQuaWFtLmdzZXJ2aWNlYWNjb3VudC5jb20iLCJjbGFpbXMiOnsiYXBwSWQiOiI1ZWUxNzNkYWJkNjQtaW5kZXguaHRtbC0yMjkifSwiZXhwIjoxNzg2ODkxMTc0LCJpYXQiOjE3ODY4ODc1NzQsImFsZyI6IlJTMjU2In0.RQBcrWdiYLdaIUgN2OOe1B2Tt62F4_ZVa7OkcNCoBKpMiTGzxuft7MXTPWrxT3wMSv47l62HbOA6PF13wCxKTSIoP-4G6G5ANtiXYtF7flOtMxPUUhM8QJjF210lfJ0f-IVlCa-oy8gn7dd-VYjAKD4FINyC_ZxRAmKRK5Ty084GEYy2KcuHQFmzlYaWHC1QrIk2YLVdCmDnuM2WbwR8UHIKAehwagjWTtxPlmNZafUiqz3SuWMVLvFLRm8ycrVBqgiuW2NuVmWT5QMWrqsCFMarS3hKb5emgngKxFfgjYMKBu0GgjZLIG9c3y24nBU_ny0U3iVYDfPp2Qsmlfevmw","5ee173dabd64-index.html-229")</script><script data-bard-client-injected="true">(function(){'use strict';window.addEventListener("message",a=>{a.data&&a.data.type==="SUPPLEMENTAL_DATA_UPDATE"&&window.dispatchEvent(new CustomEvent("supplementaldataupdate",{detail:a.data.data}))});}).call(this);
+</script><script data-bard-client-injected="true">(function(){'use strict';var h=typeof Object.defineProperties=="function"?Object.defineProperty:function(a,b,d){if(a==Array.prototype||a==Object.prototype)return a;a[b]=d.value;return a};function l(a){a=["object"==typeof globalThis&&globalThis,a,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var b=0;b<a.length;++b){var d=a[b];if(d&&d.Math==Math)return d}throw Error("Cannot find global object");}var n=l(this);
+function p(a,b){if(b)a:{var d=n;a=a.split(".");for(var c=0;c<a.length-1;c++){var e=a[c];if(!(e in d))break a;d=d[e]}a=a[a.length-1];c=d[a];b=b(c);b!=c&&b!=null&&h(d,a,{configurable:!0,writable:!0,value:b})}}function r(a){function b(c){return a.next(c)}function d(c){return a.throw(c)}return new Promise(function(c,e){function f(g){g.done?c(g.value):Promise.resolve(g.value).then(b,d).then(f,e)}f(a.next())})}function t(a){return r(a())}
+p("Object.values",function(a){return a?a:function(b){var d=[],c;for(c in b)Object.prototype.hasOwnProperty.call(b,c)&&d.push(b[c]);return d}});p("Array.prototype.includes",function(a){return a?a:function(b,d){var c=this;c instanceof String&&(c=String(c));var e=c.length;d=d||0;for(d<0&&(d=Math.max(d+e,0));d<e;d++){var f=c[d];if(f===b||Object.is(f,b))return!0}return!1}});/*
+
+ MIT License
+
+ Copyright (c) 2017-2023 W.Y.
+
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ copies of the Software, and to permit persons to whom the Software is
+ furnished to do so, subject to the following conditions:
+
+ The above copyright notice and this permission notice shall be included in
+ all copies or substantial portions of the Software.
+
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+
+*/
+function u(a,b){var d=a.style;b.backgroundColor&&(d.backgroundColor=b.backgroundColor);b.width&&(d.width=`${b.width}px`);b.height&&(d.height=`${b.height}px`);var c=b.style;c!=null&&Object.keys(c).forEach(e=>{d[e]=c[e]})};var v=(()=>{var a=0;return()=>{a+=1;return`u${`0000${(Math.random()*1679616<<0).toString(36)}`.slice(-4)}${a}`}})();function w(a){var b=[];for(let d=0,c=a.length;d<c;d++)b.push(a[d]);return b}let x=null;function y(a={}){return x?x:a.l?x=a.l:x=w(window.getComputedStyle(document.documentElement))}function z(a,b){return(a=(a.ownerDocument.defaultView||window).getComputedStyle(a).getPropertyValue(b))?parseFloat(a.replace("px","")):0}
+function A(a,b={}){var d;if(!(d=b.width)){d=z(a,"border-left-width");var c=z(a,"border-right-width");d=a.clientWidth+d+c}(b=b.height)||(b=z(a,"border-top-width"),c=z(a,"border-bottom-width"),b=a.clientHeight+b+c);return{width:d,height:b}}function B(a){return new Promise((b,d)=>{var c=new Image;c.onload=()=>{c.decode().then(()=>{requestAnimationFrame(()=>b(c))})};c.onerror=d;c.crossOrigin="anonymous";c.decoding="async";c.src=a})}
+function C(a){return t(function*(){return Promise.resolve().then(()=>(new XMLSerializer).serializeToString(a)).then(encodeURIComponent).then(b=>`data:image/svg+xml;charset=utf-8,${b}`)})}
+function D(a,b,d){return t(function*(){var c=document.createElementNS("http://www.w3.org/2000/svg","svg"),e=document.createElementNS("http://www.w3.org/2000/svg","foreignObject");c.setAttribute("width",`${b}`);c.setAttribute("height",`${d}`);c.setAttribute("viewBox",`0 0 ${b} ${d}`);e.setAttribute("width","100%");e.setAttribute("height","100%");e.setAttribute("x","0");e.setAttribute("y","0");e.setAttribute("externalResourcesRequired","true");c.appendChild(e);e.appendChild(a);return C(c)})}
+var E=(a,b)=>{if(a instanceof b)return!0;a=Object.getPrototypeOf(a);return a===null?!1:a.constructor.name===b.name||E(a,b)};function F(a,b){return y(b).map(d=>{var c=a.getPropertyValue(d),e=a.getPropertyPriority(d);return`${d}: ${c}${e?" !important":""};`}).join(" ")}
+function G(a,b,d,c){a=window.getComputedStyle(a,d);var e=a.getPropertyValue("content");if(e!==""&&e!=="none"){var f=v();try{b.className=`${b.className} ${f}`}catch(k){return}e=document.createElement("style");var g=e.appendChild;d=`.${f}:${d}`;a.cssText?(c=a.getPropertyValue("content"),c=`${a.cssText} content: '${c.replace(/'|"/g,"")}';`):c=F(a,c);g.call(e,document.createTextNode(`${d}{${c}}`));b.appendChild(e)}};function H(a){return a.search(/^(data:)/)!==-1}function I(a,b,d){return t(function*(){var c=yield fetch(a,b);if(c.status===404)throw Error(`Resource "${c.url}" not found`);var e=yield c.blob();return new Promise((f,g)=>{var k=new FileReader;k.onerror=g;k.onloadend=()=>{try{f(d({o:c,result:k.result}))}catch(m){g(m)}};k.readAsDataURL(e)})})}const J={};function K(a,b,d){var c=a.replace(/\?.*/,"");d&&(c=a);/ttf|otf|eot|woff2?/i.test(c)&&(c=c.replace(/.*\//,""));return b?`[${b}]${c}`:c}
+function L(a,b,d){return t(function*(){var c=K(a,b,d.C);if(J[c]!=null)return J[c];d.u&&(a+=(/\?/.test(a)?"&":"?")+(new Date).getTime());try{let f=yield I(a,d.i,({o:g,result:k})=>{b||(b=g.headers.get("Content-Type")||"");return k.split(/,/)[1]});var e=`data:${b};base64,${f}`}catch(f){e=d.B||""}return J[c]=e})};const M={P:"application/font-woff",R:"application/font-woff",N:"application/font-truetype",v:"application/vnd.ms-fontobject",H:"image/png",F:"image/jpeg",D:"image/jpeg",A:"image/gif",M:"image/tiff",L:"image/svg+xml",O:"image/webp"};function N(a){return(a=/\.([^./]*?)$/g.exec(a))?a[1]:""};function O(a){return t(function*(){var b=a.toDataURL();return b==="data:,"?a.cloneNode(!1):B(b)})}function aa(a,b){return t(function*(){if(a.currentSrc){var d=document.createElement("canvas");let c=d.getContext("2d");d.width=a.clientWidth;d.height=a.clientHeight;c==null||c.drawImage(a,0,0,d.width,d.height);d=d.toDataURL();return B(d)}d=a.poster;d=yield L(d,M[N(d).toLowerCase()]||"",b);return B(d)})}
+function ba(a,b){return t(function*(){try{let d;if(a==null?0:(d=a.contentDocument)==null?0:d.body)return yield P(a.contentDocument.body,b,!0)}catch(d){}return a.cloneNode(!1)})}function ca(a,b){return t(function*(){return E(a,HTMLCanvasElement)?O(a):E(a,HTMLVideoElement)?aa(a,b):E(a,HTMLIFrameElement)?ba(a,b):a.cloneNode(a.tagName!=null&&a.tagName.toUpperCase()==="SVG")})}
+function da(a,b,d){return t(function*(){if(b.tagName!=null&&b.tagName.toUpperCase()==="SVG")return b;var c=[];if(a.tagName!=null&&a.tagName.toUpperCase()==="SLOT"&&a.assignedNodes)c=w(a.assignedNodes());else{let e;if(E(a,HTMLIFrameElement)&&((e=a.contentDocument)==null?0:e.body))c=w(a.contentDocument.body.childNodes);else{let f;c=w(((f=a.shadowRoot)!=null?f:a).childNodes)}}if(c.length===0||E(a,HTMLVideoElement))return b;yield c.reduce((e,f)=>e.then(()=>P(f,d)).then(g=>{g&&b.appendChild(g)}),Promise.resolve());
+return b})}function ea(a,b,d){var c=b.style;if(c){var e=window.getComputedStyle(a);e.cssText?(c.cssText=e.cssText,c.transformOrigin=e.transformOrigin):y(d).forEach(f=>{var g=e.getPropertyValue(f);f==="font-size"&&g.endsWith("px")&&(g=`${Math.floor(parseFloat(g.substring(0,g.length-2)))-.1}px`);E(a,HTMLIFrameElement)&&f==="display"&&g==="inline"&&(g="block");f==="d"&&b.getAttribute("d")&&(g=`path(${b.getAttribute("d")})`);c.setProperty(f,g,e.getPropertyPriority(f))})}}
+function fa(a,b){E(a,HTMLSelectElement)&&(b=Array.from(b.children).find(d=>a.value===d.getAttribute("value")))&&b.setAttribute("selected","")}
+function ha(a,b){return t(function*(){var d=a.querySelectorAll?a.querySelectorAll("use"):[];if(d.length===0)return a;var c={};for(var e=0;e<d.length;e++){var f=d[e].getAttribute("xlink:href");if(f){let g=document.querySelector(f);a.querySelector(f)||!g||c[f]||(c[f]=yield P(g,b,!0))}}d=Object.values(c);if(d.length){c=document.createElementNS("http://www.w3.org/1999/xhtml","svg");c.setAttribute("xmlns","http://www.w3.org/1999/xhtml");c.style.position="absolute";c.style.width="0";c.style.height="0";
+c.style.overflow="hidden";c.style.display="none";e=document.createElementNS("http://www.w3.org/1999/xhtml","defs");c.appendChild(e);for(f=0;f<d.length;f++)e.appendChild(d[f]);a.appendChild(c)}return a})}
+function P(a,b,d){return t(function*(){return d||!b.filter||b.filter(a)?Promise.resolve(a).then(c=>ca(c,b)).then(c=>da(a,c,b)).then(c=>{E(c,Element)&&(ea(a,c,b),G(a,c,":before",b),G(a,c,":after",b),E(a,HTMLTextAreaElement)&&(c.textContent=a.value),E(a,HTMLInputElement)&&c.setAttribute("value",a.value),fa(a,c));return c}).then(c=>ha(c,b)):null})};const Q=/url\((['"]?)([^'"]+?)\1\)/g,ia=/url\([^)]+\)\s*format\((["']?)([^"']+)\1\)/g,ja=/src:\s*(?:url\([^)]+\)\s*format\([^)]+\)[,;]\s*)+/g;function ka(a){var b=[];a.replace(Q,(d,c,e)=>{b.push(e);return d});return b.filter(d=>!H(d))}
+function la(a,b,d,c){return t(function*(){try{let e=d?(new URL(b,d||void 0)).toString():b,f;f=yield L(e,M[N(b).toLowerCase()]||"",c);return a.replace(new RegExp(`(url\\(['"]?)(${b.replace(/([.*+?^${}()|\[\]\/\\])/g,"\\$1")})(['"]?\\))`,"g"),`$1${f}$3`)}catch(e){}return a})}function ma(a,{I:b}){return b?a.replace(ja,d=>{for(;;){let [c,,e]=ia.exec(d)||[];if(!e)return"";if(e===b)return`src: ${c};`}}):a}
+function R(a,b,d){return t(function*(){if(a.search(Q)===-1)return a;var c=ma(a,d);return ka(c).reduce((e,f)=>e.then(g=>la(g,f,b,d)),Promise.resolve(c))})};function S(a,b,d){return t(function*(){var c,e=(c=b.style)==null?void 0:c.getPropertyValue(a);return e?(c=yield R(e,null,d),b.style.setProperty(a,c,b.style.getPropertyPriority(a)),!0):!1})}function na(a,b){return t(function*(){(yield S("background",a,b))||(yield S("background-image",a,b));(yield S("mask",a,b))||(yield S("-webkit-mask",a,b))||(yield S("mask-image",a,b))||(yield S("-webkit-mask-image",a,b))})}
+function oa(a,b){return t(function*(){var d=E(a,HTMLImageElement);if(d&&!H(a.src)||E(a,SVGImageElement)&&!H(a.href.baseVal)){var c=d?a.src:a.href.baseVal,e=yield L(c,M[N(c).toLowerCase()]||"",b);yield new Promise((f,g)=>{a.onload=f;a.onerror=b.m?(...k)=>{try{f(b.m(...k))}catch(m){g(m)}}:g;a.decode&&(a.decode=f);a.loading==="lazy"&&(a.loading="eager");d?(a.srcset="",a.src=e):a.href.baseVal=e})}})}
+function pa(a,b){return t(function*(){var d=w(a.childNodes).map(c=>T(c,b));yield Promise.all(d).then(()=>a)})}function T(a,b){return t(function*(){E(a,Element)&&(yield na(a,b),yield oa(a,b),yield pa(a,b))})};const U={};function V(a){return t(function*(){var b=U[a];if(b!=null)return b;b=yield(yield fetch(a)).text();b={url:a,cssText:b};return U[a]=b})}function W(a,b){return t(function*(){var d=a.cssText,c=/url\(["']?([^"')]+)["']?\)/g,e=(d.match(/url\([^)]+\)/g)||[]).map(f=>t(function*(){var g=f.replace(c,"$1");g.startsWith("https://")||(g=(new URL(g,a.url)).href);return I(g,b.i,({result:k})=>{d=d.replace(f,`url(${k})`);return[f,k]})}));return Promise.all(e).then(()=>d)})}
+function X(a){if(a==null)return[];var b=[];a=a.replace(/(\/\*[\s\S]*?\*\/)/gi,"");for(var d=RegExp("((@.*?keyframes [\\s\\S]*?){([\\s\\S]*?}\\s*?)})","gi");;){var c=d.exec(a);if(c===null)break;b.push(c[0])}a=a.replace(d,"");d=/@import[\s\S]*?url\([^)]*\)[\s\S]*?;/gi;for(c=RegExp("((\\s*?(?:\\/\\*[\\s\\S]*?\\*\\/)?\\s*?@media[\\s\\S]*?){([\\s\\S]*?)}\\s*?})|(([\\s\\S]*?){([\\s\\S]*?)})","gi");;){let e=d.exec(a);if(e===null)if(e=c.exec(a),e===null)break;else d.lastIndex=c.lastIndex;else c.lastIndex=
+d.lastIndex;b.push(e[0])}return b}
+function qa(a,b){return t(function*(){var d=[],c=[];a.forEach(e=>{if("cssRules"in e)try{w(e.cssRules||[]).forEach((f,g)=>{if(f.type===CSSRule.IMPORT_RULE){let k=g+1;f=V(f.href).then(m=>W(m,b)).then(m=>X(m).forEach(q=>{try{e.insertRule(q,q.startsWith("@import")?k+=1:e.cssRules.length)}catch(Da){}})).catch(()=>{});c.push(f)}})}catch(f){let g=a.find(k=>k.href==null)||document.styleSheets[0];e.href!=null&&c.push(V(e.href).then(k=>W(k,b)).then(k=>X(k).forEach(m=>{g.insertRule(m,g.cssRules.length)})).catch(()=>
+{}))}});return Promise.all(c).then(()=>{a.forEach(e=>{if("cssRules"in e)try{w(e.cssRules||[]).forEach(f=>{d.push(f)})}catch(f){}});return d})})}function ra(a){return a.filter(b=>b.type===CSSRule.FONT_FACE_RULE).filter(b=>b.style.getPropertyValue("src").search(Q)!==-1)}function sa(a,b){return t(function*(){if(a.ownerDocument==null)throw Error("Provided element is not within a Document");var d=w(a.ownerDocument.styleSheets);d=yield qa(d,b);return ra(d)})}
+function ta(a){function b(c){(c.style.fontFamily||getComputedStyle(c).fontFamily).split(",").forEach(e=>{d.add(e.trim().replace(/["']/g,""))});Array.from(c.children).forEach(e=>{e instanceof HTMLElement&&b(e)})}var d=new Set;b(a);return d}function ua(a,b){return t(function*(){var d=yield sa(a,b),c=ta(a);return(yield Promise.all(d.filter(e=>c.has(e.style.fontFamily.trim().replace(/["']/g,""))).map(e=>R(e.cssText,e.parentStyleSheet?e.parentStyleSheet.href:null,b)))).join("\n")})}
+function va(a,b){return t(function*(){var d=b.j!=null?b.j:b.K?null:yield ua(a,b);if(d){let c=document.createElement("style");c.appendChild(document.createTextNode(d));a.firstChild?a.insertBefore(c,a.firstChild):a.appendChild(c)}})};function wa(a,b={}){return t(function*(){var {width:d,height:c}=A(a,b),e=yield P(a,b,!0);yield va(e,b);yield T(e,b);u(e,b);return yield D(e,d,c)})}
+function xa(a,b={}){return t(function*(){var {width:d,height:c}=A(a,b),e=yield wa(a,b);e=yield B(e);var f=document.createElement("canvas"),g=f.getContext("2d"),k=b.G||window.devicePixelRatio||1,m=b.h||d,q=b.g||c;f.width=m*k;f.height=q*k;!b.J&&(f.width>16384||f.height>16384)&&(f.width>16384&&f.height>16384?f.width>f.height?(f.height*=16384/f.width,f.width=16384):(f.width*=16384/f.height,f.height=16384):f.width>16384?(f.height*=16384/f.width,f.width=16384):(f.width*=16384/f.height,f.height=16384));
+f.style.width=`${m}`;f.style.height=`${q}`;b.backgroundColor&&(g.fillStyle=b.backgroundColor,g.fillRect(0,0,f.width,f.height));g.drawImage(e,0,0,f.width,f.height);return f})}function ya(a,b={}){return t(function*(){return(yield xa(a,b)).toDataURL()})};const za=["gemini.google.com","corp.google.com","proxy.googlers.com"];function Y(){return document.body.querySelectorAll('[class*="animate"]').length>0}function Z(a){return t(function*(){try{return yield ya(a,{h:a.offsetWidth,g:a.offsetHeight})}catch(d){var b=a.offsetHeight;let c=document.createElement("canvas");c.width=a.offsetWidth;c.height=b;return c.toDataURL("image/png")}})}
+function Aa(){return t(function*(){var a=document.body.offsetWidth,b=document.body.offsetHeight,d=document.body.cloneNode(!0);d.querySelectorAll('[class*="animate"]').forEach(c=>{c.classList.remove(...Array.from(c.classList).filter(e=>e.startsWith("animate")))});d.style.width=`${a}px`;d.style.height=`${b}px`;return d})}
+function Ba(a){return t(function*(){var b=document.body;if(Y()){var d=yield Aa();b=d;document.body.appendChild(d)}d=yield Z(b);Y()&&document.body.removeChild(b);window.parent.postMessage({type:"SEND_SCREENSHOT",image:d,topOffset:document.documentElement.scrollTop},a.origin)})}function Ca(a){return t(function*(){var b={type:"SEND_SCREENSHOT_FOR_DATA_VISUALIZATION",image:yield Z(document.body),topOffset:0};window.parent.postMessage(b,a.origin)})}
+window.addEventListener("message",a=>t(function*(){if(za.some(d=>a.origin.includes(d))){var b=a.data;b&&(b.type==="MAKE_SCREENSHOT"&&(yield Ba(a)),b.type==="MAKE_SCREENSHOT_FOR_DATA_VISUALIZATION"&&(yield Ca(a)))}}));
+})();</script><script data-bard-client-injected="true">(function() {
+  // Ensure this script is executed only once
+  if (window.firebaseAuthBridgeScriptLoaded) {
+    return;
+  }
+  window.firebaseAuthBridgeScriptLoaded = true;
+
+  let nextTokenPromiseId = 0;
+
+  // Stores { resolve, reject } for ongoing token requests
+  const pendingTokenPromises = {};
+
+  // Listen for messages from the Host Application
+  window.addEventListener('message', function(event) {
+
+    const messageData = event.data;
+
+  if (messageData && messageData.type === 'RESOLVE_NEW_FIREBASE_TOKEN') {
+      const { success, token, error, promiseId } = messageData ?? {};
+      if (pendingTokenPromises[promiseId]) {
+        if (success) {
+          pendingTokenPromises[promiseId].resolve(token);
+        } else {
+          pendingTokenPromises[promiseId].reject(new Error(error || 'Token refresh failed from host.'));
+        }
+        delete pendingTokenPromises[promiseId];
+      }
+    }
+  });
+
+  // Expose a function for the Generated App to request a new Firebase token
+  window.requestNewFirebaseToken = function() {
+    const currentPromiseId = nextTokenPromiseId++;
+    const promise = new Promise((resolve, reject) => {
+      pendingTokenPromises[currentPromiseId] = { resolve, reject };
+    });
+    if (window.parent && window.parent !== window) {
+      window.parent.postMessage({
+        type: 'REQUEST_NEW_FIREBASE_TOKEN',
+        promiseId: currentPromiseId
+      }, '*');
+    } else {
+      pendingTokenPromises[currentPromiseId].reject(new Error('No parent window to request token from.'));
+      delete pendingTokenPromises[currentPromiseId];
+    }
+    return promise;
+  };
+})();</script><script data-bard-client-injected="true">
+let realOriginalGetUserMedia = null;
+if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+  realOriginalGetUserMedia = navigator.mediaDevices.getUserMedia.bind(navigator.mediaDevices);
+}
+
+(function() {
+  if (navigator.mediaDevices && navigator.mediaDevices.__proto__) {
+    try {
+      Object.defineProperty(navigator.mediaDevices.__proto__, 'getUserMedia', {
+        get: function() {
+          return undefined; // Or throw an error
+        },
+        configurable: false
+      });
+    } catch (error) {
+      console.error("Error defining prototype getter:", error);
+    }
+  }
+})();
+
+(function() {
+  const pendingMediaResolvers = {};
+  let nextMediaPromiseId = 0;
+
+  function requestMediaPermissions(constraints) {
+    const mediaPromiseId = nextMediaPromiseId++;
+    const promise = new Promise((resolve, reject) => {
+      pendingMediaResolvers[mediaPromiseId] = (granted) => {
+        delete pendingMediaResolvers[mediaPromiseId];
+        resolve(granted);
+      };
+    });
+
+    window.parent.postMessage({
+      type: 'requestMediaPermission',
+      constraints: constraints,
+      promiseId: mediaPromiseId,
+    }, '*');
+
+    return promise;
+  }
+
+  let originalGetUserMedia = realOriginalGetUserMedia;
+
+  function interceptGetUserMedia() {
+    if (navigator.mediaDevices) {
+      Object.defineProperty(navigator.mediaDevices, 'getUserMedia', {
+        value: function(constraints) {
+          return requestMediaPermissions(constraints).then((granted) => {
+            if (granted) {
+              if (originalGetUserMedia) {
+                return originalGetUserMedia(constraints);
+              } else {
+                throw new Error("Original getUserMedia not available.");
+              }
+            } else {
+              throw new DOMException('Permission denied', 'NotAllowedError');
+            }
+          });
+        },
+        writable: false,
+        configurable: false
+      });
+    }
+  }
+
+  interceptGetUserMedia();
+
+  const observer = new MutationObserver(function(mutationsList, observer) {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'reconfigured' && mutation.name === 'getUserMedia' && mutation.object === navigator.mediaDevices) {
+        interceptGetUserMedia();
+      } else if (mutation.type === 'attributes' && mutation.attributeName === 'getUserMedia' && mutation.target === navigator.mediaDevices) {
+        interceptGetUserMedia();
+      } else if (mutation.type === 'childList' && mutation.addedNodes) {
+        mutation.addedNodes.forEach(node => {
+          if (node === navigator.mediaDevices) {
+            interceptGetUserMedia();
+          }
+        });
+      }
+    }
+  });
+
+  function interceptSpeechRecognition() {
+    if (!window.SpeechRecognition && !window.webkitSpeechRecognition) {
+      return;
+    }
+
+    const OriginalSpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    const SpeechRecognitionWrapper = function(...args) {
+      const recognizer = new OriginalSpeechRecognition(...args);
+      const originalStart = recognizer.start.bind(recognizer);
+
+      recognizer.start = function() {
+        requestMediaPermissions({ audio: true }).then(granted => {
+          if (granted) {
+            originalStart();
+          } else {
+            const errorEvent = new SpeechRecognitionErrorEvent('error');
+            errorEvent.error = 'not-allowed'; // This is the standard error for permission denial.
+            recognizer.dispatchEvent(errorEvent);
+          }
+        });
+      };
+
+      return recognizer;
+    };
+
+    SpeechRecognitionWrapper.prototype = OriginalSpeechRecognition.prototype;
+    SpeechRecognitionWrapper.prototype.constructor = SpeechRecognitionWrapper;
+
+    if (window.SpeechRecognition) {
+      window.SpeechRecognition = SpeechRecognitionWrapper;
+    }
+    if (window.webkitSpeechRecognition) {
+      window.webkitSpeechRecognition = SpeechRecognitionWrapper;
+    }
+  }
+
+  interceptSpeechRecognition();
+
+  window.addEventListener('message', function(event) {
+    if (event.data) {
+      if (event.data.type === 'resolveMediaPermission') {
+        const { promiseId, granted } = event.data;
+        if (pendingMediaResolvers[promiseId]) {
+          pendingMediaResolvers[promiseId](granted);
+        }
+      }
+    }
+  });
+
+})();</script><script ws-interception-config="{&quot;parentOrigin&quot;:&quot;https://gemini.google.com&quot;,&quot;proxiedDomains&quot;:[]}" data-bard-client-injected="true">(function(){'use strict';var u=typeof Object.defineProperties=="function"?Object.defineProperty:function(b,d,e){if(b==Array.prototype||b==Object.prototype)return b;b[d]=e.value;return b};function v(b){b=["object"==typeof globalThis&&globalThis,b,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var d=0;d<b.length;++d){var e=b[d];if(e&&e.Math==Math)return e}throw Error("Cannot find global object");}var w=v(this);
+function y(b,d){if(d)a:{var e=w;b=b.split(".");for(var h=0;h<b.length-1;h++){var k=b[h];if(!(k in e))break a;e=e[k]}b=b[b.length-1];h=e[b];d=d(h);d!=h&&d!=null&&u(e,b,{configurable:!0,writable:!0,value:d})}}function z(b){function d(h){return b.next(h)}function e(h){return b.throw(h)}return new Promise(function(h,k){function m(n){n.done?h(n.value):Promise.resolve(n.value).then(d,e).then(m,k)}m(b.next())})}y("globalThis",function(b){return b||w});/*
+
+ Copyright The Closure Library Authors.
+ SPDX-License-Identifier: Apache-2.0
+*/
+function A(b,d){function e(){}e.prototype=d.prototype;b.i=d.prototype;b.prototype=new e;b.prototype.constructor=b;b.g=function(h,k,m){for(var n=Array(arguments.length-2),p=2;p<arguments.length;p++)n[p-2]=arguments[p];return d.prototype[k].apply(h,n)}};function B(b,d,e="*"){function h(a){if(typeof a==="string")return F.encode(a).buffer;if(a instanceof ArrayBuffer)return a.slice(0);if(ArrayBuffer.isView(a))return a.buffer.slice(a.byteOffset,a.byteOffset+a.byteLength);throw Error("Invalid data type");}function k(a){a=h(a);var f={type:"send",data:new Uint8Array(a)},g;(g=r)==null||g.postMessage(f,[a])}function m(){if(!r)throw Error("Data port not captured yet.");r.onmessage=a=>{if(a.data.type==="message"){a=new MessageEvent("message",{data:G.decode(a.data.data)});
+let f;(f=c.onmessage)==null||f.call(c,a);c.dispatchEvent(a)}}}function n(){if(!t)throw Error("Control port not captured yet.");t.onmessage=a=>{switch(a.data.type){case "open":l=1;var f=new Event("open"),g;(g=c.onopen)==null||g.call(c,f);c.dispatchEvent(f);q.forEach(H=>{k(H)});q=[];break;case "close":g=a.data;l=3;g=new CloseEvent("close",{code:g.code,reason:g.reason,wasClean:g.wasClean});(f=c.onclose)==null||f.call(c,g);c.dispatchEvent(g);break;case "error":l=3;f=new Event("error");let x;(x=c.onerror)==
+null||x.call(c,f);c.dispatchEvent(f)}}}function p(a){return z(function*(){var f=new MessageChannel;t=f.port1;var g=new MessageChannel;r=g.port1;n();m();window.parent.postMessage({type:"websocket_open",portOrdering:["control","data"],url:b,protocols:a||[],connectionId:I},e,[f.port2,g.port2])}())}var c=Reflect.construct(EventTarget,[],new.target);c.CONNECTING=0;c.OPEN=1;c.CLOSING=2;c.CLOSED=3;c.url=b;c.binaryType="arraybuffer";c.protocol="";c.h="";var l=0,t=null,r=null,q=[],F=new TextEncoder,G=new TextDecoder;
+c.onopen=null;c.onmessage=null;c.onclose=null;c.onerror=null;Object.defineProperty(c,"readyState",{get:()=>l,enumerable:!0,configurable:!0});Object.defineProperty(c,"bufferedAmount",{get:()=>{var a=0;q.forEach(f=>{a+=typeof f==="string"?f.length:f.byteLength});return a},enumerable:!0,configurable:!0});var I=function(){var a;return((a=globalThis.crypto)==null?0:a.randomUUID)?globalThis.crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,f=>{var g=Math.random()*16|0;return(f===
+"x"?g:g&3|8).toString(16)})}();c.send=a=>{if(l===1)a instanceof Blob?a.arrayBuffer().then(f=>{k(f)}):k(a);else if(l===0)if(typeof a==="string")q.push(a);else if(a instanceof ArrayBuffer||ArrayBuffer.isView(a))q.push(h(a));else throw Error("Sending Blob is not supported before the connection is open.");else console.debug("WebSocket send called in CLOSING or CLOSED state; ignored.")};c.close=(a=1E3,f="")=>{if(l!==2&&l!==3){l=2;a={type:"close",code:a,reason:f,wasClean:a===1E3};var g;(g=t)==null||g.postMessage(a)}};
+Promise.resolve().then(()=>p(d));return c}A(B,EventTarget);var C=document.currentScript,D=C==null?void 0:C.getAttribute("ws-interception-config");if(!D)throw Error("WebSocket Interceptor: Missing ws-interception-config attribute in the script tag.");var E=JSON.parse(D);if(!E.parentOrigin||typeof E.parentOrigin!=="string")throw Error("WebSocket Interceptor: Invalid parentOrigin in ws-interception-config");
+(function(b){var d=Object.getOwnPropertyDescriptor(window,"WebSocket");if(!d||d.writable||d.configurable)d=Object.assign(function(e,h){try{let k=(new URL(e)).hostname;if(b.proxiedDomains.some(m=>k===m||k.endsWith(`.${m}`)))return new B(e,h,b.parentOrigin)}catch(k){throw window.parent.postMessage({type:"websocket_blocked",url:e,reason:"blocked_invalid_url"},b.parentOrigin),new DOMException(`WebSocket connection to '${e}' is not allowed in Canvas.`,"SecurityError");}window.parent.postMessage({type:"websocket_blocked",
+url:e,reason:"blocked_domain_not_allowlisted"},b.parentOrigin);throw new DOMException(`WebSocket connection to '${e}' is not allowed in Canvas.`,"SecurityError");},{CONNECTING:0,OPEN:1,CLOSING:2,CLOSED:3}),Object.defineProperty(window,"WebSocket",{value:d,writable:!1,configurable:!1})})({proxiedDomains:E.proxiedDomains||[],parentOrigin:E.parentOrigin});}).call(this);
+</script><script data-bard-client-injected="true">((function(modelInformation) {
+  const originalFetch = window.fetch;
+  // TODO: b/421908508 - Move these out of the script and match all generative AI model calls.
+  let googleLlmBaseApiUrls = [
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.textModelName + ':streamGenerateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.textModelName + ':generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.imageModelName + ':predict',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.imageModelName + ':predictLongRunning',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.imageEditModelName + ':generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.imageTransformModelName + ':generateContent',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.videoModelName + ':predict',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.videoModelName + ':predictLongRunning',
+    'https://generativelanguage.googleapis.com/v1beta/models/' + modelInformation.ttsModelName + ':generateContent',
+  ];
+  modelInformation.deprecatedTextModelNames.forEach((modelName) => {
+    googleLlmBaseApiUrls.push(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':streamGenerateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent',
+    );
+  });
+  modelInformation.deprecatedImageModelNames.forEach((modelName) => {
+    googleLlmBaseApiUrls.push(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':predict',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':predictLongRunning',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':streamGenerateContent',
+    );
+  });
+  modelInformation.deprecatedGenerateImageModelNames.forEach((modelName) => {
+    googleLlmBaseApiUrls.push(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':streamGenerateContent',
+    );
+  });
+  modelInformation.deprecatedImageTransformModelNames.forEach((modelName) => {
+    googleLlmBaseApiUrls.push(
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':generateContent',
+      'https://generativelanguage.googleapis.com/v1beta/models/' + modelName + ':streamGenerateContent',
+    );
+  });
+
+  const pendingFetchResolvers = {};
+  let nextPromiseId = 0;
+
+  function handleStringInput(input, optionsArgument) {
+    const actualUrl = input;
+    const fetchCallArgs = [actualUrl, optionsArgument];
+    const effectiveOptions = optionsArgument || {};
+    const bodyForApiKeyCheck = effectiveOptions.body;
+    const bodyForPostMessage = effectiveOptions.body;
+    return { actualUrl, fetchCallArgs, effectiveOptions, bodyForApiKeyCheck, bodyForPostMessage };
+  }
+
+  function handleRequestInput(input, optionsArgument) {
+    const actualUrl = input.url;
+    const fetchCallArgs = [input, optionsArgument];
+    const effectiveOptions = { method: input.method, headers: new Headers(input.headers) };
+    let bodyForApiKeyCheck;
+    let bodyForPostMessage;
+
+    if (optionsArgument) {
+      if (optionsArgument.method) effectiveOptions.method = optionsArgument.method;
+      if (optionsArgument.headers) effectiveOptions.headers = new Headers(optionsArgument.headers);
+      if ('body' in optionsArgument) {
+        bodyForApiKeyCheck = optionsArgument.body;
+        bodyForPostMessage = optionsArgument.body;
+      } else {
+        bodyForApiKeyCheck = undefined;
+        bodyForPostMessage = input.body;
+      }
+    } else {
+      bodyForApiKeyCheck = undefined;
+      bodyForPostMessage = input.body;
+    }
+    return { actualUrl, fetchCallArgs, effectiveOptions, bodyForApiKeyCheck, bodyForPostMessage };
+  }
+
+  window.fetch = function(input, optionsArgument) {
+    let actualUrl;
+    let fetchCallArgs;
+    let effectiveOptions = {};
+    let bodyForApiKeyCheck;
+    let bodyForPostMessage;
+
+    if (typeof input === 'string') {
+      ({actualUrl, fetchCallArgs, effectiveOptions, bodyForApiKeyCheck, bodyForPostMessage} = handleStringInput(input, optionsArgument));
+    } else if (input instanceof Request) {
+      ({actualUrl, fetchCallArgs, effectiveOptions, bodyForApiKeyCheck, bodyForPostMessage} = handleRequestInput(input, optionsArgument));
+    } else {
+      return originalFetch.apply(window, [input, optionsArgument]);
+    }
+
+    effectiveOptions.method = effectiveOptions.method || 'GET';
+    if (!effectiveOptions.headers) {
+      effectiveOptions.headers = new Headers();
+    }
+
+
+    if (typeof actualUrl === 'string' && googleLlmBaseApiUrls.some((url) => actualUrl.startsWith(url))) {
+      let apiKeyIsNull = true;
+
+      const regex = new RegExp("models/([^:]+)");
+      const modelNameMatch = actualUrl.match(regex);
+      const modelName = modelNameMatch ? modelNameMatch[1] : 'unspecified';
+
+
+      try {
+        const urlObject = new URL(actualUrl);  // Use URL object for robust parsing
+        const apiKeyParam = urlObject.searchParams.get('key');
+        if (apiKeyParam) {
+          apiKeyIsNull = false;
+        }
+      } catch (e) {
+        // Continue checks even if URL parsing fails
+      }
+
+      if (apiKeyIsNull && effectiveOptions.headers) {
+        const h = new Headers(effectiveOptions.headers);
+        const apiKeyHeaderValue = h.get('X-API-Key') || h.get('x-api-key');
+        if (apiKeyHeaderValue) {
+          apiKeyIsNull = false;
+          return originalFetch.apply(window, fetchCallArgs);
+        }
+      }
+
+      if (apiKeyIsNull && effectiveOptions.method && ['POST', 'PUT', 'PATCH'].includes(effectiveOptions.method.toUpperCase()) && typeof bodyForApiKeyCheck === 'string') {
+        try {
+          const bodyData = JSON.parse(bodyForApiKeyCheck);
+          if (bodyData && bodyData.apiKey) {
+            apiKeyIsNull = false;
+            return originalFetch.apply(window, fetchCallArgs);
+          }
+        } catch (e) {
+          // Ignore JSON parsing errors
+        }
+      }
+
+      if(apiKeyIsNull) {
+        const promiseId = nextPromiseId++;
+        const promise = new Promise((resolve) => {
+          pendingFetchResolvers[promiseId] = (resolvedResponse) => {
+            delete pendingFetchResolvers[promiseId];
+            resolve(resolvedResponse);
+          };
+        });
+
+        let serializedBodyForPostMessage;
+        if (typeof bodyForPostMessage === 'string' || bodyForPostMessage == null) {
+            serializedBodyForPostMessage = bodyForPostMessage;
+        } else if (bodyForPostMessage instanceof ReadableStream) {
+            serializedBodyForPostMessage = null;
+        } else {
+            try {
+                serializedBodyForPostMessage = JSON.stringify(bodyForPostMessage);
+            } catch (e) {
+                serializedBodyForPostMessage = null;
+            }
+        }
+
+        const messageOptions = {
+            method: effectiveOptions.method,
+            headers: Object.fromEntries(new Headers(effectiveOptions.headers).entries()),
+            body: serializedBodyForPostMessage
+        };
+
+        window.parent.postMessage({
+          type: 'requestFetch',
+          url: actualUrl,
+          modelName: modelName,
+          options: messageOptions,
+          promiseId: promiseId,
+        }, '*');
+
+        return promise;
+      }
+      return originalFetch.apply(window, fetchCallArgs);
+    }
+    return originalFetch.apply(window, fetchCallArgs);
+  };
+
+  window.addEventListener('message', function(event) {
+    if (event.data && event.data.type === 'resolveFetch') {
+      const { promiseId, response } = event.data;
+      if (pendingFetchResolvers[promiseId]) {
+        try {
+          const reconstructedResponse = new Response(response.body, {
+            status: response.status,
+            statusText: response.statusText,
+            headers: new Headers(response.headers),
+          });
+          pendingFetchResolvers[promiseId](reconstructedResponse);
+        } catch (error) {
+          pendingFetchResolvers[promiseId](new Response(null, { status: 500, statusText: "Interceptor Response Reconstruction Error" }));
+        }
+      }
+    }
+  });
+
+}))({"textModelName":"gemini-3-flash-preview","imageModelName":"imagen-4.0-generate-001","imageEditModelName":"gemini-3.1-flash-image","imageTransformModelName":"gemini-3-pro-image","videoModelName":"veo-2.0-generate-001","ttsModelName":"gemini-2.5-flash-preview-tts","deprecatedTextModelNames":["gemini-2.0-flash","gemini-2.5-flash","gemini-2.5-flash-preview-04-17","gemini-2.5-flash-preview-05-20","gemini-2.5-flash-preview-09-2025"],"deprecatedImageModelNames":["imagen-3.0-generate-001","imagen-3.0-generate-002"],"deprecatedGenerateImageModelNames":["gemini-2.5-flash-image-preview","gemini-2.5-flash-image","gemini-3.1-flash-image-preview"],"deprecatedImageTransformModelNames":["gemini-3-pro-image-preview-11-2025"]})</script><script data-bard-client-injected="true">(function(){'use strict';function a(){window.parent.postMessage({type:"interaction"},"*")}window.addEventListener("click",a,{capture:!0,passive:!0});window.addEventListener("touchstart",a,{capture:!0,passive:!0});window.addEventListener("keydown",a,{capture:!0,passive:!0});}).call(this);
+</script><script data-bard-client-injected="true">(function() {
+  const originalConsoleLog = console.log;
+  const originalConsoleError = console.error;
+
+    /**
+   * Normalizes an error event or a promise rejection reason into a structured error object.
+   * @param {*} errorEventOrReason The error object or reason.
+   * @return {object} Structured error data { message, name, stack }.
+   */
+  function getErrorObject(errorEventOrReason) {
+    if (errorEventOrReason instanceof Error) {
+      return {
+        message: errorEventOrReason.message,
+        name: errorEventOrReason.name,
+        stack: errorEventOrReason.stack,
+      };
+    }
+    // Fallback for non-Error objects.
+    try {
+      return {
+        message: JSON.stringify(errorEventOrReason),
+        name: 'UnknownErrorType',
+        stack: null,
+      };
+    } catch (e) {
+      return {
+        message: String(errorEventOrReason),
+        name: 'UnknownErrorTypeNonStringifiable',
+        stack: null,
+      };
+    }
+  }
+
+  /**
+   * Converts an array of arguments (from log/error) into a single string.
+   * Handles Error objects specially to include their message and stack.
+   * @param {Array<*>} args - Arguments passed to console methods.
+   * @return {string} A string representation of the arguments.
+   */
+  function stringifyArgs(args) {
+    return args
+      .map((arg) => {
+        if (arg instanceof Error) {
+          const {message, stack} = arg;
+          return `Error: ${message}${stack ? ('\nStack: ' + stack) : ''}`;
+        }
+        if (typeof arg === 'object' && arg !== null) {
+          try {
+            return JSON.stringify(arg);
+          } catch (error) {
+            return '[Circular Object]';
+          }
+        } else {
+          return String(arg);
+        }
+      })
+      .join(' ');
+  }
+
+  console.log = function(...args) {
+    const logString = stringifyArgs(args);
+    window.parent.postMessage({ type: 'log', message: logString }, '*');
+    originalConsoleLog.apply(console, args);
+  };
+
+  console.error = function(...args) {
+    let errorData;
+    if (args.length > 0 && args[0] instanceof Error) {
+      const err = args[0];
+      // If the first arg is an Error, capture its details.
+      errorData = {
+        type: 'error',
+        source: 'CONSOLE_ERROR',
+        ...getErrorObject(err),
+        rawArgsString: stringifyArgs(args.slice(1)),
+        timestamp: new Date().toISOString(),
+      };
+    } else {
+      // If not an Error object, treat all args as a general error message.
+      errorData = {
+        type: 'error',
+        source: 'CONSOLE_ERROR',
+        message: stringifyArgs(args),
+        name: 'ConsoleLoggedError',
+        stack: null,
+        timestamp: new Date().toISOString(),
+      };
+    }
+    window.parent.postMessage(errorData, '*');
+    originalConsoleError.apply(console, args);
+  };
+
+  // Listen for global unhandled synchronous errors.
+  window.addEventListener('error', function(event) {
+    const errorDetails = event.error ? getErrorObject(event.error) : {
+      message: event.message,
+      name: 'GlobalError',
+      stack: null,
+      filename: event.filename,
+      lineno: event.lineno,
+      colno: event.colno,
+    };
+
+    window.parent.postMessage({
+      type: 'error',
+      source: 'global',
+      ...errorDetails,
+      message: errorDetails.message || event.message,
+      timestamp: new Date().toISOString(),
+    }, '*');
+  });
+
+  // Listen for unhandled promise rejections (asynchronous errors).
+  window.addEventListener('unhandledrejection', function(event) {
+    const errorDetails = getErrorObject(event.reason);
+
+    window.parent.postMessage({
+      type: 'error',
+      source: 'unhandledrejection',
+      ...errorDetails,
+      message: errorDetails.message || 'Unhandled Promise Rejection',
+      timestamp: new Date().toISOString(),
+    }, '*');
+  });
+
+})();</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>6exta OS Suite</title>
+    <style>
+        * { box-sizing: border-box; }
+        html, body {
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            font-family: 'Tahoma', sans-serif;
+            overflow: hidden;
+            background-color: #0b2265;
+            height: 100vh;
+            height: 100dvh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 1. AÇILIŞ EKRANI */
+        #bootScreen {
+            position: fixed;
+            inset: 0;
+            background: #000000;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+        .loading-bar {
+            width: 160px;
+            height: 12px;
+            border: 2px solid #555;
+            border-radius: 6px;
+            background: #000;
+            display: flex;
+            gap: 2px;
+            padding: 1px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .load-block {
+            width: 10px;
+            height: 6px;
+            background: #0055ea;
+            animation: loadAnim 1s infinite linear;
+        }
+        @keyframes loadAnim {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        /* SÜRÜM SEÇİM MERKEZİ */
+        #selectorScreen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0b2265 0%, #1e1b4b 100%);
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .selector-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 16px 22px;
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .selector-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* SÜRÜM KONTEYNERLERİ */
+        .os-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+        }
+
+        /* 1. 6exta XP */
+        #os_xp { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; }
+
+        /* 2. 6exta9 (Metro Stil) */
+        #os_metro { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); padding: 25px; display: flex; flex-direction: column; }
+        .metro-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; max-width: 500px; margin-top: 10px; }
+        .metro-tile { background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.25); border-radius: 10px; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-weight: bold; font-size: 13px; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .metro-tile:hover { background: rgba(255,255,255,0.25); transform: scale(1.02); }
+
+        /* 3. 6exta11 (Modern Cam Stil) */
+        #os_modern { background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; }
+        .win11-taskbar { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.75); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 8px 18px; display: flex; gap: 16px; z-index: 50; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+
+        /* 4. 6exta (Özgün Minimalist Stil) */
+        #os_mac { background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; }
+        .mac-menubar { height: 28px; background: rgba(255,255,255,0.25); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; color: white; font-size: 12px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.2); z-index: 50; }
+        .mac-dock { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.35); border-radius: 22px; padding: 8px 14px; display: flex; gap: 14px; z-index: 50; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .mac-dock-icon { width: 44px; height: 44px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
+        .mac-dock-icon:hover { transform: translateY(-8px) scale(1.15); }
+
+        /* Masaüstü ve İkonlar */
+        .desktop-area { flex: 1; position: relative; padding: 15px; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
+        .desktop-icon { width: 75px; display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
+        .icon-box { width: 48px; height: 48px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.4); background: #2563eb; color: white; }
+        .icon-text { color: white; font-size: 11px; margin-top: 4px; text-align: center; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); font-weight: bold; }
+        .delete-btn { position: absolute; top: -4px; right: 8px; background: #dc2626; color: white; border: 1px solid white; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+        /* Görev Çubuğu (XP) */
+        .taskbar { height: 48px; min-height: 48px; background: linear-gradient(to right, #245dbd, #2476ef, #245dbd); display: flex; align-items: center; justify-content: space-between; padding: 0 4px; border-top: 2px solid #194294; z-index: 40; }
+        .start-btn { background: linear-gradient(to bottom, #388e3c, #4caf50, #2e7d32); border: 2px solid #1b5e20; color: white; display: flex; align-items: center; gap: 6px; padding: 4px 14px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; font-weight: bold; font-style: italic; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.4); }
+        .taskbar-apps { display: flex; gap: 4px; overflow-x: auto; flex: 1; margin-left: 8px; }
+        .task-app-btn { background: linear-gradient(to bottom, #3885ff, #1258d4); border: 1px solid #0d3f9b; color: white; padding: 4px 10px; font-size: 11px; border-radius: 3px; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+        .tray-clock { color: white; font-size: 11px; background: rgba(18, 49, 110, 0.8); padding: 6px 8px; border-radius: 4px; border: 1px solid #0f285a; font-family: monospace; margin-left: 6px; }
+
+        /* Başlat Menüsü */
+        .start-menu { position: absolute; bottom: 48px; left: 0; width: 260px; background: #ffffff; border: 3px solid #0055ea; border-top-left-radius: 8px; border-top-right-radius: 8px; box-shadow: 4px 4px 12px rgba(0,0,0,0.5); z-index: 1000; display: none; }
+        .start-header { background: linear-gradient(to bottom, #2a72ed, #1752cd); color: white; padding: 10px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #e28127; }
+        .start-items { padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+        .start-item { display: flex; align-items: center; gap: 10px; padding: 8px; font-size: 12px; color: #333; background: none; border: none; text-align: left; border-radius: 4px; cursor: pointer; }
+        .start-item:hover { background: #316ac5; color: white; }
+
+        /* Pencereler */
+        .xp-window { position: absolute; top: 10%; left: 5%; width: 90vw; max-width: 480px; height: 70vh; background: #ece9d8; border: 3px solid #0055ea; border-top-left-radius: 8px; border-top-right-radius: 8px; display: flex; flex-direction: column; box-shadow: 4px 4px 15px rgba(0,0,0,0.6); z-index: 200; }
+        .xp-titlebar { background: linear-gradient(to right, #0058e6, #3a93ff, #0058e6); color: white; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 12px; text-shadow: 1px 1px #002288; }
+        .xp-close-btn { background: linear-gradient(to bottom, #e87b6d, #c53b27); border: 1px solid #7c1a0c; color: white; width: 18px; height: 18px; font-size: 10px; font-weight: bold; border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .xp-content { flex: 1; background: white; overflow: auto; padding: 12px; font-size: 13px; color: #111; }
+        .xp-btn { background: linear-gradient(to bottom, #f3f3f3, #e3e3e3); border: 1px solid #707070; padding: 4px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <!-- 1. Açılış Ekranı -->
+    <div id="bootScreen" style="display: flex; opacity: 1;">
+        <div style="font-size: 12px; font-weight: bold; letter-spacing: 2px; color: #60a5fa;">6exta OS</div>
+        <div style="font-size: 24px; font-weight: bold; font-style: italic; letter-spacing: 2px; margin-top: 2px;">
+            Sistem <span style="color: #f97316; font-style: normal;">Yükleniyor</span>
+        </div>
+        <div class="loading-bar">
+            <div class="load-block" style="animation-delay: 0s"></div>
+            <div class="load-block" style="animation-delay: 0.2s"></div>
+            <div class="load-block" style="animation-delay: 0.4s"></div>
+            <div class="load-block" style="animation-delay: 0.6s"></div>
+        </div>
+        <button onclick="goToSelector()" class="xp-btn" style="margin-top: 25px; font-weight: bold; cursor: pointer;">Başlat ➔</button>
+    </div>
+
+    <!-- SÜRÜM SEÇİM MERKEZİ -->
+    <div id="selectorScreen" style="display: none;">
+        <div style="text-align: center; color: white; margin-bottom: 20px;">
+            <div style="font-size: 24px; font-weight: bold;">6exta OS Seçim Merkezi</div>
+            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Çalıştırmak istediğiniz işletim sistemi sürümünü seçin:</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('xp')">
+            <div style="color: #4ade80; font-weight: bold; font-size: 15px;">🔹 6exta XP</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Klasik görev çubuğu ve nostaljik masaüstü deneyimi.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('metro')">
+            <div style="color: #38bdf8; font-weight: bold; font-size: 15px;">🔸 6exta9 (Modern Karo Arayüz)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Karo tabanlı özgün arayüz ve hızlı performans.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('modern')">
+            <div style="color: #fbbf24; font-weight: bold; font-size: 15px;">🔷 6exta11 (Modern Cam Arayüz)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Yarı şeffaf cam efektleri ve ortalanmış modern dock tasarımı.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('mac')">
+            <div style="color: #f472b6; font-weight: bold; font-size: 15px;">✨ 6exta</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Üst menü çubuğu ve alt dock paneliyle saf masaüstü deneyimi.</div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 1: 6exta XP -->
+    <div id="os_xp" class="os-container" style="display: none;">
+        <div class="desktop-area" id="desktop_xp">
+            <div class="desktop-icon" id="icon_myComputer">
+                <div onclick="openWindow('myComputer')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #2563eb;">💻</div>
+                    <div class="icon-text">Bilgisayarım</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_myComputer')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_dino">
+                <div onclick="openWindow('dino')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #d97706;">🦖</div>
+                    <div class="icon-text">Dino Oyunu</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_dino')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_download">
+                <div onclick="downloadHTMLFile()" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #059669;">📥</div>
+                    <div class="icon-text">İndir (.html)</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_download')" title="Kaldır">X</button>
+            </div>
+        </div>
+        <div class="taskbar">
+            <div style="display: flex; align-items: center; flex: 1; overflow: hidden;">
+                <button class="start-btn" onclick="toggleStartMenu()">
+                    <span style="font-size: 16px;">📂</span> <span>başlat</span>
+                </button>
+                <div id="taskbarApps" class="taskbar-apps"></div>
+            </div>
+            <div class="tray-clock clockDisplay">16:39</div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 2: 6exta9 (Metro Stil) -->
+    <div id="os_metro" class="os-container" style="display: none;">
+        <div style="padding: 25px; flex: 1; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <span style="color: white; font-size: 22px; font-weight: bold;">6exta9</span>
+                    <div style="color: #94a3b8; font-size: 11px;">Modern Karo Arayüzü</div>
+                </div>
+                <button class="xp-btn" onclick="openVersionSelectorFromOS()" style="padding: 6px 12px; font-weight: bold;">⚙️ Sürüm Seç</button>
+            </div>
+            <div class="metro-grid">
+                <div class="metro-tile" onclick="openWindow('files')" style="background: #0284c7;">📁 Dosyalarım</div>
+                <div class="metro-tile" onclick="openWindow('notepad')" style="background: #16a34a;">📝 Not Defteri</div>
+                <div class="metro-tile" onclick="openWindow('dino')" style="background: #d97706;">🦖 Dino Oyunu</div>
+                <div class="metro-tile" onclick="openWindow('browser')" style="background: #9333ea;">🌐 Web Tarayıcı</div>
+                <div class="metro-tile" onclick="openWindow('minesweeper')" style="background: #dc2626;">💣 Mayın Tarlası</div>
+                <div class="metro-tile" onclick="openWindow('snake')" style="background: #ca8a04;">🐍 Yılan Oyunu</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 3: 6exta11 (Modern Cam Stil) -->
+    <div id="os_modern" class="os-container" style="display: none;">
+        <div class="desktop-area"></div>
+        <div class="win11-taskbar">
+            <div onclick="openWindow('files')" style="cursor: pointer; font-size: 22px;" title="Dosyalar">📁</div>
+            <div onclick="openWindow('browser')" style="cursor: pointer; font-size: 22px;" title="Tarayıcı">🌐</div>
+            <div onclick="openWindow('dino')" style="cursor: pointer; font-size: 22px;" title="Oyun">🦖</div>
+            <div onclick="openVersionSelectorFromOS()" style="cursor: pointer; font-size: 22px;" title="Sürüm Değiştir">⚙️</div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 4: 6exta (Özgün Minimalist Stil) -->
+    <div id="os_mac" class="os-container" style="display: none;">
+        <div class="mac-menubar">
+            <span>✨ <b>6exta</b></span>
+            <span class="clockDisplay">16:39</span>
+        </div>
+        <div class="desktop-area"></div>
+        <div class="mac-dock">
+            <div class="mac-dock-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
+            <div class="mac-dock-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
+            <div class="mac-dock-icon" onclick="openWindow('dino')" title="Dino Oyunu">🦖</div>
+            <div class="mac-dock-icon" onclick="openWindow('browser')" title="Tarayıcı">🌐</div>
+            <div class="mac-dock-icon" onclick="openVersionSelectorFromOS()" title="Sürüm Seç">⚙️</div>
+        </div>
+    </div>
+
+    <!-- Başlat Menüsü (XP) -->
+    <div id="startMenu" class="start-menu" style="display: none;">
+        <div class="start-header">
+            <div style="width: 36px; height: 36px; background: #f97316; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white;">6X</div>
+            <div style="font-weight: bold; font-size: 14px;">6exta Kullanıcı</div>
+        </div>
+        <div class="start-items">
+            <button class="start-item" onclick="openVersionSelectorFromOS(); toggleStartMenu();">⚙️ Sürüm Seç</button>
+            <button class="start-item" onclick="openWindow('files'); toggleStartMenu();">📁 Dosyalarım</button>
+            <button class="start-item" onclick="openWindow('notepad'); toggleStartMenu();">📝 Not Defteri</button>
+            <button class="start-item" onclick="openWindow('minesweeper'); toggleStartMenu();">💣 Mayın Tarlası</button>
+            <button class="start-item" onclick="openWindow('snake'); toggleStartMenu();">🐍 Yılan Oyunu</button>
+            <button class="start-item" onclick="openWindow('dino'); toggleStartMenu();">🦖 Dinozor Oyunu</button>
+            <button class="start-item" onclick="openWindow('browser'); toggleStartMenu();">🌐 Web Tarayıcı</button>
+            <hr style="border:0; border-top:1px solid #ddd; margin: 4px 0;">
+            <button class="start-item" style="color: #059669; font-weight: bold;" onclick="downloadHTMLFile(); toggleStartMenu();">📥 HTML Olarak İndir</button>
+        </div>
+    </div>
+
+    <script>
+        function goToSelector() {
+            document.getElementById('bootScreen').style.display = 'none';
+            document.getElementById('selectorScreen').style.display = 'flex';
+        }
+
+        function switchOS(osName) {
+            document.getElementById('selectorScreen').style.display = 'none';
+            document.querySelectorAll('.os-container').forEach(el => el.style.display = 'none');
+            document.getElementById('os_' + osName).style.display = 'flex';
+        }
+
+        function openVersionSelectorFromOS() {
+            document.querySelectorAll('.os-container').forEach(el => el.style.display = 'none');
+            document.getElementById('selectorScreen').style.display = 'flex';
+        }
+
+        // Saat Güncelleme
+        setInterval(() => {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.querySelectorAll('.clockDisplay').forEach(el => el.innerText = timeStr);
+        }, 1000);
+
+        function toggleStartMenu() {
+            const menu = document.getElementById('startMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('startMenu');
+            const startBtn = document.querySelector('.start-btn');
+            if (menu && startBtn && !menu.contains(e.target) && !startBtn.contains(e.target)) {
+                menu.style.display = 'none';
+            }
+        });
+
+        function removeIcon(iconId) {
+            const iconElem = document.getElementById(iconId);
+            if (iconElem) iconElem.remove();
+        }
+
+        function downloadHTMLFile() {
+            const bootScreen = document.getElementById('bootScreen');
+            bootScreen.style.display = 'flex';
+            bootScreen.style.opacity = '1';
+            document.getElementById('selectorScreen').style.display = 'none';
+            document.querySelectorAll('.os-container').forEach(el => el.style.display = 'none');
+            document.getElementById('startMenu').style.display = 'none';
+            document.querySelectorAll('.xp-window').forEach(el => el.remove());
+
+            const cleanHTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([cleanHTML], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '6exta_os_suite.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        let activeIntervals = {};
+
+        function openWindow(type) {
+            const id = 'win_' + Date.now();
+            const win = document.createElement('div');
+            win.id = id;
+            win.className = 'xp-window';
+
+            let title = type;
+            let bodyContent = '';
+
+            if (type === 'myComputer') {
+                title = 'Bilgisayarım';
+                bodyContent = '<div style="padding:10px;"><b>Yerel Disk (C:)</b><br><span style="color:gray; font-size:11px;">14.2 GB boş alan</span></div>';
+            } else if (type === 'files') {
+                title = 'Dosyalarım';
+                bodyContent = '<div style="padding:10px;"><div style="display:flex; align-items:center; gap:8px; padding:6px; background:#f1f5f9; border-radius:4px; margin-bottom:4px;">📁 Belgeler</div><div style="display:flex; align-items:center; gap:8px; padding:6px; background:#f1f5f9; border-radius:4px; margin-bottom:4px;">📁 Resimler</div><div style="display:flex; align-items:center; gap:8px; padding:6px; background:#f1f5f9; border-radius:4px;">📁 İndirilenler</div></div>';
+            } else if (type === 'notepad') {
+                title = 'Not Defteri';
+                bodyContent = '<textarea style="width:100%; height:100%; border:none; outline:none; resize:none; font-family:monospace;" placeholder="Notlarınızı buraya yazın..."></textarea>';
+            } else if (type === 'minesweeper') {
+                title = 'Mayın Tarlası';
+                bodyContent = '<div style="text-align:center; padding:20px;">Mayın Tarlası Aktif!<br><button class="xp-btn" onclick="openWindow(\'minesweeper\')">Yeni Oyun</button></div>';
+            } else if (type === 'snake') {
+                title = 'Yılan Oyunu';
+                bodyContent = '<div style="text-align:center; padding:10px;"><canvas id="snakeCanvas_'+id+'" width="220" height="220" style="background:black; border:2px solid blue;"></canvas></div>';
+            } else if (type === 'dino') {
+                title = 'Dinozor Oyunu';
+                bodyContent = '<div style="text-align:center; padding:10px;"><strong>Skor: <span id="dinoScore_'+id+'">0</span></strong><br><canvas id="dinoCanvas_'+id+'" width="260" height="130" style="background:#f3f3f3; border:1px solid #999; margin-top:5px;"></canvas><br><button class="xp-btn" style="margin-top:5px; background:#2563eb; color:white;" onclick="jumpDino(\''+id+'\')">Zıpla! 🚀</button></div>';
+            } else if (type === 'browser') {
+                title = 'Web Tarayıcı';
+                bodyContent = '<div style="padding:10px;"><input type="text" value="http://www.6exta.local" style="width:100%; padding:4px; font-size:11px; margin-bottom:10px;"><p>6exta Web Tarayıcısına hoş geldiniz. Çevrimdışı ve güvenli mod aktif.</p></div>';
+            }
+
+            win.innerHTML = `
+                <div class="xp-titlebar">
+                    <span>${title}</span>
+                    <button class="xp-close-btn" onclick="closeWindow('${id}')">X</button>
+                </div>
+                <div class="xp-content">${bodyContent}</div>
+            `;
+
+            document.body.appendChild(win);
+
+            const taskbarApps = document.getElementById('taskbarApps');
+            if (taskbarApps) {
+                const taskBtn = document.createElement('button');
+                taskBtn.id = 'task_' + id;
+                taskBtn.className = 'task-app-btn';
+                taskBtn.innerText = title;
+                taskBtn.onclick = () => {
+                    win.style.display = win.style.display === 'none' ? 'flex' : 'none';
+                };
+                taskbarApps.appendChild(taskBtn);
+            }
+
+            if (type === 'snake') {
+                setTimeout(() => initSnake(id), 100);
+            } else if (type === 'dino') {
+                setTimeout(() => initDino(id), 100);
+            }
+        }
+
+        function closeWindow(id) {
+            if (activeIntervals[id]) {
+                clearInterval(activeIntervals[id]);
+                delete activeIntervals[id];
+            }
+            const win = document.getElementById(id);
+            if (win) win.remove();
+            const taskBtn = document.getElementById('task_' + id);
+            if (taskBtn) taskBtn.remove();
+        }
+
+        function initSnake(id) {
+            const canvas = document.getElementById('snakeCanvas_' + id);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let snake = [{x: 10, y: 10}];
+            let food = {x: 5, y: 5};
+            let dx = 1, dy = 0;
+
+            activeIntervals[id] = setInterval(() => {
+                let head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+                    snake = [{x: 10, y: 10}];
+                    dx = 1; dy = 0;
+                    return;
+                }
+                snake.unshift(head);
+                if (head.x === food.x && head.y === food.y) {
+                    food = {x: Math.floor(Math.random()*18), y: Math.floor(Math.random()*18)};
+                } else {
+                    snake.pop();
+                }
+
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0,0,220,220);
+                ctx.fillStyle = 'red';
+                ctx.fillRect(food.x*11, food.y*11, 10, 10);
+                ctx.fillStyle = 'green';
+                snake.forEach(p => ctx.fillRect(p.x*11, p.y*11, 10, 10));
+            }, 120);
+        }
+
+        let dinoStates = {};
+        function initDino(id) {
+            const canvas = document.getElementById('dinoCanvas_' + id);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let dino = {x: 20, y: 90, vy: 0, gravity: 0.6, grounded: true};
+            let obstacle = {x: 260, y: 95, w: 12, h: 20, speed: 3.5};
+            let score = 0;
+
+            dinoStates[id] = () => {
+                if (dino.grounded) {
+                    dino.vy = -8.5;
+                    dino.grounded = false;
+                }
+            };
+
+            activeIntervals[id] = setInterval(() => {
+                dino.vy += dino.gravity;
+                dino.y += dino.vy;
+                if (dino.y >= 90) {
+                    dino.y = 90;
+                    dino.vy = 0;
+                    dino.grounded = true;
+                }
+
+                obstacle.x -= obstacle.speed;
+                if (obstacle.x < -20) {
+                    obstacle.x = 260 + Math.random() * 40;
+                    score += 5;
+                    const scEl = document.getElementById('dinoScore_' + id);
+                    if (scEl) scEl.innerText = score;
+                }
+
+                if (dino.x < obstacle.x + obstacle.w && dino.x + 15 > obstacle.x && dino.y < obstacle.y + obstacle.h && dino.y + 20 > obstacle.y) {
+                    score = 0;
+                    obstacle.x = 260;
+                }
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0,0,260,130);
+
+                ctx.strokeStyle = '#444';
+                ctx.beginPath();
+                ctx.moveTo(0, 115); ctx.lineTo(260, 115); ctx.stroke();
+
+                ctx.fillStyle = '#16a34a';
+                ctx.fillRect(dino.x, dino.y, 15, 20);
+
+                ctx.fillStyle = '#dc2626';
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.w, obstacle.h);
+            }, 1000/60);
+        }
+
+        function jumpDino(id) {
+            if (dinoStates[id]) dinoStates[id]();
+        }
+    </script>
+
+</body></html>
