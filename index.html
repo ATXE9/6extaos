@@ -464,8 +464,13 @@
             display: none;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        #selectorScreen > div:first-child {
+            flex-shrink: 0;
         }
         .selector-card {
             background: rgba(255, 255, 255, 0.08);
@@ -538,6 +543,22 @@
         .cloud-shelf-icon { width: 30px; height: 30px; border-radius: 6px; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; flex-shrink: 0; }
         .cloud-shelf-icon:hover { background: rgba(255,255,255,0.22); }
         .cloud-status { display: flex; align-items: center; gap: 8px; color: #e8eaed; font-size: 11px; background: rgba(255,255,255,0.06); padding: 5px 10px; border-radius: 6px; flex-shrink: 0; }
+
+        /* 7. 6exta32 (Koyu Minimalist Panel Stili) */
+        #os_dark { background: #0a0a0a; }
+        .dark-menubar { height: 24px; background: #141414; border-bottom: 1px solid #2a2a2a; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; color: #d4d4d4; font-size: 11px; z-index: 50; }
+        .dark-menu-items { display: flex; gap: 16px; }
+        .dark-menu-items span { cursor: pointer; }
+        .dark-menu-items span:hover { color: #ffffff; }
+        .dark-desktop { flex: 1; position: relative; padding: 16px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 18px; }
+        .dark-icon { width: 66px; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
+        .dark-icon .icon-box { width: 40px; height: 40px; border-radius: 3px; background: #1c1c1c; border: 1px solid #333; box-shadow: none; }
+        .dark-icon .icon-text { color: #c9c9c9; text-shadow: none; font-weight: normal; }
+        .dark-panel { height: 30px; min-height: 30px; background: #141414; border-top: 1px solid #2a2a2a; display: flex; align-items: center; padding: 0 8px; gap: 8px; z-index: 40; }
+        .dark-panel-btn { background: #1c1c1c; border: 1px solid #333; color: #d4d4d4; padding: 3px 10px; font-size: 11px; border-radius: 3px; cursor: pointer; }
+        .dark-panel-btn:hover { background: #262626; }
+        .dark-panel-apps { display: flex; gap: 6px; flex: 1; overflow-x: auto; }
+        .dark-panel-clock { color: #999; font-size: 11px; font-family: monospace; padding: 3px 8px; border: 1px solid #2a2a2a; border-radius: 3px; }
 
         /* Masaüstü ve İkonlar */
         .desktop-area { flex: 1; position: relative; padding: 15px; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
@@ -621,6 +642,11 @@
             <div style="color: #4285f4; font-weight: bold; font-size: 15px;">☁️ 6exta12 (Hafif Bulut Arayüzü)</div>
             <div style="color: #cbd5e1; font-size: 11px;">Sade uygulama ızgarası ve alt raf (shelf) ile hızlı, hafif bulut deneyimi.</div>
         </div>
+
+        <div class="selector-card" onclick="switchOS('dark')">
+            <div style="color: #a3a3a3; font-weight: bold; font-size: 15px;">⬛ 6exta32 (Koyu Minimalist Panel)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Sade menü çubuğu ve alt panelle sade, koyu tonlu minimalist arayüz.</div>
+        </div>
     </div>
 
     <!-- SÜRÜM 1: 6exta XP -->
@@ -655,7 +681,7 @@
                 </button>
                 <div class="taskbar-apps"></div>
             </div>
-            <div class="tray-clock clockDisplay">16:34</div>
+            <div class="tray-clock clockDisplay">20:16</div>
         </div>
     </div>
 
@@ -695,7 +721,7 @@
     <div id="os_mac" class="os-container" style="display: none;">
         <div class="mac-menubar">
             <span>✨ <b>6exta</b></span>
-            <span class="clockDisplay">16:34</span>
+            <span class="clockDisplay">20:16</span>
         </div>
         <div class="desktop-area"></div>
         <div class="mac-dock">
@@ -711,7 +737,7 @@
     <div id="os_ubuntu" class="os-container" style="display: none;">
         <div class="ubuntu-topbar">
             <span>6exta31</span>
-            <span class="clockDisplay">16:34</span>
+            <span class="clockDisplay">20:16</span>
         </div>
         <div class="ubuntu-body">
             <div class="ubuntu-dock">
@@ -755,9 +781,44 @@
             <div class="cloud-status">
                 <span>📶</span>
                 <span>🔋</span>
-                <span class="clockDisplay">16:34</span>
+                <span class="clockDisplay">20:16</span>
                 <span onclick="openVersionSelectorFromOS()" style="cursor:pointer;" title="Sürüm Seç">⚙️</span>
             </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 7: 6exta32 (Koyu Minimalist Panel Stili) -->
+    <div id="os_dark" class="os-container" style="display: none;">
+        <div class="dark-menubar">
+            <div class="dark-menu-items">
+                <span onclick="openWindow('files')">Dosyalarım</span>
+                <span onclick="openWindow('browser')">Web Tarayıcı</span>
+                <span onclick="openWindow('notepad')">Not Defteri</span>
+            </div>
+            <span class="clockDisplay">20:16</span>
+        </div>
+        <div class="dark-desktop">
+            <div class="dark-icon" onclick="openWindow('files')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">📁</div>
+                <div class="icon-text">Dosyalarım</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('notepad')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">📝</div>
+                <div class="icon-text">Not Defteri</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('dino')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🦖</div>
+                <div class="icon-text">Dino Oyunu</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('snake')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🐍</div>
+                <div class="icon-text">Yılan Oyunu</div>
+            </div>
+        </div>
+        <div class="dark-panel">
+            <button class="dark-panel-btn" onclick="openVersionSelectorFromOS()">Sürüm Seç</button>
+            <div class="dark-panel-apps taskbar-apps"></div>
+            <div class="dark-panel-clock clockDisplay">20:16</div>
         </div>
     </div>
 
