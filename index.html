@@ -685,6 +685,20 @@
                 </div>
                 <button class="delete-btn" onclick="removeIcon('icon_myComputer')" title="Kaldır">X</button>
             </div>
+            <div class="desktop-icon" id="icon_terminal">
+                <div onclick="openWindow('terminal')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #111827;">⌨️</div>
+                    <div class="icon-text">Komut Sistemi</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_terminal')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_paint">
+                <div onclick="openWindow('paint')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #db2777;">🎨</div>
+                    <div class="icon-text">Çizim Alanı</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_paint')" title="Kaldır">X</button>
+            </div>
             <div class="desktop-icon" id="icon_dino">
                 <div onclick="openWindow('dino')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
                     <div class="icon-box" style="background: #d97706;">🦖</div>
@@ -723,6 +737,8 @@
             </div>
             <div class="metro-grid">
                 <div class="metro-tile" onclick="openWindow('files')" style="background: #0284c7;">📁 Dosyalarım</div>
+                <div class="metro-tile" onclick="openWindow('terminal')" style="background: #111827;">⌨️ Komut Sistemi</div>
+                <div class="metro-tile" onclick="openWindow('paint')" style="background: #db2777;">🎨 Çizim Alanı</div>
                 <div class="metro-tile" onclick="openWindow('notepad')" style="background: #16a34a;">📝 Not Defteri</div>
                 <div class="metro-tile" onclick="openWindow('dino')" style="background: #d97706;">🦖 Dino Oyunu</div>
                 <div class="metro-tile" onclick="openWindow('browser')" style="background: #9333ea;">🌐 Web Tarayıcı</div>
@@ -737,6 +753,8 @@
         <div class="desktop-area"></div>
         <div class="win11-taskbar">
             <div onclick="openWindow('files')" style="cursor: pointer; font-size: 22px;" title="Dosyalar">📁</div>
+            <div onclick="openWindow('terminal')" style="cursor: pointer; font-size: 22px;" title="Komut Sistemi">⌨️</div>
+            <div onclick="openWindow('paint')" style="cursor: pointer; font-size: 22px;" title="Çizim Alanı">🎨</div>
             <div onclick="openWindow('browser')" style="cursor: pointer; font-size: 22px;" title="Tarayıcı">🌐</div>
             <div onclick="openWindow('dino')" style="cursor: pointer; font-size: 22px;" title="Oyun">🦖</div>
             <div onclick="openVersionSelectorFromOS()" style="cursor: pointer; font-size: 22px;" title="Sürüm Değiştir">⚙️</div>
@@ -752,6 +770,8 @@
         <div class="desktop-area"></div>
         <div class="mac-dock">
             <div class="mac-dock-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
+            <div class="mac-dock-icon" onclick="openWindow('terminal')" title="Komut Sistemi">⌨️</div>
+            <div class="mac-dock-icon" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
             <div class="mac-dock-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
             <div class="mac-dock-icon" onclick="openWindow('dino')" title="Dino Oyunu">🦖</div>
             <div class="mac-dock-icon" onclick="openWindow('browser')" title="Tarayıcı">🌐</div>
@@ -768,6 +788,8 @@
         <div class="ubuntu-body">
             <div class="ubuntu-dock">
                 <div class="ubuntu-dock-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('terminal')" title="Komut Sistemi">⌨️</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
                 <div class="ubuntu-dock-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
                 <div class="ubuntu-dock-icon" onclick="openWindow('browser')" title="Web Tarayıcı">🌐</div>
                 <div class="ubuntu-dock-icon" onclick="openWindow('minesweeper')" title="Mayın Tarlası">💣</div>
@@ -799,6 +821,14 @@
                     <div class="icon-box" style="background:#fbbc05; font-size:22px;">🦖</div>
                     <div class="icon-text">Dino Oyunu</div>
                 </div>
+                <div class="cloud-app-icon" onclick="openWindow('terminal')">
+                    <div class="icon-box" style="background:#111827; font-size:22px;">⌨️</div>
+                    <div class="icon-text">Komut Sistemi</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('paint')">
+                    <div class="icon-box" style="background:#db2777; font-size:22px;">🎨</div>
+                    <div class="icon-text">Çizim Alanı</div>
+                </div>
             </div>
         </div>
         <div class="cloud-shelf">
@@ -820,6 +850,8 @@
                 <span onclick="openWindow('files')">Dosyalarım</span>
                 <span onclick="openWindow('browser')">Web Tarayıcı</span>
                 <span onclick="openWindow('notepad')">Not Defteri</span>
+                <span onclick="openWindow('terminal')">Komut Sistemi</span>
+                <span onclick="openWindow('paint')">Çizim Alanı</span>
             </div>
             <span class="clockDisplay">20:16</span>
         </div>
@@ -827,6 +859,14 @@
             <div class="dark-icon" onclick="openWindow('files')">
                 <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">📁</div>
                 <div class="icon-text">Dosyalarım</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('terminal')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">⌨️</div>
+                <div class="icon-text">Komut Sistemi</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('paint')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🎨</div>
+                <div class="icon-text">Çizim Alanı</div>
             </div>
             <div class="dark-icon" onclick="openWindow('notepad')">
                 <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">📝</div>
@@ -861,9 +901,19 @@
                 <div class="nebula-file-row" onclick="openWindow('files')">🖼️ Medya</div>
                 <div class="nebula-file-row" onclick="openWindow('files')">🗄️ Arşivler</div>
                 <div class="nebula-file-row" onclick="openWindow('notepad')">📄 Taslaklar</div>
+                <div class="nebula-file-row" onclick="openWindow('terminal')">⌨️ Komut Sistemi</div>
+                <div class="nebula-file-row" onclick="openWindow('paint')">🎨 Çizim Alanı</div>
             </div>
         </div>
         <div class="nebula-orbit-dock">
+            <div class="nebula-orbit-item" onclick="openWindow('paint')">
+                <div class="nebula-orbit-icon">🎨</div>
+                <div class="nebula-orbit-label">Çizim</div>
+            </div>
+            <div class="nebula-orbit-item" onclick="openWindow('terminal')">
+                <div class="nebula-orbit-icon">⌨️</div>
+                <div class="nebula-orbit-label">Komut</div>
+            </div>
             <div class="nebula-orbit-item" onclick="openWindow('files')">
                 <div class="nebula-orbit-icon">🌳</div>
                 <div class="nebula-orbit-label">Bilgi</div>
@@ -896,6 +946,8 @@
         <div class="start-items">
             <button class="start-item" onclick="openVersionSelectorFromOS(); toggleStartMenu();">⚙️ Sürüm Seç</button>
             <button class="start-item" onclick="openWindow('files'); toggleStartMenu();">📁 Dosyalarım</button>
+            <button class="start-item" onclick="openWindow('terminal'); toggleStartMenu();">⌨️ Komut Sistemi</button>
+            <button class="start-item" onclick="openWindow('paint'); toggleStartMenu();">🎨 Çizim Alanı</button>
             <button class="start-item" onclick="openWindow('notepad'); toggleStartMenu();">📝 Not Defteri</button>
             <button class="start-item" onclick="openWindow('minesweeper'); toggleStartMenu();">💣 Mayın Tarlası</button>
             <button class="start-item" onclick="openWindow('snake'); toggleStartMenu();">🐍 Yılan Oyunu</button>
@@ -1001,6 +1053,24 @@
             } else if (type === 'browser') {
                 title = 'Web Tarayıcı';
                 bodyContent = '<div style="padding:10px;"><input type="text" value="http://www.6exta.local" style="width:100%; padding:4px; font-size:11px; margin-bottom:10px;"><p>6exta Web Tarayıcısına hoş geldiniz. Çevrimdışı ve güvenli mod aktif.</p></div>';
+            } else if (type === 'terminal') {
+                title = 'Komut Sistemi';
+                bodyContent = '<div style="background:#0c0c0c; height:100%; padding:8px; font-family:\'Courier New\', monospace; font-size:12px; color:#e5e5e5; display:flex; flex-direction:column; overflow:hidden;">' +
+                    '<div id="termOutput_'+id+'" style="flex:1; overflow-y:auto; white-space:pre-wrap; line-height:1.5;">6exta Komut Sistemi [Sürüm 1.0]\n(c) 6exta. Tüm hakları saklıdır.\n\nKullanılabilir komutlar için \'help\' yazın.\n\n</div>' +
+                    '<div style="display:flex; align-items:center; gap:4px; margin-top:4px;">' +
+                    '<span style="color:#4ade80;">6exta&gt;</span>' +
+                    '<input id="termInput_'+id+'" type="text" autocomplete="off" style="flex:1; background:transparent; border:none; outline:none; color:#e5e5e5; font-family:\'Courier New\', monospace; font-size:12px;">' +
+                    '</div></div>';
+            } else if (type === 'paint') {
+                title = 'Çizim Alanı';
+                bodyContent = '<div style="padding:6px; display:flex; flex-direction:column; height:100%; box-sizing:border-box;">' +
+                    '<div style="display:flex; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">' +
+                    '<input type="color" id="paintColor_'+id+'" value="#000000" style="width:28px; height:28px; border:none; padding:0; cursor:pointer;">' +
+                    '<input type="range" id="paintSize_'+id+'" min="1" max="20" value="3" style="width:70px;">' +
+                    '<button class="xp-btn" onclick="clearPaint(\''+id+'\')">Temizle</button>' +
+                    '</div>' +
+                    '<canvas id="paintCanvas_'+id+'" width="280" height="200" style="background:white; border:1px solid #999; touch-action:none; cursor:crosshair; flex:1;"></canvas>' +
+                    '</div>';
             }
 
             win.innerHTML = `
@@ -1035,6 +1105,10 @@
                 setTimeout(() => initSnake(id), 100);
             } else if (type === 'dino') {
                 setTimeout(() => initDino(id), 100);
+            } else if (type === 'terminal') {
+                setTimeout(() => initTerminal(id), 50);
+            } else if (type === 'paint') {
+                setTimeout(() => initPaint(id), 50);
             }
         }
 
@@ -1135,6 +1209,190 @@
 
         function jumpDino(id) {
             if (dinoStates[id]) dinoStates[id]();
+        }
+
+        // ---- Terminal ----
+        let termFsState = {};
+        function initTerminal(id) {
+            const input = document.getElementById('termInput_' + id);
+            const output = document.getElementById('termOutput_' + id);
+            if (!input || !output) return;
+
+            termFsState[id] = {
+                cwd: 'C:\\Kullanicilar\\6exta',
+                files: ['Belgeler', 'Resimler', 'Indirilenler', 'notlar.txt', 'gorevler.txt']
+            };
+
+            input.focus();
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = input.value;
+                    output.innerText += '6exta> ' + cmd + '\n';
+                    output.innerText += runTermCommand(id, cmd) + '\n';
+                    input.value = '';
+                    output.scrollTop = output.scrollHeight;
+                }
+            });
+
+            const winEl = document.getElementById(id);
+            if (winEl) {
+                winEl.addEventListener('click', () => input.focus());
+            }
+        }
+
+        function runTermCommand(id, rawCmd) {
+            const state = termFsState[id] || { cwd: 'C:\\Kullanicilar\\6exta', files: [] };
+            const cmd = rawCmd.trim();
+            const lower = cmd.toLowerCase();
+            const parts = cmd.split(' ').filter(Boolean);
+            const base = (parts[0] || '').toLowerCase();
+
+            if (cmd === '') return '';
+
+            if (base === 'help' || base === 'yardim') {
+                return 'Kullanılabilir komutlar:\n' +
+                    '  help / yardim      - Bu listeyi gösterir\n' +
+                    '  dir / ls           - Dizindeki dosyaları listeler\n' +
+                    '  cd [klasor]        - Dizin değiştirir\n' +
+                    '  cls / clear        - Ekranı temizler\n' +
+                    '  echo [metin]       - Metni ekrana yazar\n' +
+                    '  date               - Tarihi gösterir\n' +
+                    '  time               - Saati gösterir\n' +
+                    '  ver / version      - Sürüm bilgisini gösterir\n' +
+                    '  whoami             - Aktif kullanıcıyı gösterir\n' +
+                    '  systeminfo         - Sistem bilgisini gösterir\n' +
+                    '  mkdir [ad]         - Yeni klasör oluşturur\n' +
+                    '  del [ad]           - Dosya siler\n' +
+                    '  exit               - Komut sistemini kapatır';
+            }
+            if (base === 'dir' || base === 'ls') {
+                return state.files.map(f => '  ' + f).join('\n') || '  (Dizin boş)';
+            }
+            if (base === 'cd') {
+                if (parts[1]) {
+                    state.cwd = state.cwd + '\\' + parts[1];
+                    return 'Dizin değiştirildi: ' + state.cwd;
+                }
+                return state.cwd;
+            }
+            if (base === 'cls' || base === 'clear') {
+                const output = document.getElementById('termOutput_' + id);
+                if (output) output.innerText = '';
+                return '';
+            }
+            if (base === 'echo') {
+                return parts.slice(1).join(' ');
+            }
+            if (base === 'date') {
+                return new Date().toLocaleDateString('tr-TR');
+            }
+            if (base === 'time') {
+                return new Date().toLocaleTimeString('tr-TR');
+            }
+            if (base === 'ver' || base === 'version') {
+                return '6exta OS Suite - Komut Sistemi sürüm 1.0';
+            }
+            if (base === 'whoami') {
+                return '6exta\\kullanici';
+            }
+            if (base === 'systeminfo') {
+                return 'Sistem Adı:      6EXTA-PC\n' +
+                    'İşletim Sistemi: 6exta OS Suite\n' +
+                    'Bellek:          8.00 GB\n' +
+                    'Depolama:        14.2 GB boş alan';
+            }
+            if (base === 'mkdir') {
+                if (parts[1]) {
+                    state.files.push(parts[1]);
+                    return 'Klasör oluşturuldu: ' + parts[1];
+                }
+                return 'Kullanım: mkdir [klasor_adi]';
+            }
+            if (base === 'del' || base === 'rm') {
+                if (parts[1]) {
+                    const idx = state.files.indexOf(parts[1]);
+                    if (idx >= 0) {
+                        state.files.splice(idx, 1);
+                        return 'Silindi: ' + parts[1];
+                    }
+                    return 'Dosya bulunamadı: ' + parts[1];
+                }
+                return 'Kullanım: del [dosya_adi]';
+            }
+            if (base === 'exit') {
+                closeWindow(id);
+                return '';
+            }
+
+            return "'" + cmd + "' komutu tanınmıyor. Komut listesi için 'help' yazın.";
+        }
+
+        // ---- Çizim Alanı (Paint) ----
+        function initPaint(id) {
+            const canvas = document.getElementById('paintCanvas_' + id);
+            const colorPicker = document.getElementById('paintColor_' + id);
+            const sizePicker = document.getElementById('paintSize_' + id);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            let drawing = false;
+            let lastX = 0, lastY = 0;
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+            }
+
+            function startDraw(e) {
+                drawing = true;
+                const pos = getPos(e);
+                lastX = pos.x;
+                lastY = pos.y;
+                e.preventDefault();
+            }
+
+            function draw(e) {
+                if (!drawing) return;
+                const pos = getPos(e);
+                ctx.strokeStyle = colorPicker ? colorPicker.value : '#000000';
+                ctx.lineWidth = sizePicker ? sizePicker.value : 3;
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                lastX = pos.x;
+                lastY = pos.y;
+                e.preventDefault();
+            }
+
+            function stopDraw() {
+                drawing = false;
+            }
+
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDraw);
+            canvas.addEventListener('mouseleave', stopDraw);
+            canvas.addEventListener('touchstart', startDraw);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', stopDraw);
+        }
+
+        function clearPaint(id) {
+            const canvas = document.getElementById('paintCanvas_' + id);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
     </script>
 
