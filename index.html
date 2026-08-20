@@ -655,6 +655,12 @@
         .xp-close-btn { background: linear-gradient(to bottom, #e87b6d, #c53b27); border: 1px solid #7c1a0c; color: white; width: 18px; height: 18px; font-size: 10px; font-weight: bold; border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .xp-content { flex: 1; background: white; overflow: auto; padding: 12px; font-size: 13px; color: #111; }
         .xp-btn { background: linear-gradient(to bottom, #f3f3f3, #e3e3e3); border: 1px solid #707070; padding: 4px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; }
+        .calc-btn { background: #334155; color: #e2e8f0; border: 1px solid #475569; border-radius: 6px; font-size: 15px; cursor: pointer; padding: 8px 0; }
+        .calc-btn:hover { background: #475569; }
+        .calc-btn.calc-op { background: #0891b2; color: white; }
+        .calc-btn.calc-op:hover { background: #0e7490; }
+        .calc-btn.calc-eq { background: #ea580c; color: white; grid-column: span 1; }
+        .calc-btn.calc-eq:hover { background: #c2410c; }
     </style>
 </head>
 <body id="artifacts-component-root-html">
@@ -756,6 +762,20 @@
                 </div>
                 <button class="delete-btn" onclick="removeIcon('icon_paint')" title="Kaldır">X</button>
             </div>
+            <div class="desktop-icon" id="icon_calculator">
+                <div onclick="openWindow('calculator')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #0891b2;">🧮</div>
+                    <div class="icon-text">Hesap Makinesi</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_calculator')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_balloon">
+                <div onclick="openWindow('balloon')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #f472b6;">🎈</div>
+                    <div class="icon-text">Balon Oyunu</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_balloon')" title="Kaldır">X</button>
+            </div>
             <div class="desktop-icon" id="icon_dino">
                 <div onclick="openWindow('dino')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
                     <div class="icon-box" style="background: #d97706;">🦖</div>
@@ -789,6 +809,8 @@
                 <div class="metro-tile" onclick="openWindow('files')" style="background: #0284c7;">📁 Dosyalarım</div>
                 <div class="metro-tile" onclick="openWindow('terminal')" style="background: #111827;">⌨️ Komut Sistemi</div>
                 <div class="metro-tile" onclick="openWindow('paint')" style="background: #db2777;">🎨 Çizim Alanı</div>
+                <div class="metro-tile" onclick="openWindow('calculator')" style="background: #0891b2;">🧮 Hesap Makinesi</div>
+                <div class="metro-tile" onclick="openWindow('balloon')" style="background: #f472b6;">🎈 Balon Oyunu</div>
                 <div class="metro-tile" onclick="openWindow('notepad')" style="background: #16a34a;">📝 Not Defteri</div>
                 <div class="metro-tile" onclick="openWindow('dino')" style="background: #d97706;">🦖 Dino Oyunu</div>
                 <div class="metro-tile" onclick="openWindow('browser')" style="background: #9333ea;">🌐 Web Tarayıcı</div>
@@ -805,6 +827,8 @@
             <div onclick="openWindow('files')" style="cursor: pointer; font-size: 22px;" title="Dosyalar">📁</div>
             <div onclick="openWindow('terminal')" style="cursor: pointer; font-size: 22px;" title="Komut Sistemi">⌨️</div>
             <div onclick="openWindow('paint')" style="cursor: pointer; font-size: 22px;" title="Çizim Alanı">🎨</div>
+            <div onclick="openWindow('calculator')" style="cursor: pointer; font-size: 22px;" title="Hesap Makinesi">🧮</div>
+            <div onclick="openWindow('balloon')" style="cursor: pointer; font-size: 22px;" title="Balon Oyunu">🎈</div>
             <div onclick="openWindow('browser')" style="cursor: pointer; font-size: 22px;" title="Tarayıcı">🌐</div>
             <div onclick="openWindow('dino')" style="cursor: pointer; font-size: 22px;" title="Oyun">🦖</div>
             <div onclick="openVersionSelectorFromOS()" style="cursor: pointer; font-size: 22px;" title="Sürüm Değiştir">⚙️</div>
@@ -822,6 +846,8 @@
             <div class="mac-dock-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
             <div class="mac-dock-icon" onclick="openWindow('terminal')" title="Komut Sistemi">⌨️</div>
             <div class="mac-dock-icon" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
+            <div class="mac-dock-icon" onclick="openWindow('calculator')" title="Hesap Makinesi">🧮</div>
+            <div class="mac-dock-icon" onclick="openWindow('balloon')" title="Balon Oyunu">🎈</div>
             <div class="mac-dock-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
             <div class="mac-dock-icon" onclick="openWindow('dino')" title="Dino Oyunu">🦖</div>
             <div class="mac-dock-icon" onclick="openWindow('browser')" title="Tarayıcı">🌐</div>
@@ -840,6 +866,8 @@
                 <div class="ubuntu-dock-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
                 <div class="ubuntu-dock-icon" onclick="openWindow('terminal')" title="Komut Sistemi">⌨️</div>
                 <div class="ubuntu-dock-icon" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('calculator')" title="Hesap Makinesi">🧮</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('balloon')" title="Balon Oyunu">🎈</div>
                 <div class="ubuntu-dock-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
                 <div class="ubuntu-dock-icon" onclick="openWindow('browser')" title="Web Tarayıcı">🌐</div>
                 <div class="ubuntu-dock-icon" onclick="openWindow('minesweeper')" title="Mayın Tarlası">💣</div>
@@ -879,6 +907,14 @@
                     <div class="icon-box" style="background:#db2777; font-size:22px;">🎨</div>
                     <div class="icon-text">Çizim Alanı</div>
                 </div>
+                <div class="cloud-app-icon" onclick="openWindow('calculator')">
+                    <div class="icon-box" style="background:#0891b2; font-size:22px;">🧮</div>
+                    <div class="icon-text">Hesap Makinesi</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('balloon')">
+                    <div class="icon-box" style="background:#f472b6; font-size:22px;">🎈</div>
+                    <div class="icon-text">Balon Oyunu</div>
+                </div>
             </div>
         </div>
         <div class="cloud-shelf">
@@ -902,6 +938,8 @@
                 <span onclick="openWindow('notepad')">Not Defteri</span>
                 <span onclick="openWindow('terminal')">Komut Sistemi</span>
                 <span onclick="openWindow('paint')">Çizim Alanı</span>
+                <span onclick="openWindow('calculator')">Hesap Makinesi</span>
+                <span onclick="openWindow('balloon')">Balon Oyunu</span>
             </div>
             <span class="clockDisplay">20:16</span>
         </div>
@@ -917,6 +955,14 @@
             <div class="dark-icon" onclick="openWindow('paint')">
                 <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🎨</div>
                 <div class="icon-text">Çizim Alanı</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('calculator')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🧮</div>
+                <div class="icon-text">Hesap Makinesi</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('balloon')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🎈</div>
+                <div class="icon-text">Balon Oyunu</div>
             </div>
             <div class="dark-icon" onclick="openWindow('notepad')">
                 <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">📝</div>
@@ -953,6 +999,8 @@
                 <div class="nebula-file-row" onclick="openWindow('notepad')">📄 Taslaklar</div>
                 <div class="nebula-file-row" onclick="openWindow('terminal')">⌨️ Komut Sistemi</div>
                 <div class="nebula-file-row" onclick="openWindow('paint')">🎨 Çizim Alanı</div>
+                <div class="nebula-file-row" onclick="openWindow('calculator')">🧮 Hesap Makinesi</div>
+                <div class="nebula-file-row" onclick="openWindow('balloon')">🎈 Balon Oyunu</div>
             </div>
         </div>
         <div class="nebula-orbit-dock">
@@ -1027,6 +1075,14 @@
                     <div class="icon-box" style="background:#0891b2;">🐍</div>
                     <div class="icon-text">Yılan Oyunu</div>
                 </div>
+                <div class="tablet-app-icon" onclick="openWindow('calculator')">
+                    <div class="icon-box" style="background:#0e7490;">🧮</div>
+                    <div class="icon-text">Hesap Makinesi</div>
+                </div>
+                <div class="tablet-app-icon" onclick="openWindow('balloon')">
+                    <div class="icon-box" style="background:#f472b6;">🎈</div>
+                    <div class="icon-text">Balon Oyunu</div>
+                </div>
             </div>
         </div>
         <div class="tablet-dock">
@@ -1074,6 +1130,14 @@
                 <div class="icon-box" style="color:#7dd3fc; border-color:#7dd3fc; box-shadow:0 0 12px rgba(125,211,252,0.4);">⌨️</div>
                 <div class="icon-text">Komut Sistemi</div>
             </div>
+            <div class="holo-app-icon" onclick="openWindow('calculator')">
+                <div class="icon-box" style="color:#facc15; border-color:#facc15; box-shadow:0 0 12px rgba(250,204,21,0.4);">🧮</div>
+                <div class="icon-text">Hesap Makinesi</div>
+            </div>
+            <div class="holo-app-icon" onclick="openWindow('balloon')">
+                <div class="icon-box" style="color:#f472b6; border-color:#f472b6; box-shadow:0 0 12px rgba(244,114,182,0.4);">🎈</div>
+                <div class="icon-text">Balon Oyunu</div>
+            </div>
         </div>
         <div class="holo-panel">
             <div class="holo-panel-header">SİSTEM İZLEYİCİ</div>
@@ -1115,6 +1179,8 @@
             <button class="start-item" onclick="openWindow('files'); toggleStartMenu();">📁 Dosyalarım</button>
             <button class="start-item" onclick="openWindow('terminal'); toggleStartMenu();">⌨️ Komut Sistemi</button>
             <button class="start-item" onclick="openWindow('paint'); toggleStartMenu();">🎨 Çizim Alanı</button>
+            <button class="start-item" onclick="openWindow('calculator'); toggleStartMenu();">🧮 Hesap Makinesi</button>
+            <button class="start-item" onclick="openWindow('balloon'); toggleStartMenu();">🎈 Balon Oyunu</button>
             <button class="start-item" onclick="openWindow('notepad'); toggleStartMenu();">📝 Not Defteri</button>
             <button class="start-item" onclick="openWindow('minesweeper'); toggleStartMenu();">💣 Mayın Tarlası</button>
             <button class="start-item" onclick="openWindow('snake'); toggleStartMenu();">🐍 Yılan Oyunu</button>
@@ -1215,6 +1281,12 @@
             } else if (type === 'dino') {
                 title = 'Dinozor Oyunu';
                 bodyContent = '<div style="text-align:center; padding:10px;"><strong>Skor: <span id="dinoScore_'+id+'">0</span></strong><br><canvas id="dinoCanvas_'+id+'" width="260" height="130" style="background:#f3f3f3; border:1px solid #999; margin-top:5px;"></canvas><br><button class="xp-btn" style="margin-top:5px; background:#2563eb; color:white;" onclick="jumpDino(\''+id+'\')">Zıpla! 🚀</button></div>';
+            } else if (type === 'balloon') {
+                title = 'Balon Oyunu';
+                bodyContent = '<div style="text-align:center; padding:10px; background:linear-gradient(to bottom, #bae6fd, #e0f2fe); height:100%; box-sizing:border-box;">' +
+                    '<strong>Skor: <span id="balloonScore_'+id+'">0</span></strong>' +
+                    '<div id="balloonArea_'+id+'" style="position:relative; width:100%; height:200px; margin-top:8px; overflow:hidden;"></div>' +
+                    '</div>';
             } else if (type === 'browser') {
                 title = 'Web Tarayıcı';
                 bodyContent = '<div style="padding:10px;"><input type="text" value="http://www.6exta.local" style="width:100%; padding:4px; font-size:11px; margin-bottom:10px;"><p>6exta Web Tarayıcısına hoş geldiniz. Çevrimdışı ve güvenli mod aktif.</p></div>';
@@ -1236,6 +1308,31 @@
                     '</div>' +
                     '<canvas id="paintCanvas_'+id+'" width="280" height="200" style="background:white; border:1px solid #999; touch-action:none; cursor:crosshair; flex:1;"></canvas>' +
                     '</div>';
+            } else if (type === 'calculator') {
+                title = 'Hesap Makinesi';
+                bodyContent = '<div style="padding:8px; display:flex; flex-direction:column; height:100%; box-sizing:border-box; background:#1e293b;">' +
+                    '<input id="calcDisplay_'+id+'" type="text" readonly value="0" style="width:100%; box-sizing:border-box; text-align:right; font-size:20px; padding:10px 8px; margin-bottom:8px; background:#0f172a; color:#e2e8f0; border:1px solid #334155; border-radius:6px; font-family:monospace;">' +
+                    '<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px; flex:1;">' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'clear\')">C</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'back\')">⌫</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'%\')">%</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'/\')">÷</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'7\')">7</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'8\')">8</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'9\')">9</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'*\')">×</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'4\')">4</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'5\')">5</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'6\')">6</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'-\')">−</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'1\')">1</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'2\')">2</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'3\')">3</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'+\')">+</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'0\')" style="grid-column:span 2;">0</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'.\')">.</button>' +
+                        '<button class="calc-btn calc-eq" onclick="calcInput(\''+id+'\',\'=\')">=</button>' +
+                    '</div></div>';
             }
 
             win.innerHTML = `
@@ -1274,6 +1371,8 @@
                 setTimeout(() => initTerminal(id), 50);
             } else if (type === 'paint') {
                 setTimeout(() => initPaint(id), 50);
+            } else if (type === 'balloon') {
+                setTimeout(() => initBalloonGame(id), 50);
             }
         }
 
@@ -1559,6 +1658,106 @@
             ctx.fillStyle = 'white';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
+
+        // ---- Hesap Makinesi ----
+        let calcStates = {};
+        function calcInput(id, val) {
+            const display = document.getElementById('calcDisplay_' + id);
+            if (!display) return;
+            if (!calcStates[id]) calcStates[id] = { expr: '', justEvaluated: false };
+            const state = calcStates[id];
+
+            if (val === 'clear') {
+                state.expr = '';
+                state.justEvaluated = false;
+                display.value = '0';
+                return;
+            }
+            if (val === 'back') {
+                state.expr = state.expr.slice(0, -1);
+                display.value = state.expr === '' ? '0' : state.expr;
+                return;
+            }
+            if (val === '=') {
+                try {
+                    if (!/^[0-9+\-*/.%\s]+$/.test(state.expr)) throw new Error('invalid');
+                    const result = Function('"use strict"; return (' + state.expr.replace(/%/g, '/100') + ')')();
+                    if (result === undefined || isNaN(result) || !isFinite(result)) throw new Error('invalid');
+                    display.value = String(Math.round(result * 1e10) / 1e10);
+                    state.expr = display.value;
+                    state.justEvaluated = true;
+                } catch (e) {
+                    display.value = 'Hata';
+                    state.expr = '';
+                }
+                return;
+            }
+
+            const isOperator = ['+', '-', '*', '/', '%'].includes(val);
+            if (state.justEvaluated) {
+                state.expr = isOperator ? state.expr + val : val;
+                state.justEvaluated = false;
+            } else {
+                state.expr += val;
+            }
+            display.value = state.expr === '' ? '0' : state.expr;
+        }
+
+        // ---- Balon Oyunu ----
+        let balloonScores = {};
+        function initBalloonGame(id) {
+            const area = document.getElementById('balloonArea_' + id);
+            if (!area) return;
+            area.innerHTML = '';
+            balloonScores[id] = 0;
+            const scoreEl = document.getElementById('balloonScore_' + id);
+            if (scoreEl) scoreEl.innerText = '0';
+
+            const colors = ['#ef4444', '#f59e0b', '#22c55e', '#3b82f6', '#a855f7', '#ec4899'];
+            const count = 8;
+
+            for (let i = 0; i < count; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon-item';
+                balloon.style.position = 'absolute';
+                balloon.style.fontSize = '34px';
+                balloon.style.cursor = 'pointer';
+                balloon.style.userSelect = 'none';
+                balloon.style.transition = 'transform 0.15s';
+                balloon.innerText = '🎈';
+                balloon.style.color = colors[i % colors.length];
+                placeBalloonRandomly(balloon, area);
+
+                balloon.addEventListener('click', () => {
+                    if (balloon.dataset.popped === '1') return;
+                    balloon.dataset.popped = '1';
+                    balloon.style.visibility = 'hidden';
+                    balloonScores[id] = (balloonScores[id] || 0) + 1;
+                    const scoreEl2 = document.getElementById('balloonScore_' + id);
+                    if (scoreEl2) scoreEl2.innerText = balloonScores[id];
+
+                    setTimeout(() => {
+                        if (!area.contains(balloon)) return;
+                        placeBalloonRandomly(balloon, area);
+                        balloon.dataset.popped = '0';
+                        balloon.style.visibility = 'visible';
+                    }, 1000);
+                });
+
+                area.appendChild(balloon);
+            }
+        }
+
+        function placeBalloonRandomly(balloon, area) {
+            const areaWidth = area.clientWidth || 280;
+            const areaHeight = area.clientHeight || 200;
+            const maxX = Math.max(areaWidth - 40, 10);
+            const maxY = Math.max(areaHeight - 40, 10);
+            balloon.style.left = Math.floor(Math.random() * maxX) + 'px';
+            balloon.style.top = Math.floor(Math.random() * maxY) + 'px';
+        }
     </script>
 
 </body></html>
+
+
