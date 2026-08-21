@@ -472,6 +472,134 @@
         #selectorScreen > div:first-child {
             flex-shrink: 0;
         }
+
+        /* Hesap Sistemi (Deneme Sürümü) */
+        .account-corner-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 9999;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #e2e8f0;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+        }
+        .account-corner-btn:hover { background: rgba(255,255,255,0.2); }
+        #accountModalOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .account-modal {
+            background: linear-gradient(160deg, #1e1b4b 0%, #0b2265 100%);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            width: min(320px, 100%);
+            padding: 22px;
+            color: #e2e8f0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .account-modal h3 {
+            margin: 0 0 4px 0;
+            font-size: 18px;
+            text-align: center;
+        }
+        .account-modal .account-sub {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 11px;
+            margin-bottom: 16px;
+        }
+        .account-tabs {
+            display: flex;
+            background: rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 3px;
+            margin-bottom: 16px;
+        }
+        .account-tab-btn {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 8px 0;
+            font-size: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .account-tab-btn.active {
+            background: #4f46e5;
+            color: white;
+        }
+        .account-modal input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #f1f5f9;
+            font-size: 13px;
+            outline: none;
+        }
+        .account-modal input:focus { border-color: #818cf8; }
+        .account-submit-btn {
+            width: 100%;
+            padding: 10px 0;
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 13px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .account-submit-btn:hover { opacity: 0.9; }
+        .account-msg {
+            font-size: 11px;
+            text-align: center;
+            margin-top: 10px;
+            min-height: 14px;
+        }
+        .account-msg.error { color: #f87171; }
+        .account-msg.success { color: #4ade80; }
+        .account-close-x {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .account-modal { position: relative; }
+        .account-profile-box {
+            text-align: center;
+        }
+        .account-profile-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5, #ec4899);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            margin: 0 auto 10px auto;
+        }
+
         .selector-card {
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -682,6 +810,8 @@
 
     <!-- SÜRÜM SEÇİM MERKEZİ -->
     <div id="selectorScreen" style="display: none;">
+        <button class="account-corner-btn" id="accountCornerBtn" onclick="openAccountModal()">👤 Hesap</button>
+
         <div style="text-align: center; color: white; margin-bottom: 20px;">
             <div style="font-size: 24px; font-weight: bold;">6exta OS Seçim Merkezi</div>
             <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Çalıştırmak istediğiniz işletim sistemi sürümünü seçin:</div>
@@ -1168,6 +1298,67 @@
         </div>
     </div>
 
+    <!-- Hesap Sistemi Modalı (Deneme Sürümü) -->
+    <div id="accountModalOverlay">
+        <div class="account-modal">
+            <button class="account-close-x" onclick="closeAccountModal()">✕</button>
+
+            <div id="accountLoggedOutView">
+                <h3>Hesap</h3>
+                <div class="account-sub">Kullanıcı adı ve şifre ile deneme hesabı oluşturun</div>
+
+                <div class="account-tabs">
+                    <button class="account-tab-btn active" id="tabLoginBtn" onclick="switchAccountTab('login')">Giriş Yap</button>
+                    <button class="account-tab-btn" id="tabRegisterBtn" onclick="switchAccountTab('register')">Hesap Oluştur</button>
+                </div>
+
+                <div id="loginPane">
+                    <input type="text" id="loginUsername" placeholder="Kullanıcı adı" autocomplete="off">
+                    <input type="password" id="loginPassword" placeholder="Şifre" autocomplete="off">
+                    <button class="account-submit-btn" onclick="loginAccount()">Giriş Yap</button>
+                </div>
+
+                <div id="registerPane" style="display:none;">
+                    <input type="text" id="registerUsername" placeholder="Kullanıcı adı" autocomplete="off">
+                    <input type="password" id="registerPassword" placeholder="Şifre" autocomplete="off">
+                    <input type="password" id="registerPassword2" placeholder="Şifre (tekrar)" autocomplete="off">
+                    <button class="account-submit-btn" onclick="registerAccount()">Hesap Oluştur</button>
+                </div>
+
+                <div class="account-msg" id="accountMsg"></div>
+            </div>
+
+            <div id="accountLoggedInView" style="display:none;">
+                <div class="account-profile-box">
+                    <div class="account-profile-avatar" id="accountAvatarLetter">👤</div>
+                    <div style="font-size:15px; font-weight:bold;" id="accountWelcomeName">Kullanıcı</div>
+                    <div style="font-size:11px; color:#94a3b8;">Hesabınıza giriş yaptınız (deneme sürümü)</div>
+                    <div id="proBadgeHolder"></div>
+                    <button class="account-submit-btn" style="background:linear-gradient(to right, #ef4444, #b91c1c); margin-top:14px;" onclick="logoutAccount()">Çıkış Yap</button>
+                </div>
+            </div>
+
+            <!-- Pro Hesap Bölümü -->
+            <div class="pro-section" style="margin-top:18px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.12);">
+                <div style="font-size:13px; font-weight:bold; color:#fbbf24; margin-bottom:10px; text-align:center;">⭐ Pro Hesap</div>
+
+                <div id="proAlreadyBox" style="display:none; text-align:center; font-size:12px; color:#4ade80; background:rgba(74,222,128,0.08); border:1px solid rgba(74,222,128,0.3); border-radius:8px; padding:10px;">
+                    Bu hesap zaten Pro ✓<br>
+                    <span style="color:#94a3b8; font-size:10px;">6exta34 ve 6exta10 sürümleri açık.</span>
+                </div>
+
+                <div id="proNotYetBox">
+                    <button class="account-submit-btn" style="background:linear-gradient(to right, #f59e0b, #d97706);" onclick="toggleProInput()">Pro Koduyla Etkinleştir</button>
+                    <div id="proInputRow" style="display:none; margin-top:10px;">
+                        <input type="text" id="proCodeInput" placeholder="Pro erişim kodunu yapıştırın" autocomplete="off" style="text-transform:uppercase;">
+                        <button class="account-submit-btn" style="background:linear-gradient(to right, #4f46e5, #7c3aed);" onclick="activateProCode()">Etkinleştir</button>
+                        <div class="account-msg" id="proMsg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Başlat Menüsü (XP) -->
     <div id="startMenu" class="start-menu" style="display: none;">
         <div class="start-header">
@@ -1195,10 +1386,30 @@
             document.getElementById('selectorScreen').style.display = 'flex';
         }
 
+        const PRO_LOCKED_VERSIONS = ['nebula', 'holo']; // 6exta34, 6exta10
+
         function switchOS(osName) {
+            if (PRO_LOCKED_VERSIONS.includes(osName) && !isProUser) {
+                showLockedVersionMessage();
+                return;
+            }
             document.getElementById('selectorScreen').style.display = 'none';
             document.querySelectorAll('.os-container').forEach(el => el.style.display = 'none');
             document.getElementById('os_' + osName).style.display = 'flex';
+        }
+
+        function showLockedVersionMessage() {
+            let notice = document.getElementById('proLockNotice');
+            if (!notice) {
+                notice = document.createElement('div');
+                notice.id = 'proLockNotice';
+                notice.style.cssText = 'position:fixed; top:70px; left:50%; transform:translateX(-50%); background:#1e1b4b; border:1px solid #f59e0b; color:#fbbf24; padding:10px 18px; border-radius:10px; font-size:12px; z-index:10001; box-shadow:0 4px 20px rgba(0,0,0,0.4); text-align:center;';
+                document.body.appendChild(notice);
+            }
+            notice.innerText = '🔒 Bu sürüm sadece Pro hesaplar için açık. Pro olmak için hesap panelini kullanın.';
+            notice.style.display = 'block';
+            clearTimeout(window._proLockTimer);
+            window._proLockTimer = setTimeout(() => { notice.style.display = 'none'; }, 2600);
         }
 
         function openVersionSelectorFromOS() {
@@ -1756,8 +1967,228 @@
             balloon.style.left = Math.floor(Math.random() * maxX) + 'px';
             balloon.style.top = Math.floor(Math.random() * maxY) + 'px';
         }
+
+        // ---- Hesap Sistemi (Deneme Sürümü) ----
+        // Not: Bu bir deneme/demo özelliğidir; hesaplar yalnızca bu oturum boyunca
+        // tarayıcı belleğinde tutulur, sayfa kapanınca silinir.
+        let accountsDB = {};
+        let currentAccount = null;
+
+        function openAccountModal() {
+            document.getElementById('accountModalOverlay').style.display = 'flex';
+            updateAccountModalView();
+        }
+
+        function closeAccountModal() {
+            document.getElementById('accountModalOverlay').style.display = 'none';
+            document.getElementById('accountMsg').innerText = '';
+            document.getElementById('accountMsg').className = 'account-msg';
+        }
+
+        function switchAccountTab(tab) {
+            const loginBtn = document.getElementById('tabLoginBtn');
+            const registerBtn = document.getElementById('tabRegisterBtn');
+            const loginPane = document.getElementById('loginPane');
+            const registerPane = document.getElementById('registerPane');
+            const msg = document.getElementById('accountMsg');
+            msg.innerText = '';
+            msg.className = 'account-msg';
+
+            if (tab === 'login') {
+                loginBtn.classList.add('active');
+                registerBtn.classList.remove('active');
+                loginPane.style.display = 'block';
+                registerPane.style.display = 'none';
+            } else {
+                registerBtn.classList.add('active');
+                loginBtn.classList.remove('active');
+                registerPane.style.display = 'block';
+                loginPane.style.display = 'none';
+            }
+        }
+
+        function showAccountMsg(text, type) {
+            const msg = document.getElementById('accountMsg');
+            msg.innerText = text;
+            msg.className = 'account-msg ' + (type || '');
+        }
+
+        function registerAccount() {
+            const username = document.getElementById('registerUsername').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const password2 = document.getElementById('registerPassword2').value;
+
+            if (!username || !password) {
+                showAccountMsg('Kullanıcı adı ve şifre boş olamaz.', 'error');
+                return;
+            }
+            if (username.length < 3) {
+                showAccountMsg('Kullanıcı adı en az 3 karakter olmalı.', 'error');
+                return;
+            }
+            if (password.length < 4) {
+                showAccountMsg('Şifre en az 4 karakter olmalı.', 'error');
+                return;
+            }
+            if (password !== password2) {
+                showAccountMsg('Şifreler eşleşmiyor.', 'error');
+                return;
+            }
+            if (accountsDB[username]) {
+                showAccountMsg('Bu kullanıcı adı zaten alınmış.', 'error');
+                return;
+            }
+
+            accountsDB[username] = { password: password };
+            currentAccount = username;
+            showAccountMsg('Hesap oluşturuldu! Giriş yapıldı.', 'success');
+            setTimeout(() => updateAccountModalView(), 600);
+        }
+
+        function loginAccount() {
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!username || !password) {
+                showAccountMsg('Kullanıcı adı ve şifre boş olamaz.', 'error');
+                return;
+            }
+            const acc = accountsDB[username];
+            if (!acc || acc.password !== password) {
+                showAccountMsg('Kullanıcı adı veya şifre hatalı.', 'error');
+                return;
+            }
+
+            currentAccount = username;
+            showAccountMsg('Giriş başarılı!', 'success');
+            setTimeout(() => updateAccountModalView(), 400);
+        }
+
+        function logoutAccount() {
+            currentAccount = null;
+            updateAccountModalView();
+        }
+
+        function updateAccountModalView() {
+            const loggedOutView = document.getElementById('accountLoggedOutView');
+            const loggedInView = document.getElementById('accountLoggedInView');
+            const cornerBtn = document.getElementById('accountCornerBtn');
+
+            if (currentAccount) {
+                loggedOutView.style.display = 'none';
+                loggedInView.style.display = 'block';
+                document.getElementById('accountWelcomeName').innerText = currentAccount;
+                document.getElementById('accountAvatarLetter').innerText = currentAccount.charAt(0).toUpperCase();
+                if (cornerBtn) cornerBtn.innerText = (isProUser ? '⭐ ' : '👤 ') + currentAccount;
+            } else {
+                loggedOutView.style.display = 'block';
+                loggedInView.style.display = 'none';
+                document.getElementById('loginUsername').value = '';
+                document.getElementById('loginPassword').value = '';
+                document.getElementById('registerUsername').value = '';
+                document.getElementById('registerPassword').value = '';
+                document.getElementById('registerPassword2').value = '';
+                if (cornerBtn) cornerBtn.innerText = '👤 Hesap';
+            }
+            updateProSectionView();
+        }
+
+        // ---- Pro Hesap Sistemi ----
+        // Bu 10 kod, şifre üretici sayfasında (sifre_ureteci.html) listelenen sabit
+        // Pro erişim kodlarıyla birebir eşleşir.
+        const PRO_CODES = [
+            '2GYYSC7H2F',
+            '2T7ZLZYPTE',
+            '7KSJRS53ZQ',
+            'AL5XTKPXGF',
+            'BFPQBN4Q6T',
+            'CW3TEPWP93',
+            'HBTRQJGF5C',
+            'J9FDHKL5E2',
+            'LRL72TQWDQ',
+            'UZNECQUFQG'
+        ];
+
+        let isProUser = false;
+
+        function toggleProInput() {
+            const row = document.getElementById('proInputRow');
+            row.style.display = row.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function activateProCode() {
+            const input = document.getElementById('proCodeInput');
+            const code = (input.value || '').trim().toUpperCase();
+            const msg = document.getElementById('proMsg');
+
+            if (!code) {
+                msg.innerText = 'Lütfen bir kod girin.';
+                msg.className = 'account-msg error';
+                return;
+            }
+            if (!PRO_CODES.includes(code)) {
+                msg.innerText = 'Geçersiz Pro kodu.';
+                msg.className = 'account-msg error';
+                return;
+            }
+
+            isProUser = true;
+            msg.innerText = 'Pro etkinleştirildi! 🎉';
+            msg.className = 'account-msg success';
+            input.value = '';
+            setTimeout(() => {
+                updateProSectionView();
+                updateAccountModalView();
+            }, 500);
+        }
+
+        function updateProSectionView() {
+            const alreadyBox = document.getElementById('proAlreadyBox');
+            const notYetBox = document.getElementById('proNotYetBox');
+            const proBadgeHolder = document.getElementById('proBadgeHolder');
+            if (!alreadyBox || !notYetBox) return;
+
+            if (isProUser) {
+                alreadyBox.style.display = 'block';
+                notYetBox.style.display = 'none';
+                if (proBadgeHolder) proBadgeHolder.innerHTML = '<div style="margin-top:8px; display:inline-block; background:linear-gradient(to right,#f59e0b,#d97706); color:#1e1b4b; font-size:10px; font-weight:bold; padding:3px 10px; border-radius:12px;">⭐ PRO ÜYE</div>';
+            } else {
+                alreadyBox.style.display = 'none';
+                notYetBox.style.display = 'block';
+                if (proBadgeHolder) proBadgeHolder.innerHTML = '';
+            }
+            updateLockedVersionCards();
+        }
+
+        function updateLockedVersionCards() {
+            PRO_LOCKED_VERSIONS.forEach(osName => {
+                const card = document.querySelector('.selector-card[onclick="switchOS(\'' + osName + '\')"]');
+                if (!card) return;
+                let lockTag = card.querySelector('.pro-lock-tag');
+                if (isProUser) {
+                    card.style.opacity = '1';
+                    card.style.filter = 'none';
+                    if (lockTag) lockTag.remove();
+                } else {
+                    card.style.opacity = '0.55';
+                    card.style.filter = 'grayscale(40%)';
+                    if (!lockTag) {
+                        lockTag = document.createElement('div');
+                        lockTag.className = 'pro-lock-tag';
+                        lockTag.style.cssText = 'margin-top:6px; font-size:10px; color:#fbbf24; font-weight:bold;';
+                        lockTag.innerText = '🔒 Sadece Pro hesaplar açabilir';
+                        card.appendChild(lockTag);
+                    }
+                }
+            });
+        }
+
+        // Sayfa yüklendiğinde kilitli sürüm kartlarını işaretle
+        window.addEventListener('DOMContentLoaded', updateLockedVersionCards);
     </script>
 
 </body></html>
+
+
 
 
