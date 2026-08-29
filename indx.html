@@ -1,0 +1,2217 @@
+<!DOCTYPE html>
+<html lang="tr"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>6exta OS Suite</title>
+    <style>
+        * { box-sizing: border-box; }
+        html, body {
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            font-family: 'Tahoma', sans-serif;
+            overflow: hidden;
+            background-color: #0b2265;
+            height: 100vh;
+            height: 100dvh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 1. AÇILIŞ EKRANI */
+        #bootScreen {
+            position: fixed;
+            inset: 0;
+            background: #000000;
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: opacity 0.5s ease;
+        }
+        .loading-bar {
+            width: 160px;
+            height: 12px;
+            border: 2px solid #555;
+            border-radius: 6px;
+            background: #000;
+            display: flex;
+            gap: 2px;
+            padding: 1px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+        .load-block {
+            width: 10px;
+            height: 6px;
+            background: #0055ea;
+            animation: loadAnim 1s infinite linear;
+        }
+        @keyframes loadAnim {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        /* SÜRÜM SEÇİM MERKEZİ */
+        #selectorScreen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0b2265 0%, #1e1b4b 100%);
+            z-index: 9998;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 20px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        #selectorScreen > div:first-child {
+            flex-shrink: 0;
+        }
+
+        /* Batuhan Yardım Asistanı */
+        .helper-corner-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 9999;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: #e2e8f0;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            backdrop-filter: blur(6px);
+        }
+        .helper-corner-btn:hover { background: rgba(255,255,255,0.2); }
+        #helperModalOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 10000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .helper-modal {
+            background: linear-gradient(160deg, #1e1b4b 0%, #0b2265 100%);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            width: min(340px, 100%);
+            height: min(480px, 85vh);
+            padding: 0;
+            color: #e2e8f0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .helper-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 16px;
+            border-bottom: 1px solid rgba(255,255,255,0.12);
+            flex-shrink: 0;
+        }
+        .helper-avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #38bdf8, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .helper-header-text { flex: 1; }
+        .helper-header-name { font-size: 13px; font-weight: bold; }
+        .helper-header-sub { font-size: 10px; color: #94a3b8; }
+        .helper-close-x {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .helper-chat-log {
+            flex: 1;
+            overflow-y: auto;
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .helper-msg {
+            max-width: 82%;
+            font-size: 12px;
+            line-height: 1.5;
+            padding: 8px 12px;
+            border-radius: 12px;
+        }
+        .helper-msg.bot {
+            align-self: flex-start;
+            background: rgba(255,255,255,0.08);
+            border-bottom-left-radius: 3px;
+        }
+        .helper-msg.user {
+            align-self: flex-end;
+            background: #4f46e5;
+            color: white;
+            border-bottom-right-radius: 3px;
+        }
+        .helper-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 0 16px 10px 16px;
+            flex-shrink: 0;
+        }
+        .helper-suggestion-chip {
+            font-size: 10px;
+            color: #94a3b8;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 5px 10px;
+            border-radius: 14px;
+            cursor: pointer;
+        }
+        .helper-suggestion-chip:hover { border-color: #818cf8; color: #c7d2fe; }
+        .helper-input-row {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255,255,255,0.12);
+            flex-shrink: 0;
+        }
+        .helper-input-row input {
+            flex: 1;
+            padding: 9px 12px;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            color: #f1f5f9;
+            font-size: 12px;
+            outline: none;
+        }
+        .helper-input-row input:focus { border-color: #818cf8; }
+        .helper-send-btn {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 14px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .helper-send-btn:hover { opacity: 0.9; }
+
+        .selector-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 14px;
+            padding: 16px 22px;
+            width: 100%;
+            max-width: 480px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .selector-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* SÜRÜM KONTEYNERLERİ */
+        .os-container {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+        }
+
+        /* 1. 6exta XP */
+        #os_xp { background-image: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; }
+
+        /* 2. 6exta9 (Metro Stil) */
+        #os_metro { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%); padding: 25px; display: flex; flex-direction: column; }
+        .metro-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; max-width: 500px; margin-top: 10px; }
+        .metro-tile { background: rgba(255,255,255,0.15); border: 2px solid rgba(255,255,255,0.25); border-radius: 10px; padding: 20px; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; font-weight: bold; font-size: 13px; gap: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+        .metro-tile:hover { background: rgba(255,255,255,0.25); transform: scale(1.02); }
+
+        /* 3. 6exta11 (Modern Cam Stil) */
+        #os_modern { background-image: url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; }
+        .win11-taskbar { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(30,30,30,0.75); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.2); border-radius: 16px; padding: 8px 18px; display: flex; gap: 16px; z-index: 50; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+
+        /* 4. 6exta (Özgün Minimalist Stil) */
+        #os_mac { background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1600&q=80'); background-size: cover; background-position: center; }
+        .mac-menubar { height: 28px; background: rgba(255,255,255,0.25); backdrop-filter: blur(10px); display: flex; align-items: center; justify-content: space-between; padding: 0 15px; color: white; font-size: 12px; font-weight: bold; border-bottom: 1px solid rgba(255,255,255,0.2); z-index: 50; }
+        .mac-dock { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.25); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.35); border-radius: 22px; padding: 8px 14px; display: flex; gap: 14px; z-index: 50; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .mac-dock-icon { width: 44px; height: 44px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.25); }
+        .mac-dock-icon:hover { transform: translateY(-8px) scale(1.15); }
+
+        /* 5. 6exta31 (Dikey Dock Stili) */
+        #os_ubuntu { background: linear-gradient(160deg, #2d1b4e 0%, #4a2b6b 55%, #1a0f2e 100%); }
+        .ubuntu-topbar { height: 26px; background: rgba(20,10,35,0.85); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; color: #f0e6ff; font-size: 11px; font-weight: bold; z-index: 50; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .ubuntu-body { flex: 1; display: flex; overflow: hidden; }
+        .ubuntu-dock { width: 56px; background: rgba(15,8,28,0.7); backdrop-filter: blur(10px); display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 12px 0; border-right: 1px solid rgba(255,255,255,0.08); }
+        .ubuntu-dock-icon { width: 40px; height: 40px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; transition: 0.2s; }
+        .ubuntu-dock-icon:hover { background: #d946ef; border-color: #d946ef; transform: scale(1.08); }
+        .ubuntu-desktop { flex: 1; position: relative; }
+
+        /* 6. 6exta12 (Hafif Bulut Stili) */
+        #os_cloud { background: linear-gradient(160deg, #202124 0%, #3c4043 100%); }
+        .cloud-topbar { flex: 1; position: relative; overflow: hidden; }
+        .cloud-app-grid { position: absolute; top: 40px; left: 50%; transform: translateX(-50%); display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
+        .cloud-app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; width: 64px; }
+        .cloud-app-icon .icon-box { width: 52px; height: 52px; border-radius: 50%; background: #2563eb; }
+        .cloud-app-icon:hover .icon-box { transform: scale(1.08); }
+        .cloud-shelf { height: 46px; min-height: 46px; background: rgba(32,33,36,0.92); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; padding: 0 10px; gap: 10px; z-index: 40; }
+        .cloud-launcher { width: 30px; height: 30px; border-radius: 50%; background: conic-gradient(from 90deg, #2dd4bf, #6366f1, #ec4899, #f59e0b, #2dd4bf); cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.5); flex-shrink: 0; }
+        .cloud-shelf-apps { display: flex; gap: 8px; flex: 1; overflow-x: auto; }
+        .cloud-shelf-icon { width: 30px; height: 30px; border-radius: 6px; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 15px; cursor: pointer; flex-shrink: 0; }
+        .cloud-shelf-icon:hover { background: rgba(255,255,255,0.22); }
+        .cloud-status { display: flex; align-items: center; gap: 8px; color: #e8eaed; font-size: 11px; background: rgba(255,255,255,0.06); padding: 5px 10px; border-radius: 6px; flex-shrink: 0; }
+
+        /* 7. 6exta32 (Koyu Minimalist Panel Stili) */
+        #os_dark { background: #0a0a0a; }
+        .dark-menubar { height: 24px; background: #141414; border-bottom: 1px solid #2a2a2a; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; color: #d4d4d4; font-size: 11px; z-index: 50; }
+        .dark-menu-items { display: flex; gap: 16px; }
+        .dark-menu-items span { cursor: pointer; }
+        .dark-menu-items span:hover { color: #ffffff; }
+        .dark-desktop { flex: 1; position: relative; padding: 16px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 18px; }
+        .dark-icon { width: 66px; display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; }
+        .dark-icon .icon-box { width: 40px; height: 40px; border-radius: 3px; background: #1c1c1c; border: 1px solid #333; box-shadow: none; }
+        .dark-icon .icon-text { color: #c9c9c9; text-shadow: none; font-weight: normal; }
+        .dark-panel { height: 30px; min-height: 30px; background: #141414; border-top: 1px solid #2a2a2a; display: flex; align-items: center; padding: 0 8px; gap: 8px; z-index: 40; }
+        .dark-panel-btn { background: #1c1c1c; border: 1px solid #333; color: #d4d4d4; padding: 3px 10px; font-size: 11px; border-radius: 3px; cursor: pointer; }
+        .dark-panel-btn:hover { background: #262626; }
+        .dark-panel-apps { display: flex; gap: 6px; flex: 1; overflow-x: auto; }
+        .dark-panel-clock { color: #999; font-size: 11px; font-family: monospace; padding: 3px 8px; border: 1px solid #2a2a2a; border-radius: 3px; }
+
+        /* 8. 6exta34 (Kozmik Nebula Stili) */
+        #os_nebula {
+            background:
+                radial-gradient(circle at 25% 20%, rgba(56,189,248,0.25), transparent 45%),
+                radial-gradient(circle at 75% 35%, rgba(168,85,247,0.28), transparent 50%),
+                radial-gradient(circle at 50% 80%, rgba(16,185,129,0.2), transparent 50%),
+                linear-gradient(160deg, #05010f 0%, #0d0821 50%, #05010f 100%);
+            position: relative;
+        }
+        .nebula-statusbar { display: flex; justify-content: space-between; padding: 10px 16px; color: #a5f3fc; font-size: 11px; font-family: monospace; letter-spacing: 0.5px; z-index: 10; }
+        .nebula-panel { position: absolute; top: 60px; right: 20px; width: min(280px, 70vw); background: rgba(10,15,35,0.55); backdrop-filter: blur(14px); border: 1px solid rgba(94,234,212,0.35); border-radius: 12px; box-shadow: 0 0 25px rgba(56,189,248,0.25); overflow: hidden; z-index: 20; }
+        .nebula-panel-header { display: flex; align-items: center; gap: 6px; padding: 8px 12px; background: rgba(94,234,212,0.12); border-bottom: 1px solid rgba(94,234,212,0.25); color: #e0f2fe; font-size: 12px; font-weight: bold; }
+        .nebula-panel-body { padding: 10px 12px; color: #cffafe; font-size: 11px; }
+        .nebula-file-row { display: flex; align-items: center; gap: 6px; padding: 5px 6px; border-radius: 6px; cursor: pointer; }
+        .nebula-file-row:hover { background: rgba(94,234,212,0.12); }
+        .nebula-orbit-dock { position: absolute; bottom: 18px; left: 50%; transform: translateX(-50%); display: flex; gap: 22px; z-index: 20; }
+        .nebula-orbit-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+        .nebula-orbit-icon { width: 50px; height: 50px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(94,234,212,0.5), rgba(30,10,60,0.6)); border: 1px solid rgba(94,234,212,0.5); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 14px rgba(94,234,212,0.35); transition: 0.2s; }
+        .nebula-orbit-item:hover .nebula-orbit-icon { transform: scale(1.1); box-shadow: 0 0 22px rgba(94,234,212,0.6); }
+        .nebula-orbit-label { color: #a5f3fc; font-size: 10px; letter-spacing: 0.5px; }
+
+        /* 9. 6exta14 (Tablet Ana Ekran Stili) */
+        #os_tablet {
+            background: linear-gradient(150deg, #1e293b 0%, #334155 55%, #1e293b 100%);
+            position: relative;
+        }
+        .tablet-statusbar { display: flex; justify-content: space-between; align-items: center; padding: 8px 18px; color: #f1f5f9; font-size: 12px; z-index: 10; }
+        .tablet-home { flex: 1; display: flex; flex-direction: column; padding: 20px 40px; gap: 24px; overflow: hidden; }
+        .tablet-searchbar { display: flex; align-items: center; gap: 12px; background: #f8fafc; border-radius: 30px; padding: 12px 20px; box-shadow: 0 3px 10px rgba(0,0,0,0.3); max-width: 620px; }
+        .tablet-search-dot { width: 22px; height: 22px; border-radius: 50%; background: conic-gradient(from 90deg, #2dd4bf, #6366f1, #ec4899, #f59e0b, #2dd4bf); flex-shrink: 0; cursor: pointer; }
+        .tablet-search-text { flex: 1; color: #64748b; font-size: 13px; }
+        .tablet-search-icons { display: flex; gap: 14px; color: #475569; font-size: 15px; }
+        .tablet-app-row { display: flex; gap: 26px; flex-wrap: wrap; }
+        .tablet-app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; width: 68px; }
+        .tablet-app-icon .icon-box { width: 54px; height: 54px; border-radius: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.35); }
+        .tablet-app-icon .icon-text { text-shadow: 1px 1px 3px rgba(0,0,0,0.8); }
+        .tablet-dock { height: 64px; min-height: 64px; background: rgba(15,23,42,0.55); backdrop-filter: blur(10px); border-radius: 24px; margin: 0 60px 16px 60px; display: flex; align-items: center; justify-content: center; gap: 28px; }
+        .tablet-dock-icon { width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.35); }
+        .tablet-navbar { height: 34px; min-height: 34px; display: flex; align-items: center; justify-content: center; gap: 70px; color: #cbd5e1; }
+
+        /* 10. 6exta10 (Holografik Panel Stili) */
+        #os_holo {
+            background:
+                radial-gradient(circle at 80% 20%, rgba(139,92,246,0.22), transparent 45%),
+                radial-gradient(circle at 15% 70%, rgba(6,182,212,0.18), transparent 45%),
+                linear-gradient(160deg, #06070d 0%, #0a0f1c 60%, #06070d 100%);
+            position: relative;
+        }
+        .holo-statusbar { display: flex; justify-content: space-between; align-items: center; padding: 10px 18px; color: #7dd3fc; font-size: 11px; z-index: 10; text-shadow: 0 0 6px rgba(125,211,252,0.6); }
+        .holo-title { color: #7dd3fc; font-size: 20px; font-weight: bold; padding: 4px 20px 10px 20px; text-shadow: 0 0 10px rgba(125,211,252,0.7); letter-spacing: 1px; }
+        .holo-app-grid { flex: 1; display: flex; flex-wrap: wrap; gap: 28px; padding: 10px 24px; align-content: flex-start; position: relative; z-index: 5; }
+        .holo-app-icon { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; width: 90px; }
+        .holo-app-icon .icon-box { width: 58px; height: 58px; border-radius: 10px; background: rgba(255,255,255,0.03); border: 1px solid; display: flex; align-items: center; justify-content: center; font-size: 26px; box-shadow: none; }
+        .holo-app-icon .icon-text { color: #cbd5e1; font-size: 11px; text-shadow: none; text-align: center; line-height: 1.3; }
+        .holo-panel { position: absolute; top: 60px; right: 20px; width: min(240px, 60vw); background: rgba(8,10,22,0.7); backdrop-filter: blur(10px); border: 1px solid rgba(139,92,246,0.4); border-radius: 10px; box-shadow: 0 0 20px rgba(139,92,246,0.25); z-index: 15; }
+        .holo-panel-header { padding: 8px 12px; border-bottom: 1px solid rgba(139,92,246,0.3); color: #c4b5fd; font-size: 11px; font-weight: bold; letter-spacing: 0.5px; }
+        .holo-panel-body { padding: 10px 12px; color: #a5b4fc; font-size: 10px; line-height: 1.8; }
+        .holo-bottombar { display: flex; align-items: center; gap: 10px; padding: 10px 18px; background: rgba(8,10,22,0.6); border-top: 1px solid rgba(125,211,252,0.2); z-index: 10; }
+        .holo-menu-items { display: flex; gap: 18px; }
+        .holo-menu-item { display: flex; flex-direction: column; align-items: center; gap: 2px; color: #94a3b8; font-size: 9px; cursor: pointer; }
+        .holo-menu-item span:first-child { font-size: 15px; }
+        .holo-menu-item:hover { color: #7dd3fc; }
+        .holo-core-btn { width: 46px; height: 46px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(125,211,252,0.5), rgba(30,41,59,0.9)); border: 1px solid rgba(125,211,252,0.6); display: flex; align-items: center; justify-content: center; font-size: 8px; color: #e0f2fe; text-align: center; line-height: 1.1; cursor: pointer; box-shadow: 0 0 14px rgba(125,211,252,0.4); flex-shrink: 0; }
+        .holo-label { color: #7dd3fc; font-size: 10px; white-space: nowrap; }
+        .holo-cmd-bar { flex: 1; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.04); border: 1px solid rgba(125,211,252,0.25); border-radius: 8px; padding: 6px 12px; }
+        .holo-cmd-bar input { flex: 1; background: transparent; border: none; outline: none; color: #e0f2fe; font-family: 'Courier New', monospace; font-size: 12px; }
+        .holo-cmd-icons { display: flex; gap: 10px; color: #7dd3fc; font-size: 14px; }
+
+        /* 11. 6exta16 (Gün Batımı Manzara Stili) */
+        #os_dusk {
+            background: linear-gradient(to bottom, #f97316 0%, #fb923c 18%, #fbbf9c 32%, #93a5c9 55%, #5b6d94 70%, #3d4a6b 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .dusk-mountains {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 55%;
+            background: #3f4d6e;
+            clip-path: polygon(0% 60%, 8% 40%, 18% 55%, 28% 25%, 38% 48%, 50% 15%, 62% 45%, 72% 20%, 84% 42%, 92% 30%, 100% 50%, 100% 100%, 0% 100%);
+            opacity: 0.9;
+        }
+        .dusk-mountains::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 70%;
+            background: #2c3654;
+            clip-path: polygon(0% 75%, 12% 55%, 24% 68%, 36% 40%, 48% 62%, 60% 30%, 74% 58%, 86% 38%, 100% 60%, 100% 100%, 0% 100%);
+        }
+        .dusk-statusbar { display: flex; justify-content: space-between; padding: 8px 16px; color: #fff7ed; font-size: 11px; font-weight: bold; text-shadow: 0 1px 3px rgba(0,0,0,0.4); position: relative; z-index: 5; }
+        .dusk-floating-bar { position: relative; z-index: 5; margin: 6px auto 0 auto; width: fit-content; background: rgba(20,20,25,0.55); backdrop-filter: blur(8px); border-radius: 30px; padding: 8px 14px; display: flex; align-items: center; gap: 14px; box-shadow: 0 4px 14px rgba(0,0,0,0.3); }
+        .dusk-bar-icon { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; background: rgba(255,255,255,0.12); color: white; }
+        .dusk-bar-icon.purple { background: #a855f7; }
+        .dusk-bar-icon.record { background: #ef4444; border-radius: 14px; width: auto; padding: 0 10px; font-size: 10px; gap: 4px; display:flex; align-items:center; }
+        .dusk-bar-icon:hover { filter: brightness(1.15); }
+        .dusk-body { flex: 1; position: relative; z-index: 5; }
+        .dusk-app-row { position: absolute; bottom: 90px; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 0 10px; box-sizing: border-box; }
+        .dusk-app-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; }
+        .dusk-app-item .icon-box { width: 46px; height: 46px; border-radius: 12px; box-shadow: 0 3px 10px rgba(0,0,0,0.35); }
+        .dusk-app-item .icon-text { color: #fff7ed; text-shadow: 0 1px 3px rgba(0,0,0,0.6); font-size: 11px; }
+        .dusk-dock-row { position: absolute; bottom: 26px; left: 0; width: 100%; display: flex; justify-content: space-around; padding: 0 14px; box-sizing: border-box; }
+        .dusk-dock-icon { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; box-shadow: 0 3px 8px rgba(0,0,0,0.35); }
+        .dusk-home-indicator { position: absolute; bottom: 6px; left: 50%; transform: translateX(-50%); width: 120px; height: 4px; border-radius: 3px; background: rgba(255,247,237,0.6); z-index: 6; }
+
+        /* 12. 6exta13 (Alacakaranlık Masaüstü Stili) */
+        #os_peak {
+            background: linear-gradient(to bottom, #1e1b4b 0%, #4c3b6e 22%, #a9678f 42%, #e0a89a 55%, #f3d4bd 62%, #1a2f2a 63%, #0e1f1c 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .peak-hill {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 42%;
+            background: #0e1f1c;
+            clip-path: polygon(0% 55%, 15% 40%, 30% 48%, 45% 20%, 60% 42%, 78% 15%, 100% 38%, 100% 100%, 0% 100%);
+        }
+        .peak-star { position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%; opacity: 0.8; }
+        .peak-about-window {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            width: min(300px, 78vw);
+            background: rgba(20,22,35,0.88);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 12px;
+            padding: 14px;
+            color: #f1f5f9;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            z-index: 20;
+        }
+        .peak-about-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+        .peak-about-title { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #cbd5e1; }
+        .peak-about-close { color: #94a3b8; cursor: pointer; font-size: 13px; }
+        .peak-brand-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+        .peak-brand-logo { width: 34px; height: 34px; border-radius: 8px; background: linear-gradient(135deg,#38bdf8,#6366f1); display:flex; align-items:center; justify-content:center; font-size:16px; }
+        .peak-brand-name { font-size: 19px; font-weight: bold; }
+        .peak-device-box { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 8px 10px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-size: 11px; color: #cbd5e1; }
+        .peak-spec-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-bottom: 10px; }
+        .peak-spec-cell { background: rgba(255,255,255,0.05); border-radius: 8px; padding: 8px 4px; text-align: center; font-size: 9px; color: #cbd5e1; }
+        .peak-spec-cell .spec-icon { font-size: 15px; margin-bottom: 3px; }
+        .peak-about-footer { display: flex; align-items: center; justify-content: space-between; }
+        .peak-about-icons { display: flex; gap: 8px; color: #94a3b8; font-size: 13px; }
+        .peak-ok-btn { background: #2563eb; color: white; border: none; padding: 6px 20px; border-radius: 6px; font-size: 11px; cursor: pointer; }
+
+        .peak-widgets { position: absolute; top: 20px; right: 20px; z-index: 20; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
+        .peak-clock-widget { text-align: right; color: white; }
+        .peak-clock-widget .peak-time { font-size: 30px; font-weight: bold; text-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+        .peak-clock-widget .peak-date { font-size: 11px; color: #e2e8f0; }
+        .peak-media-widget { width: 220px; background: rgba(20,22,35,0.75); backdrop-filter: blur(10px); border-radius: 12px; padding: 12px; color: white; box-shadow: 0 6px 20px rgba(0,0,0,0.35); }
+        .peak-media-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .peak-media-cover { width: 44px; height: 44px; border-radius: 8px; background: #334155; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+        .peak-media-title { font-size: 12px; font-weight: bold; color: #cbd5e1; }
+        .peak-media-sub { font-size: 10px; color: #64748b; }
+        .peak-media-controls { display: flex; align-items: center; justify-content: center; gap: 16px; opacity: 0.4; }
+        .peak-media-controls span { font-size: 14px; }
+        .peak-media-controls .play-circle { width: 32px; height: 32px; border-radius: 50%; border: 2px solid #94a3b8; display: flex; align-items: center; justify-content: center; }
+
+        .peak-taskbar { height: 52px; min-height: 52px; background: rgba(15,17,28,0.75); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; padding: 0 12px; gap: 10px; z-index: 30; }
+        .peak-nav-icon { color: #cbd5e1; font-size: 14px; cursor: pointer; width: 26px; text-align: center; }
+        .peak-search-bar { flex: 0 0 200px; display: flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.08); border-radius: 20px; padding: 7px 14px; color: #94a3b8; font-size: 11px; cursor: pointer; }
+        .peak-pinned-apps { flex: 1; display: flex; justify-content: center; gap: 16px; }
+        .peak-pinned-icon { font-size: 20px; cursor: pointer; }
+        .peak-right-icons { display: flex; align-items: center; gap: 10px; color: #cbd5e1; font-size: 12px; }
+        .peak-accent-btn { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(135deg,#a855f7,#ec4899); display:flex; align-items:center; justify-content:center; font-size:14px; cursor:pointer; }
+
+        /* 13. 6exta145 (Açık Flat Dağ Manzarası Stili) */
+        #os_flatpeak {
+            background: linear-gradient(to bottom, #cdeef2 0%, #d7f1ef 55%, #cdeef2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .flatpeak-topbar { display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(255,255,255,0.5); }
+        .flatpeak-logo { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg,#0d9488,#0891b2); display:flex; align-items:center; justify-content:center; font-size:13px; color:white; font-weight:bold; }
+        .flatpeak-brand { font-size: 14px; font-weight: bold; color: #134e4a; }
+        .flatpeak-desktop { flex: 1; position: relative; }
+        .flatpeak-icons { position: absolute; top: 14px; left: 14px; display: flex; flex-direction: column; gap: 18px; }
+        .flatpeak-icon-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; width: 60px; }
+        .flatpeak-icon-item .icon-box { width: 34px; height: 34px; border-radius: 8px; display:flex; align-items:center; justify-content:center; font-size:17px; background: rgba(255,255,255,0.6); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .flatpeak-icon-item .icon-text { font-size: 10px; color: #134e4a; text-shadow: none; }
+        .flatpeak-scene { position: absolute; bottom: 0; left: 0; width: 100%; height: 62%; }
+        .flatpeak-sun { position: absolute; bottom: 42%; left: 58%; width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.75); }
+        .flatpeak-mtn-back { position: absolute; bottom: 0; left: 0; width: 100%; height: 78%; background: #6ba3a8; clip-path: polygon(0% 60%, 20% 30%, 40% 55%, 55% 20%, 72% 48%, 88% 25%, 100% 45%, 100% 100%, 0% 100%); opacity: 0.6; }
+        .flatpeak-mtn-front { position: absolute; bottom: 0; left: 0; width: 100%; height: 90%; background: #2d5a55; clip-path: polygon(0% 78%, 12% 55%, 28% 70%, 45% 30%, 58% 62%, 75% 15%, 88% 50%, 100% 35%, 100% 100%, 0% 100%); }
+        .flatpeak-trees { position: absolute; bottom: 0; left: 0; width: 100%; height: 22%; background: #1e3d3a; clip-path: polygon(0% 100%, 3% 40%, 6% 70%, 9% 20%, 12% 60%, 16% 10%, 20% 55%, 24% 25%, 28% 65%, 32% 15%, 36% 50%, 40% 100%); }
+        .flatpeak-taskbar { height: 26px; min-height: 26px; background: rgba(255,255,255,0.6); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; font-size: 10px; color: #134e4a; z-index: 10; }
+        .flatpeak-taskbar-brand { font-weight: bold; letter-spacing: 1px; cursor: pointer; }
+        .flatpeak-taskbar-icons { display: flex; align-items: center; gap: 8px; }
+
+        /* 14. 6exta21 (Cam Küre Masaüstü Stili) */
+        #os_glassorb {
+            background: linear-gradient(160deg, #6ea8fe 0%, #4f7fe0 45%, #3a5fc0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .glassorb-desktop { flex: 1; position: relative; display: flex; align-items: center; justify-content: center; }
+        .glassorb-sphere-wrap { position: relative; width: 180px; height: 180px; }
+        .glassorb-sphere { width: 150px; height: 150px; border-radius: 50%; margin: 15px; background: radial-gradient(circle at 32% 28%, rgba(255,255,255,0.85), rgba(120,160,255,0.5) 35%, rgba(30,50,140,0.85) 75%); box-shadow: 0 20px 50px rgba(0,20,80,0.4), inset 0 0 30px rgba(255,255,255,0.3); position: relative; }
+        .glassorb-ribbon { position: absolute; width: 90px; height: 34px; border: 7px solid rgba(255,255,255,0.75); border-radius: 50%; border-bottom-color: transparent; border-left-color: transparent; top: -6px; right: -22px; transform: rotate(35deg); }
+        .glassorb-panel { position: absolute; top: 16px; right: 16px; width: min(230px, 60vw); background: rgba(255,255,255,0.9); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.25); overflow: hidden; z-index: 15; font-size: 10px; color: #1e293b; }
+        .glassorb-panel-section { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; }
+        .glassorb-panel-title { font-weight: bold; font-size: 11px; margin-bottom: 6px; display:flex; justify-content:space-between; }
+        .glassorb-notif-item { padding: 4px 0; }
+        .glassorb-notif-item b { display:block; font-size:10px; }
+        .glassorb-notif-item span { color: #64748b; font-size: 9px; }
+        .glassorb-toggle-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; margin-bottom: 6px; }
+        .glassorb-toggle { background: #f1f5f9; border-radius: 6px; padding: 5px 3px; text-align: center; font-size: 8px; }
+        .glassorb-toggle.on { background: #2563eb; color: white; }
+        .glassorb-slider-row { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+        .glassorb-slider-row input { flex: 1; }
+
+        .glassorb-taskbar { height: 44px; min-height: 44px; background: rgba(255,255,255,0.18); backdrop-filter: blur(10px); display: flex; align-items: center; padding: 0 10px; gap: 12px; z-index: 20; }
+        .glassorb-tb-icon { color: white; font-size: 16px; cursor: pointer; width: 24px; text-align: center; }
+        .glassorb-pinned { flex: 1; display: flex; justify-content: center; gap: 14px; }
+        .glassorb-pinned-icon { font-size: 18px; cursor: pointer; }
+        .glassorb-right { display: flex; align-items: center; gap: 8px; color: white; font-size: 10px; }
+
+        /* 15. 6exta22 (Siberpunk OS Stili) */
+        #os_cyber {
+            background:
+                linear-gradient(to bottom, rgba(10,5,25,0.75), rgba(10,5,30,0.9) 60%, #05030f 100%),
+                repeating-linear-gradient(90deg, rgba(236,72,153,0.08) 0px, rgba(236,72,153,0.08) 1px, transparent 1px, transparent 60px),
+                linear-gradient(160deg, #1a0b2e 0%, #0d0a24 40%, #1b0f2e 70%, #05030f 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .cyber-skyline { position: absolute; bottom: 0; left: 0; width: 100%; height: 45%; background: #05030f; clip-path: polygon(0% 100%, 0% 40%, 5% 40%, 5% 20%, 10% 20%, 10% 55%, 16% 55%, 16% 10%, 22% 10%, 22% 45%, 28% 45%, 28% 25%, 34% 25%, 34% 60%, 40% 60%, 40% 15%, 46% 15%, 46% 50%, 52% 50%, 52% 5%, 58% 5%, 58% 40%, 64% 40%, 64% 22%, 70% 22%, 70% 55%, 76% 55%, 76% 18%, 82% 18%, 82% 48%, 88% 48%, 88% 12%, 94% 12%, 94% 42%, 100% 42%, 100% 100%); opacity: 0.85; }
+        .cyber-skyline::after { content:''; position:absolute; inset:0; background-image: repeating-linear-gradient(0deg, transparent 0 6px, rgba(56,189,248,0.06) 6px 7px); }
+        .cyber-topbar { position: relative; z-index: 10; margin: 10px 12px; border: 1px solid #ec4899; border-radius: 6px; padding: 6px 12px; color: #f472b6; font-size: 10px; font-family: 'Courier New', monospace; letter-spacing: 1px; text-shadow: 0 0 6px rgba(244,114,182,0.8); box-shadow: 0 0 12px rgba(236,72,153,0.25) inset; display:flex; justify-content:space-between; flex-wrap:wrap; gap:4px; }
+        .cyber-topbar b { color: #f9a8d4; }
+        .cyber-sysmon { position: absolute; top: 46px; right: 12px; width: min(170px, 45vw); border: 1px solid #22d3ee; border-radius: 6px; background: rgba(5,5,20,0.6); padding: 6px 8px; color: #67e8f9; font-size: 8px; font-family: monospace; z-index: 10; box-shadow: 0 0 10px rgba(34,211,238,0.2); }
+        .cyber-sysmon-title { color: #a5f3fc; font-size: 8px; margin-bottom: 4px; letter-spacing: 1px; }
+        .cyber-sysmon-bar { height: 3px; background: linear-gradient(to right, #22d3ee, #a855f7, #ec4899); border-radius: 2px; margin-bottom: 3px; opacity: 0.8; }
+        .cyber-grid { position: relative; z-index: 10; flex: 1; padding: 70px 14px 14px 14px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; align-content: start; overflow-y: auto; }
+        .cyber-app-item { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+        .cyber-app-item .icon-box { width: 40px; height: 40px; border: 1px solid #22d3ee; border-radius: 8px; background: rgba(34,211,238,0.06); display:flex; align-items:center; justify-content:center; font-size:18px; box-shadow: 0 0 10px rgba(34,211,238,0.25); color: #67e8f9; }
+        .cyber-app-item:nth-child(3n+2) .icon-box { border-color: #ec4899; color: #f9a8d4; box-shadow: 0 0 10px rgba(236,72,153,0.25); }
+        .cyber-app-item:nth-child(3n) .icon-box { border-color: #a855f7; color: #d8b4fe; box-shadow: 0 0 10px rgba(168,85,247,0.25); }
+        .cyber-app-item .icon-text { color: #cbd5e1; font-size: 9px; text-shadow: none; text-align: center; }
+        .cyber-viz { grid-column: span 2; height: 40px; border: 1px solid #a855f7; border-radius: 8px; background: rgba(168,85,247,0.06); display:flex; align-items:center; justify-content:center; gap:2px; cursor:pointer; overflow:hidden; }
+        .cyber-viz-bar { width: 3px; background: linear-gradient(to top, #22d3ee, #ec4899); border-radius: 2px; animation: cyberViz 1.2s ease-in-out infinite; }
+        @keyframes cyberViz { 0%,100% { height: 6px; } 50% { height: 24px; } }
+
+        /* 16. 6exta56 (Bio-Organik Orman OS Stili) */
+        #os_bio {
+            background:
+                radial-gradient(circle at 50% 25%, rgba(74,222,128,0.15), transparent 55%),
+                linear-gradient(160deg, #0a1f16 0%, #0f2b1e 35%, #0a2018 65%, #061410 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .bio-topbar { position: relative; z-index: 10; margin: 10px 12px; border: 1px solid #4ade80; border-radius: 20px; padding: 6px 14px; color: #bbf7d0; font-size: 10px; font-family: 'Georgia', serif; display:flex; align-items:center; gap:8px; box-shadow: 0 0 14px rgba(74,222,128,0.2) inset; flex-wrap: wrap; }
+        .bio-topbar b { color: #86efac; }
+        .bio-topbar .leaf-icon { font-size: 13px; }
+        .bio-journal { position: absolute; top: 46px; right: 12px; width: min(180px, 48vw); background: #f3e6c8; border: 1px solid #8a6d3b; border-radius: 6px; padding: 8px 10px; color: #4a3a1f; font-size: 9px; font-family: 'Georgia', serif; z-index: 10; box-shadow: 0 6px 16px rgba(0,0,0,0.4); line-height: 1.5; }
+        .bio-journal-title { font-weight: bold; font-size: 10px; margin-bottom: 4px; color: #5c4322; border-bottom: 1px solid #8a6d3b; padding-bottom: 3px; }
+        .bio-sysgear { position: absolute; top: 46px; left: 12px; width: min(150px, 42vw); background: rgba(10,20,15,0.6); border: 1px solid #ca8a04; border-radius: 6px; padding: 6px 8px; color: #fde68a; font-size: 8px; font-family: monospace; z-index: 10; box-shadow: 0 0 10px rgba(202,138,4,0.2); }
+        .bio-sysgear-title { color: #fef08a; font-size: 8px; margin-bottom: 4px; }
+        .bio-sysgear-bar { height: 3px; background: linear-gradient(to right, #4ade80, #22c55e); border-radius: 2px; margin-bottom: 3px; opacity: 0.85; }
+        .bio-grid { position: relative; z-index: 10; flex: 1; padding: 130px 14px 14px 14px; display: flex; flex-wrap: wrap; gap: 14px; align-content: flex-end; justify-content: center; }
+        .bio-app-item { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; width: 64px; }
+        .bio-app-item .icon-box { width: 44px; height: 44px; border-radius: 10px; background: rgba(74,222,128,0.08); border: 1px solid #4ade80; display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow: 0 0 10px rgba(74,222,128,0.25); }
+        .bio-app-item .icon-text { color: #d1fae5; font-size: 10px; text-shadow: none; text-align: center; }
+
+        /* Masaüstü ve İkonlar */
+        .desktop-area { flex: 1; position: relative; padding: 15px; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
+        .desktop-icon { width: 75px; display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
+        .icon-box { width: 48px; height: 48px; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 2px 4px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.4); background: #2563eb; color: white; }
+        .icon-text { color: white; font-size: 11px; margin-top: 4px; text-align: center; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); font-weight: bold; }
+        .delete-btn { position: absolute; top: -4px; right: 8px; background: #dc2626; color: white; border: 1px solid white; border-radius: 50%; width: 20px; height: 20px; font-size: 10px; font-weight: bold; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+
+        /* Görev Çubuğu (XP) */
+        .taskbar { height: 48px; min-height: 48px; background: linear-gradient(to right, #245dbd, #2476ef, #245dbd); display: flex; align-items: center; justify-content: space-between; padding: 0 4px; border-top: 2px solid #194294; z-index: 40; }
+        .start-btn { background: linear-gradient(to bottom, #388e3c, #4caf50, #2e7d32); border: 2px solid #1b5e20; color: white; display: flex; align-items: center; gap: 6px; padding: 4px 14px; border-top-right-radius: 16px; border-bottom-right-radius: 16px; font-weight: bold; font-style: italic; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.4); }
+        .taskbar-apps { display: flex; gap: 4px; overflow-x: auto; flex: 1; margin-left: 8px; }
+        .task-app-btn { background: linear-gradient(to bottom, #3885ff, #1258d4); border: 1px solid #0d3f9b; color: white; padding: 4px 10px; font-size: 11px; border-radius: 3px; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+        .tray-clock { color: white; font-size: 11px; background: rgba(18, 49, 110, 0.8); padding: 6px 8px; border-radius: 4px; border: 1px solid #0f285a; font-family: monospace; margin-left: 6px; }
+
+        /* Başlat Menüsü */
+        .start-menu { position: absolute; bottom: 48px; left: 0; width: 260px; background: #ffffff; border: 3px solid #0055ea; border-top-left-radius: 8px; border-top-right-radius: 8px; box-shadow: 4px 4px 12px rgba(0,0,0,0.5); z-index: 1000; display: none; }
+        .start-header { background: linear-gradient(to bottom, #2a72ed, #1752cd); color: white; padding: 10px; display: flex; align-items: center; gap: 10px; border-bottom: 2px solid #e28127; }
+        .start-items { padding: 6px; display: flex; flex-direction: column; gap: 2px; }
+        .start-item { display: flex; align-items: center; gap: 10px; padding: 8px; font-size: 12px; color: #333; background: none; border: none; text-align: left; border-radius: 4px; cursor: pointer; }
+        .start-item:hover { background: #316ac5; color: white; }
+
+        /* Pencereler */
+        .xp-window { position: absolute; top: 10%; left: 5%; width: 90vw; max-width: 480px; height: 70vh; background: #ece9d8; border: 3px solid #0055ea; border-top-left-radius: 8px; border-top-right-radius: 8px; display: flex; flex-direction: column; box-shadow: 4px 4px 15px rgba(0,0,0,0.6); z-index: 200; }
+        .xp-titlebar { background: linear-gradient(to right, #0058e6, #3a93ff, #0058e6); color: white; padding: 6px 10px; display: flex; justify-content: space-between; align-items: center; font-weight: bold; font-size: 12px; text-shadow: 1px 1px #002288; }
+        .xp-close-btn { background: linear-gradient(to bottom, #e87b6d, #c53b27); border: 1px solid #7c1a0c; color: white; width: 18px; height: 18px; font-size: 10px; font-weight: bold; border-radius: 3px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .xp-content { flex: 1; background: white; overflow: auto; padding: 12px; font-size: 13px; color: #111; }
+        .xp-btn { background: linear-gradient(to bottom, #f3f3f3, #e3e3e3); border: 1px solid #707070; padding: 4px 12px; border-radius: 3px; cursor: pointer; font-size: 12px; }
+        .calc-btn { background: #334155; color: #e2e8f0; border: 1px solid #475569; border-radius: 6px; font-size: 15px; cursor: pointer; padding: 8px 0; }
+        .calc-btn:hover { background: #475569; }
+        .calc-btn.calc-op { background: #0891b2; color: white; }
+        .calc-btn.calc-op:hover { background: #0e7490; }
+        .calc-btn.calc-eq { background: #ea580c; color: white; grid-column: span 1; }
+        .calc-btn.calc-eq:hover { background: #c2410c; }
+    </style>
+</head>
+<body id="artifacts-component-root-html">
+
+    <!-- 1. Açılış Ekranı -->
+    <div id="bootScreen" style="display: flex; opacity: 1;">
+        <div style="font-size: 12px; font-weight: bold; letter-spacing: 2px; color: #60a5fa;">6exta OS</div>
+        <div style="font-size: 24px; font-weight: bold; font-style: italic; letter-spacing: 2px; margin-top: 2px;">
+            Sistem <span style="color: #f97316; font-style: normal;">Yükleniyor</span>
+        </div>
+        <div class="loading-bar">
+            <div class="load-block" style="animation-delay: 0s"></div>
+            <div class="load-block" style="animation-delay: 0.2s"></div>
+            <div class="load-block" style="animation-delay: 0.4s"></div>
+            <div class="load-block" style="animation-delay: 0.6s"></div>
+        </div>
+        <button onclick="goToSelector()" class="xp-btn" style="margin-top: 25px; font-weight: bold; cursor: pointer;">Başlat ➔</button>
+    </div>
+
+    <!-- SÜRÜM SEÇİM MERKEZİ -->
+    <div id="selectorScreen" style="display: none;">
+        <button class="helper-corner-btn" onclick="openHelperModal()">🧑‍💻 Batuhan'a Sor</button>
+
+        <div style="text-align: center; color: white; margin-bottom: 20px;">
+            <div style="font-size: 24px; font-weight: bold;">6exta OS Seçim Merkezi</div>
+            <div style="font-size: 12px; color: #94a3b8; margin-top: 4px;">Çalıştırmak istediğiniz işletim sistemi sürümünü seçin:</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('xp')">
+            <div style="color: #4ade80; font-weight: bold; font-size: 15px;">🔹 6exta XP</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Klasik görev çubuğu ve nostaljik masaüstü deneyimi.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('metro')">
+            <div style="color: #38bdf8; font-weight: bold; font-size: 15px;">🔸 6exta9 (Modern Karo Arayüz)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Karo tabanlı özgün arayüz ve hızlı performans.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('modern')">
+            <div style="color: #fbbf24; font-weight: bold; font-size: 15px;">🔷 6exta11 (Modern Cam Arayüz)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Yarı şeffaf cam efektleri ve ortalanmış modern dock tasarımı.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('mac')">
+            <div style="color: #f472b6; font-weight: bold; font-size: 15px;">✨ 6exta</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Üst menü çubuğu ve alt dock paneliyle saf masaüstü deneyimi.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('ubuntu')">
+            <div style="color: #d946ef; font-weight: bold; font-size: 15px;">🟣 6exta31</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Sol dikey dock ve üst durum çubuğuyla açık kaynak ruhlu arayüz.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('cloud')">
+            <div style="color: #4285f4; font-weight: bold; font-size: 15px;">☁️ 6exta12 (Hafif Bulut Arayüzü)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Sade uygulama ızgarası ve alt raf (shelf) ile hızlı, hafif bulut deneyimi.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('dark')">
+            <div style="color: #a3a3a3; font-weight: bold; font-size: 15px;">⬛ 6exta32 (Koyu Minimalist Panel)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Sade menü çubuğu ve alt panelle sade, koyu tonlu minimalist arayüz.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('nebula')">
+            <div style="color: #5eead4; font-weight: bold; font-size: 15px;">🌌 6exta34 (Kozmik Nebula Arayüzü)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Nebula temalı arka plan, yüzen bilgi paneli ve yörünge şeklinde dock ile fütüristik deneyim.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('tablet')">
+            <div style="color: #38bdf8; font-weight: bold; font-size: 15px;">📱 6exta14 (Tablet Ana Ekran)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Yatay tablet düzeninde arama çubuğu, uygulama simgeleri ve alt dock ile klasik mobil ana ekran deneyimi.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('holo')">
+            <div style="color: #7dd3fc; font-weight: bold; font-size: 15px;">🔷 6exta10 (Holografik Panel)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Neon çerçeveli holografik simgeler, yüzen sistem paneli ve komut çubuğuyla fütüristik arayüz.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('dusk')">
+            <div style="color: #fb923c; font-weight: bold; font-size: 15px;">🌄 6exta16 (Gün Batımı Manzara)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Dağ manzaralı gün batımı arka planı ve yüzen araç çubuğuyla sade, mobil tarzı ana ekran.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('peak')">
+            <div style="color: #a78bfa; font-weight: bold; font-size: 15px;">🌆 6exta13 (Alacakaranlık Masaüstü)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Tepe manzaralı alacakaranlık arka planı, sistem bilgi penceresi ve widget'larla masaüstü deneyimi.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('flatpeak')">
+            <div style="color: #2dd4bf; font-weight: bold; font-size: 15px;">🏔️ 6exta145 (Açık Flat Dağ Manzarası)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Açık mavi gökyüzü, düz çizim dağ manzarası ve sade masaüstü simgeleriyle minimal Linux tarzı arayüz.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('glassorb')">
+            <div style="color: #93c5fd; font-weight: bold; font-size: 15px;">🔮 6exta21 (Cam Küre Masaüstü)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Camsı küre dekoruyla mavi gradyanlı masaüstü, bildirim/hızlı ayarlar paneli ve alt görev çubuğu.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('cyber')">
+            <div style="color: #ec4899; font-weight: bold; font-size: 15px;">🌃 6exta22 (Siberpunk OS)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Neon şehir manzaralı, ızgara düzenli uygulama simgeleri ve sistem izleyici panelli siberpunk temalı arayüz.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('bio')">
+            <div style="color: #4ade80; font-weight: bold; font-size: 15px;">🌿 6exta56 (Bio-Organik Orman OS)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Gizemli orman arka planı, günlük ve enerji panelleriyle doğa/fantastik temalı bir arayüz.</div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 1: 6exta XP -->
+    <div id="os_xp" class="os-container" style="display: none;">
+        <div class="desktop-area" id="desktop_xp">
+            <div class="desktop-icon" id="icon_myComputer">
+                <div onclick="openWindow('myComputer')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #2563eb;">💻</div>
+                    <div class="icon-text">Bilgisayarım</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_myComputer')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_terminal">
+                <div onclick="openWindow('terminal')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #111827;">⌨️</div>
+                    <div class="icon-text">Komut Sistemi</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_terminal')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_paint">
+                <div onclick="openWindow('paint')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #db2777;">🎨</div>
+                    <div class="icon-text">Çizim Alanı</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_paint')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_calculator">
+                <div onclick="openWindow('calculator')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #0891b2;">🧮</div>
+                    <div class="icon-text">Hesap Makinesi</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_calculator')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_balloon">
+                <div onclick="openWindow('balloon')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #f472b6;">🎈</div>
+                    <div class="icon-text">Balon Oyunu</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_balloon')" title="Kaldır">X</button>
+            </div>
+            <div class="desktop-icon" id="icon_dino">
+                <div onclick="openWindow('dino')" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                    <div class="icon-box" style="background: #d97706;">🦖</div>
+                    <div class="icon-text">Dino Oyunu</div>
+                </div>
+                <button class="delete-btn" onclick="removeIcon('icon_dino')" title="Kaldır">X</button>
+            </div>
+        </div>
+        <div class="taskbar">
+            <div style="display: flex; align-items: center; flex: 1; overflow: hidden;">
+                <button class="start-btn" onclick="toggleStartMenu()">
+                    <span style="font-size: 16px;">📂</span> <span>başlat</span>
+                </button>
+                <div class="taskbar-apps"></div>
+            </div>
+            <div class="tray-clock clockDisplay">20:16</div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 2: 6exta9 (Metro Stil) -->
+    <div id="os_metro" class="os-container" style="display: none;">
+        <div style="padding: 25px; flex: 1; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div>
+                    <span style="color: white; font-size: 22px; font-weight: bold;">6exta9</span>
+                    <div style="color: #94a3b8; font-size: 11px;">Modern Karo Arayüzü</div>
+                </div>
+                <button class="xp-btn" onclick="openVersionSelectorFromOS()" style="padding: 6px 12px; font-weight: bold;">⚙️ Sürüm Seç</button>
+            </div>
+            <div class="metro-grid">
+                <div class="metro-tile" onclick="openWindow('files')" style="background: #0284c7;">📁 Dosyalarım</div>
+                <div class="metro-tile" onclick="openWindow('terminal')" style="background: #111827;">⌨️ Komut Sistemi</div>
+                <div class="metro-tile" onclick="openWindow('paint')" style="background: #db2777;">🎨 Çizim Alanı</div>
+                <div class="metro-tile" onclick="openWindow('calculator')" style="background: #0891b2;">🧮 Hesap Makinesi</div>
+                <div class="metro-tile" onclick="openWindow('balloon')" style="background: #f472b6;">🎈 Balon Oyunu</div>
+                <div class="metro-tile" onclick="openWindow('notepad')" style="background: #16a34a;">📝 Not Defteri</div>
+                <div class="metro-tile" onclick="openWindow('dino')" style="background: #d97706;">🦖 Dino Oyunu</div>
+                <div class="metro-tile" onclick="openWindow('browser')" style="background: #9333ea;">🌐 Web Tarayıcı</div>
+                <div class="metro-tile" onclick="openWindow('minesweeper')" style="background: #dc2626;">💣 Mayın Tarlası</div>
+                <div class="metro-tile" onclick="openWindow('snake')" style="background: #ca8a04;">🐍 Yılan Oyunu</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 3: 6exta11 (Modern Cam Stil) -->
+    <div id="os_modern" class="os-container" style="display: none;">
+        <div class="desktop-area"></div>
+        <div class="win11-taskbar">
+            <div onclick="openWindow('files')" style="cursor: pointer; font-size: 22px;" title="Dosyalar">📁</div>
+            <div onclick="openWindow('terminal')" style="cursor: pointer; font-size: 22px;" title="Komut Sistemi">⌨️</div>
+            <div onclick="openWindow('paint')" style="cursor: pointer; font-size: 22px;" title="Çizim Alanı">🎨</div>
+            <div onclick="openWindow('calculator')" style="cursor: pointer; font-size: 22px;" title="Hesap Makinesi">🧮</div>
+            <div onclick="openWindow('balloon')" style="cursor: pointer; font-size: 22px;" title="Balon Oyunu">🎈</div>
+            <div onclick="openWindow('browser')" style="cursor: pointer; font-size: 22px;" title="Tarayıcı">🌐</div>
+            <div onclick="openWindow('dino')" style="cursor: pointer; font-size: 22px;" title="Oyun">🦖</div>
+            <div onclick="openVersionSelectorFromOS()" style="cursor: pointer; font-size: 22px;" title="Sürüm Değiştir">⚙️</div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 4: 6exta (Özgün Minimalist Stil) -->
+    <div id="os_mac" class="os-container" style="display: none;">
+        <div class="mac-menubar">
+            <span>✨ <b>6exta</b></span>
+            <span class="clockDisplay">20:16</span>
+        </div>
+        <div class="desktop-area"></div>
+        <div class="mac-dock">
+            <div class="mac-dock-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
+            <div class="mac-dock-icon" onclick="openWindow('terminal')" title="Komut Sistemi">⌨️</div>
+            <div class="mac-dock-icon" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
+            <div class="mac-dock-icon" onclick="openWindow('calculator')" title="Hesap Makinesi">🧮</div>
+            <div class="mac-dock-icon" onclick="openWindow('balloon')" title="Balon Oyunu">🎈</div>
+            <div class="mac-dock-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
+            <div class="mac-dock-icon" onclick="openWindow('dino')" title="Dino Oyunu">🦖</div>
+            <div class="mac-dock-icon" onclick="openWindow('browser')" title="Tarayıcı">🌐</div>
+            <div class="mac-dock-icon" onclick="openVersionSelectorFromOS()" title="Sürüm Seç">⚙️</div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 5: 6exta31 (Dikey Dock Stili) -->
+    <div id="os_ubuntu" class="os-container" style="display: none;">
+        <div class="ubuntu-topbar">
+            <span>6exta31</span>
+            <span class="clockDisplay">20:16</span>
+        </div>
+        <div class="ubuntu-body">
+            <div class="ubuntu-dock">
+                <div class="ubuntu-dock-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('terminal')" title="Komut Sistemi">⌨️</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('calculator')" title="Hesap Makinesi">🧮</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('balloon')" title="Balon Oyunu">🎈</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('browser')" title="Web Tarayıcı">🌐</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('minesweeper')" title="Mayın Tarlası">💣</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('snake')" title="Yılan Oyunu">🐍</div>
+                <div class="ubuntu-dock-icon" onclick="openWindow('dino')" title="Dino Oyunu">🦖</div>
+                <div class="ubuntu-dock-icon" onclick="openVersionSelectorFromOS()" title="Sürüm Seç">⚙️</div>
+            </div>
+            <div class="ubuntu-desktop"></div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 6: 6exta12 (Hafif Bulut Stili) -->
+    <div id="os_cloud" class="os-container" style="display: none;">
+        <div class="cloud-topbar">
+            <div class="cloud-app-grid">
+                <div class="cloud-app-icon" onclick="openWindow('files')">
+                    <div class="icon-box" style="background:#4285f4; font-size:22px;">📁</div>
+                    <div class="icon-text">Dosyalarım</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('browser')">
+                    <div class="icon-box" style="background:#ea4335; font-size:22px;">🌐</div>
+                    <div class="icon-text">Web Tarayıcı</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('notepad')">
+                    <div class="icon-box" style="background:#34a853; font-size:22px;">📝</div>
+                    <div class="icon-text">Not Defteri</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('dino')">
+                    <div class="icon-box" style="background:#fbbc05; font-size:22px;">🦖</div>
+                    <div class="icon-text">Dino Oyunu</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('terminal')">
+                    <div class="icon-box" style="background:#111827; font-size:22px;">⌨️</div>
+                    <div class="icon-text">Komut Sistemi</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('paint')">
+                    <div class="icon-box" style="background:#db2777; font-size:22px;">🎨</div>
+                    <div class="icon-text">Çizim Alanı</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('calculator')">
+                    <div class="icon-box" style="background:#0891b2; font-size:22px;">🧮</div>
+                    <div class="icon-text">Hesap Makinesi</div>
+                </div>
+                <div class="cloud-app-icon" onclick="openWindow('balloon')">
+                    <div class="icon-box" style="background:#f472b6; font-size:22px;">🎈</div>
+                    <div class="icon-text">Balon Oyunu</div>
+                </div>
+            </div>
+        </div>
+        <div class="cloud-shelf">
+            <div class="cloud-launcher" onclick="toggleStartMenu()" title="Uygulama Başlatıcı"></div>
+            <div class="cloud-shelf-apps taskbar-apps"></div>
+            <div class="cloud-status">
+                <span>📶</span>
+                <span>🔋</span>
+                <span class="clockDisplay">20:16</span>
+                <span onclick="openVersionSelectorFromOS()" style="cursor:pointer;" title="Sürüm Seç">⚙️</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 7: 6exta32 (Koyu Minimalist Panel Stili) -->
+    <div id="os_dark" class="os-container" style="display: none;">
+        <div class="dark-menubar">
+            <div class="dark-menu-items">
+                <span onclick="openWindow('files')">Dosyalarım</span>
+                <span onclick="openWindow('browser')">Web Tarayıcı</span>
+                <span onclick="openWindow('notepad')">Not Defteri</span>
+                <span onclick="openWindow('terminal')">Komut Sistemi</span>
+                <span onclick="openWindow('paint')">Çizim Alanı</span>
+                <span onclick="openWindow('calculator')">Hesap Makinesi</span>
+                <span onclick="openWindow('balloon')">Balon Oyunu</span>
+            </div>
+            <span class="clockDisplay">20:16</span>
+        </div>
+        <div class="dark-desktop">
+            <div class="dark-icon" onclick="openWindow('files')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">📁</div>
+                <div class="icon-text">Dosyalarım</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('terminal')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">⌨️</div>
+                <div class="icon-text">Komut Sistemi</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('paint')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🎨</div>
+                <div class="icon-text">Çizim Alanı</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('calculator')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🧮</div>
+                <div class="icon-text">Hesap Makinesi</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('balloon')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🎈</div>
+                <div class="icon-text">Balon Oyunu</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('notepad')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">📝</div>
+                <div class="icon-text">Not Defteri</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('dino')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🦖</div>
+                <div class="icon-text">Dino Oyunu</div>
+            </div>
+            <div class="dark-icon" onclick="openWindow('snake')">
+                <div class="icon-box" style="font-size:18px; display:flex; align-items:center; justify-content:center;">🐍</div>
+                <div class="icon-text">Yılan Oyunu</div>
+            </div>
+        </div>
+        <div class="dark-panel">
+            <button class="dark-panel-btn" onclick="openVersionSelectorFromOS()">Sürüm Seç</button>
+            <div class="dark-panel-apps taskbar-apps"></div>
+            <div class="dark-panel-clock clockDisplay">20:16</div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 8: 6exta34 (Kozmik Nebula Stili) -->
+    <div id="os_nebula" class="os-container" style="display: none;">
+        <div class="nebula-statusbar">
+            <span>Döngü: 495 | Kararlılık: %100 | Bölge: Yerel</span>
+            <span class="clockDisplay">20:16</span>
+        </div>
+        <div class="nebula-panel">
+            <div class="nebula-panel-header">🧬 Sinir Sürücüsü</div>
+            <div class="nebula-panel-body">
+                <div class="nebula-file-row" onclick="openWindow('files')">📁 Projeler</div>
+                <div class="nebula-file-row" onclick="openWindow('files')">🖼️ Medya</div>
+                <div class="nebula-file-row" onclick="openWindow('files')">🗄️ Arşivler</div>
+                <div class="nebula-file-row" onclick="openWindow('notepad')">📄 Taslaklar</div>
+                <div class="nebula-file-row" onclick="openWindow('terminal')">⌨️ Komut Sistemi</div>
+                <div class="nebula-file-row" onclick="openWindow('paint')">🎨 Çizim Alanı</div>
+                <div class="nebula-file-row" onclick="openWindow('calculator')">🧮 Hesap Makinesi</div>
+                <div class="nebula-file-row" onclick="openWindow('balloon')">🎈 Balon Oyunu</div>
+            </div>
+        </div>
+        <div class="nebula-orbit-dock">
+            <div class="nebula-orbit-item" onclick="openWindow('paint')">
+                <div class="nebula-orbit-icon">🎨</div>
+                <div class="nebula-orbit-label">Çizim</div>
+            </div>
+            <div class="nebula-orbit-item" onclick="openWindow('terminal')">
+                <div class="nebula-orbit-icon">⌨️</div>
+                <div class="nebula-orbit-label">Komut</div>
+            </div>
+            <div class="nebula-orbit-item" onclick="openWindow('files')">
+                <div class="nebula-orbit-icon">🌳</div>
+                <div class="nebula-orbit-label">Bilgi</div>
+            </div>
+            <div class="nebula-orbit-item" onclick="openWindow('browser')">
+                <div class="nebula-orbit-icon">🌐</div>
+                <div class="nebula-orbit-label">Bağlantı</div>
+            </div>
+            <div class="nebula-orbit-item" onclick="openWindow('dino')">
+                <div class="nebula-orbit-icon">💎</div>
+                <div class="nebula-orbit-label">Araçlar</div>
+            </div>
+            <div class="nebula-orbit-item" onclick="openWindow('snake')">
+                <div class="nebula-orbit-icon">👁️</div>
+                <div class="nebula-orbit-label">Görünüm</div>
+            </div>
+            <div class="nebula-orbit-item" onclick="openVersionSelectorFromOS()">
+                <div class="nebula-orbit-icon">🔮</div>
+                <div class="nebula-orbit-label">Nabız</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 9: 6exta14 (Tablet Ana Ekran Stili) -->
+    <div id="os_tablet" class="os-container" style="display: none;">
+        <div class="tablet-statusbar">
+            <span class="clockDisplay">20:16</span>
+            <span onclick="openVersionSelectorFromOS()" style="cursor:pointer;" title="Sürüm Seç">📶 🔋 ⚙️</span>
+        </div>
+        <div class="tablet-home">
+            <div class="tablet-searchbar" onclick="openWindow('browser')">
+                <div class="tablet-search-dot"></div>
+                <span class="tablet-search-text">Ara veya adres yaz</span>
+                <div class="tablet-search-icons">
+                    <span>🎙️</span>
+                    <span>📷</span>
+                </div>
+            </div>
+            <div class="tablet-app-row">
+                <div class="tablet-app-icon" onclick="openWindow('files')">
+                    <div class="icon-box" style="background:#f59e0b;">📁</div>
+                    <div class="icon-text">Dosyalarım</div>
+                </div>
+                <div class="tablet-app-icon" onclick="openWindow('notepad')">
+                    <div class="icon-box" style="background:#22c55e;">📝</div>
+                    <div class="icon-text">Not Defteri</div>
+                </div>
+                <div class="tablet-app-icon" onclick="openWindow('paint')">
+                    <div class="icon-box" style="background:#db2777;">🎨</div>
+                    <div class="icon-text">Çizim Alanı</div>
+                </div>
+                <div class="tablet-app-icon" onclick="openWindow('terminal')">
+                    <div class="icon-box" style="background:#111827;">⌨️</div>
+                    <div class="icon-text">Komut Sistemi</div>
+                </div>
+                <div class="tablet-app-icon" onclick="openWindow('dino')">
+                    <div class="icon-box" style="background:#7c3aed;">🦖</div>
+                    <div class="icon-text">Dino Oyunu</div>
+                </div>
+                <div class="tablet-app-icon" onclick="openWindow('snake')">
+                    <div class="icon-box" style="background:#0891b2;">🐍</div>
+                    <div class="icon-text">Yılan Oyunu</div>
+                </div>
+                <div class="tablet-app-icon" onclick="openWindow('calculator')">
+                    <div class="icon-box" style="background:#0e7490;">🧮</div>
+                    <div class="icon-text">Hesap Makinesi</div>
+                </div>
+                <div class="tablet-app-icon" onclick="openWindow('balloon')">
+                    <div class="icon-box" style="background:#f472b6;">🎈</div>
+                    <div class="icon-text">Balon Oyunu</div>
+                </div>
+            </div>
+        </div>
+        <div class="tablet-dock">
+            <div class="tablet-dock-icon" style="background:#2563eb;" onclick="openWindow('browser')">🌐</div>
+            <div class="tablet-dock-icon" style="background:#f59e0b;" onclick="openWindow('files')">📁</div>
+            <div class="tablet-dock-icon" style="background:#7c3aed;" onclick="openWindow('dino')">🎮</div>
+            <div class="tablet-dock-icon taskbar-apps" style="display:flex; gap:6px; background:none; box-shadow:none; width:auto;"></div>
+        </div>
+        <div class="tablet-navbar">
+            <span>◀</span>
+            <span>⬤</span>
+            <span>■</span>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 10: 6exta10 (Holografik Panel Stili) -->
+    <div id="os_holo" class="os-container" style="display: none;">
+        <div class="holo-statusbar">
+            <span class="clockDisplay">20:16</span>
+            <span onclick="openVersionSelectorFromOS()" style="cursor:pointer;" title="Sürüm Seç">📶 🔋 ⚙️</span>
+        </div>
+        <div class="holo-title">Başlangıç Ekranı</div>
+        <div class="holo-app-grid">
+            <div class="holo-app-icon" onclick="openWindow('files')">
+                <div class="icon-box" style="color:#38bdf8; border-color:#38bdf8; box-shadow:0 0 12px rgba(56,189,248,0.4);">📁</div>
+                <div class="icon-text">Dosyalarım</div>
+            </div>
+            <div class="holo-app-icon" onclick="openWindow('notepad')">
+                <div class="icon-box" style="color:#4ade80; border-color:#4ade80; box-shadow:0 0 12px rgba(74,222,128,0.4);">📝</div>
+                <div class="icon-text">Not Defteri</div>
+            </div>
+            <div class="holo-app-icon" onclick="openWindow('dino')">
+                <div class="icon-box" style="color:#fb923c; border-color:#fb923c; box-shadow:0 0 12px rgba(251,146,60,0.4);">🦖</div>
+                <div class="icon-text">Dino Oyunu</div>
+            </div>
+            <div class="holo-app-icon" onclick="openWindow('browser')">
+                <div class="icon-box" style="color:#c084fc; border-color:#c084fc; box-shadow:0 0 12px rgba(192,132,252,0.4);">🌐</div>
+                <div class="icon-text">Web Tarayıcı</div>
+            </div>
+            <div class="holo-app-icon" onclick="openWindow('paint')">
+                <div class="icon-box" style="color:#f472b6; border-color:#f472b6; box-shadow:0 0 12px rgba(244,114,182,0.4);">🎨</div>
+                <div class="icon-text">Çizim Alanı</div>
+            </div>
+            <div class="holo-app-icon" onclick="openWindow('terminal')">
+                <div class="icon-box" style="color:#7dd3fc; border-color:#7dd3fc; box-shadow:0 0 12px rgba(125,211,252,0.4);">⌨️</div>
+                <div class="icon-text">Komut Sistemi</div>
+            </div>
+            <div class="holo-app-icon" onclick="openWindow('calculator')">
+                <div class="icon-box" style="color:#facc15; border-color:#facc15; box-shadow:0 0 12px rgba(250,204,21,0.4);">🧮</div>
+                <div class="icon-text">Hesap Makinesi</div>
+            </div>
+            <div class="holo-app-icon" onclick="openWindow('balloon')">
+                <div class="icon-box" style="color:#f472b6; border-color:#f472b6; box-shadow:0 0 12px rgba(244,114,182,0.4);">🎈</div>
+                <div class="icon-text">Balon Oyunu</div>
+            </div>
+        </div>
+        <div class="holo-panel">
+            <div class="holo-panel-header">SİSTEM İZLEYİCİ</div>
+            <div class="holo-panel-body">
+                CPU Yükü: %24<br>
+                Bellek: 3.1 / 8 GB<br>
+                Ağ: 12 Mb/s<br>
+                Gecikme: 18 ms
+            </div>
+        </div>
+        <div class="holo-bottombar">
+            <div class="holo-menu-items">
+                <div class="holo-menu-item" onclick="openWindow('files')"><span>📦</span><span>Araçlar</span></div>
+                <div class="holo-menu-item" onclick="openWindow('browser')"><span>💬</span><span>İletişim</span></div>
+                <div class="holo-menu-item" onclick="openWindow('snake')"><span>🎮</span><span>Oyunlar</span></div>
+                <div class="holo-menu-item" onclick="openVersionSelectorFromOS()"><span>⚙️</span><span>Ayarlar</span></div>
+            </div>
+            <div class="holo-core-btn" onclick="openWindow('terminal')">Sistem<br>Çekirdeği</div>
+            <div class="holo-label">6exta OS: Holo-Panel</div>
+            <div class="holo-cmd-bar" onclick="openWindow('terminal')">
+                <span style="color:#7dd3fc; font-size:11px;">KOMUT &gt;</span>
+                <input type="text" placeholder="" readonly>
+            </div>
+            <div class="holo-cmd-icons">
+                <span>🎙️</span>
+                <span>⤢</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 11: 6exta16 (Gün Batımı Manzara Stili) -->
+    <div id="os_dusk" class="os-container" style="display: none;">
+        <div class="dusk-mountains"></div>
+        <div class="dusk-statusbar">
+            <span class="clockDisplay">20:16</span>
+            <span>📶 🔋 %100</span>
+        </div>
+        <div class="dusk-floating-bar">
+            <div class="dusk-bar-icon" onclick="openVersionSelectorFromOS()" title="Kapat">✕</div>
+            <div class="dusk-bar-icon" onclick="openVersionSelectorFromOS()" title="Ayarlar">⚙️</div>
+            <div class="dusk-bar-icon" onclick="openWindow('paint')" title="Çizim Alanı">🖌️</div>
+            <div class="dusk-bar-icon purple" onclick="openWindow('browser')" title="Web Tarayıcı"></div>
+            <div class="dusk-bar-icon record" title="Kayıt">⏺ 00:02</div>
+        </div>
+        <div class="dusk-body">
+            <div class="dusk-app-row">
+                <div class="dusk-app-item" onclick="openWindow('terminal')">
+                    <div class="icon-box" style="background:#111827; display:flex; align-items:center; justify-content:center; font-size:20px;">⌨️</div>
+                    <div class="icon-text">Komut Sistemi</div>
+                </div>
+                <div class="dusk-app-item" onclick="openWindow('files')">
+                    <div class="icon-box" style="background:#2563eb; display:flex; align-items:center; justify-content:center; font-size:20px;">📁</div>
+                    <div class="icon-text">Dosyalarım</div>
+                </div>
+                <div class="dusk-app-item" onclick="openWindow('browser')">
+                    <div class="icon-box" style="background:#0ea5e9; display:flex; align-items:center; justify-content:center; font-size:20px;">🌐</div>
+                    <div class="icon-text">Web Tarayıcı</div>
+                </div>
+            </div>
+            <div class="dusk-dock-row">
+                <div class="dusk-dock-icon" style="background:#0891b2;" onclick="openWindow('calculator')" title="Hesap Makinesi">🧮</div>
+                <div class="dusk-dock-icon" style="background:#16a34a;" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
+                <div class="dusk-dock-icon" style="background:#7c3aed;" onclick="openWindow('dino')" title="Dino Oyunu">🦖</div>
+                <div class="dusk-dock-icon" style="background:#db2777;" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
+                <div class="dusk-dock-icon" style="background:#f472b6;" onclick="openWindow('balloon')" title="Balon Oyunu">🎈</div>
+            </div>
+        </div>
+        <div class="dusk-home-indicator"></div>
+    </div>
+
+    <!-- SÜRÜM 12: 6exta13 (Alacakaranlık Masaüstü Stili) -->
+    <div id="os_peak" class="os-container" style="display: none;">
+        <div class="peak-star" style="top:8%; left:12%;"></div>
+        <div class="peak-star" style="top:14%; left:30%;"></div>
+        <div class="peak-star" style="top:6%; left:55%;"></div>
+        <div class="peak-star" style="top:18%; left:70%;"></div>
+        <div class="peak-star" style="top:10%; left:88%;"></div>
+        <div class="peak-star" style="top:22%; left:20%;"></div>
+        <div class="peak-hill"></div>
+
+        <div class="peak-about-window">
+            <div class="peak-about-header">
+                <div class="peak-about-title">🪟 6exta Hakkında</div>
+                <div class="peak-about-close" onclick="document.querySelector('.peak-about-window').style.display='none';">✕</div>
+            </div>
+            <div class="peak-brand-row">
+                <div class="peak-brand-logo">6X</div>
+                <div class="peak-brand-name">6exta13</div>
+            </div>
+            <div class="peak-device-box">
+                <div>
+                    <div style="font-weight:bold;">6EXTA-MASAUSTU</div>
+                    <div style="color:#94a3b8;">Dizüstü Bilgisayar 16 inç</div>
+                </div>
+                <div style="cursor:pointer;">✏️</div>
+            </div>
+            <div class="peak-spec-grid">
+                <div class="peak-spec-cell"><div class="spec-icon">🧩</div>İşlemci</div>
+                <div class="peak-spec-cell"><div class="spec-icon">🧠</div>32 GB Bellek</div>
+                <div class="peak-spec-cell"><div class="spec-icon">💻</div>64 bit</div>
+                <div class="peak-spec-cell"><div class="spec-icon">🖐️</div>Dokunmatik</div>
+                <div class="peak-spec-cell"><div class="spec-icon">🪟</div>6exta13</div>
+                <div class="peak-spec-cell"><div class="spec-icon">🎮</div>Grafik Kartı</div>
+            </div>
+            <div class="peak-about-footer">
+                <div class="peak-about-icons">
+                    <span>🎧</span><span>🖼️</span><span>🔊</span><span>🖨️</span>
+                </div>
+                <button class="peak-ok-btn" onclick="document.querySelector('.peak-about-window').style.display='none';">Tamam</button>
+            </div>
+        </div>
+
+        <div class="peak-widgets">
+            <div class="peak-clock-widget">
+                <div class="peak-time clockDisplay">20:16</div>
+                <div class="peak-date">Salı, 25 Ağustos</div>
+            </div>
+            <div class="peak-media-widget">
+                <div class="peak-media-row">
+                    <div class="peak-media-cover">🎵</div>
+                    <div>
+                        <div class="peak-media-title">Hiçbir şey çalınmıyor</div>
+                        <div class="peak-media-sub">Medya oynatıcı boşta</div>
+                    </div>
+                </div>
+                <div class="peak-media-controls">
+                    <span>⏮</span>
+                    <div class="play-circle">▶</div>
+                    <span>⏭</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="peak-taskbar">
+            <span class="peak-nav-icon" onclick="openVersionSelectorFromOS()" title="Sürüm Seç">◀</span>
+            <span class="peak-nav-icon" onclick="openVersionSelectorFromOS()" title="Sürüm Seç">↻</span>
+            <div class="peak-search-bar" onclick="openWindow('terminal')">🔍 Bir şey ara</div>
+            <div class="peak-pinned-apps">
+                <div class="peak-pinned-icon" onclick="openWindow('browser')" title="Web Tarayıcı">🌐</div>
+                <div class="peak-pinned-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
+                <div class="peak-pinned-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
+                <div class="peak-pinned-icon" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
+                <div class="peak-pinned-icon" onclick="openWindow('terminal')" title="Komut Sistemi">⌨️</div>
+                <div class="peak-pinned-icon" onclick="openWindow('calculator')" title="Hesap Makinesi">🧮</div>
+                <div class="peak-pinned-icon" onclick="openWindow('dino')" title="Dino Oyunu">🦖</div>
+                <div class="peak-pinned-icon" onclick="openWindow('balloon')" title="Balon Oyunu">🎈</div>
+            </div>
+            <div class="peak-right-icons">
+                <span>📶</span><span>🔋</span><span class="clockDisplay">20:16</span>
+                <div class="peak-accent-btn" onclick="openVersionSelectorFromOS()" title="Sürüm Seç">⚡</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batuhan Yardım Asistanı Modalı -->
+    <div id="helperModalOverlay">
+        <div class="helper-modal">
+            <div class="helper-header">
+                <div class="helper-avatar">🧑‍💻</div>
+                <div class="helper-header-text">
+                    <div class="helper-header-name">Batuhan</div>
+                    <div class="helper-header-sub">6exta OS Yardım Asistanı</div>
+                </div>
+                <button class="helper-close-x" onclick="closeHelperModal()">✕</button>
+            </div>
+
+            <div class="helper-chat-log" id="helperChatLog">
+                <div class="helper-msg bot">Merhaba! Ben Batuhan 👋 6exta OS hakkında sorularını yanıtlamaya çalışırım. Aşağıdaki örneklerden birine tıklayabilir ya da kendi sorunu yazabilirsin.</div>
+            </div>
+
+            <div class="helper-suggestions">
+                <div class="helper-suggestion-chip" onclick="askHelperPreset('Bu sistemi kim yaptı?')">Bu sistemi kim yaptı?</div>
+                <div class="helper-suggestion-chip" onclick="askHelperPreset('Sistem konseptimi nasıl paylaşabilirim?')">Konseptimi nasıl paylaşırım?</div>
+                <div class="helper-suggestion-chip" onclick="askHelperPreset('Bu sistemi kimler yaptı?')">Bu sistemi kimler yaptı?</div>
+            </div>
+
+            <div class="helper-input-row">
+                <input type="text" id="helperInput" placeholder="Bir soru yaz..." autocomplete="off" onkeydown="if(event.key==='Enter') sendHelperMessage();">
+                <button class="helper-send-btn" onclick="sendHelperMessage()">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 13: 6exta145 (Açık Flat Dağ Manzarası Stili) -->
+    <div id="os_flatpeak" class="os-container" style="display: none;">
+        <div class="flatpeak-topbar">
+            <div class="flatpeak-logo">6X</div>
+            <div class="flatpeak-brand">6exta145</div>
+        </div>
+        <div class="flatpeak-desktop">
+            <div class="flatpeak-scene">
+                <div class="flatpeak-sun"></div>
+                <div class="flatpeak-mtn-back"></div>
+                <div class="flatpeak-mtn-front"></div>
+                <div class="flatpeak-trees"></div>
+            </div>
+            <div class="flatpeak-icons">
+                <div class="flatpeak-icon-item" onclick="openWindow('files')">
+                    <div class="icon-box">🏠</div>
+                    <div class="icon-text">Ev</div>
+                </div>
+                <div class="flatpeak-icon-item" onclick="openWindow('files')">
+                    <div class="icon-box">🗑️</div>
+                    <div class="icon-text">Çöp</div>
+                </div>
+                <div class="flatpeak-icon-item" onclick="openWindow('myComputer')">
+                    <div class="icon-box">🖥️</div>
+                    <div class="icon-text">Bilgisayar</div>
+                </div>
+                <div class="flatpeak-icon-item" onclick="openWindow('terminal')">
+                    <div class="icon-box">⌨️</div>
+                    <div class="icon-text">Komut Sistemi</div>
+                </div>
+                <div class="flatpeak-icon-item" onclick="openWindow('paint')">
+                    <div class="icon-box">🎨</div>
+                    <div class="icon-text">Çizim Alanı</div>
+                </div>
+            </div>
+        </div>
+        <div class="flatpeak-taskbar">
+            <span class="flatpeak-taskbar-brand" onclick="openVersionSelectorFromOS()">6EXTA</span>
+            <div class="flatpeak-taskbar-icons">
+                <span>📶</span><span>🔵</span><span>🔋</span><span class="clockDisplay">20:16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 14: 6exta21 (Cam Küre Masaüstü Stili) -->
+    <div id="os_glassorb" class="os-container" style="display: none;">
+        <div class="glassorb-desktop">
+            <div class="glassorb-sphere-wrap">
+                <div class="glassorb-sphere"></div>
+                <div class="glassorb-ribbon"></div>
+            </div>
+
+            <div class="glassorb-panel">
+                <div class="glassorb-panel-section">
+                    <div class="glassorb-panel-title">Bildirimler <span>2</span></div>
+                    <div class="glassorb-notif-item">
+                        <b>Çizim Alanı</b>
+                        <span>Az önce kuruldu, göz atın.</span>
+                    </div>
+                    <div class="glassorb-notif-item">
+                        <b>Balon Oyunu</b>
+                        <span>Az önce kuruldu, göz atın.</span>
+                    </div>
+                </div>
+                <div class="glassorb-panel-section">
+                    <div class="glassorb-panel-title">Hızlı Ayarlar</div>
+                    <div class="glassorb-toggle-grid">
+                        <div class="glassorb-toggle on">📶 Bağlı</div>
+                        <div class="glassorb-toggle">🔵 Kapalı</div>
+                        <div class="glassorb-toggle">🖥️ Ekran</div>
+                        <div class="glassorb-toggle">💡 Açık</div>
+                        <div class="glassorb-toggle">📱 Tablet</div>
+                        <div class="glassorb-toggle">🌙 Rahatsız Etme</div>
+                    </div>
+                    <div class="glassorb-slider-row">☀️ <input type="range" min="0" max="100" value="70"></div>
+                    <div class="glassorb-slider-row">🔊 <input type="range" min="0" max="100" value="55"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glassorb-taskbar">
+            <span class="glassorb-tb-icon" onclick="openVersionSelectorFromOS()" title="Sürüm Seç">⊞</span>
+            <span class="glassorb-tb-icon" onclick="openVersionSelectorFromOS()" title="Görev Görünümü">🗂️</span>
+            <span class="glassorb-tb-icon" onclick="openWindow('terminal')" title="Ara">🔍</span>
+            <div class="glassorb-pinned">
+                <div class="glassorb-pinned-icon" onclick="openWindow('files')" title="Dosyalarım">📁</div>
+                <div class="glassorb-pinned-icon" onclick="openWindow('notepad')" title="Not Defteri">📝</div>
+                <div class="glassorb-pinned-icon" onclick="openWindow('paint')" title="Çizim Alanı">🎨</div>
+                <div class="glassorb-pinned-icon" onclick="openWindow('calculator')" title="Hesap Makinesi">🧮</div>
+                <div class="glassorb-pinned-icon" onclick="openWindow('browser')" title="Web Tarayıcı">🌐</div>
+                <div class="glassorb-pinned-icon" onclick="openWindow('dino')" title="Dino Oyunu">🦖</div>
+                <div class="glassorb-pinned-icon" onclick="openVersionSelectorFromOS()" title="Ayarlar">⚙️</div>
+            </div>
+            <div class="glassorb-right">
+                <span>🔋</span>
+                <span class="clockDisplay">20:16</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 15: 6exta22 (Siberpunk OS Stili) -->
+    <div id="os_cyber" class="os-container" style="display: none;">
+        <div class="cyber-skyline"></div>
+        <div class="cyber-topbar">
+            <span><b>6EXTA22</b> // SİBERPUNK OS</span>
+            <span>Döngü: 495 | Kararlılık: %100</span>
+        </div>
+        <div class="cyber-sysmon">
+            <div class="cyber-sysmon-title">SİBER GÜVENLİK / İMGE AKIŞ SİMÜLASYONU</div>
+            <div class="cyber-sysmon-bar" style="width:80%;"></div>
+            <div class="cyber-sysmon-bar" style="width:55%;"></div>
+            <div class="cyber-sysmon-bar" style="width:95%;"></div>
+            <div>CPU: %47 | AĞ: 11 Mb/s</div>
+        </div>
+        <div class="cyber-grid">
+            <div class="cyber-app-item" onclick="openWindow('files')">
+                <div class="icon-box">📁</div>
+                <div class="icon-text">Dosyalarım</div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('terminal')">
+                <div class="icon-box">⌨️</div>
+                <div class="icon-text">Komut Sistemi</div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('paint')">
+                <div class="icon-box">🎨</div>
+                <div class="icon-text">Çizim Alanı</div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('calculator')">
+                <div class="icon-box">🧮</div>
+                <div class="icon-text">Hesap Makinesi</div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('balloon')">
+                <div class="icon-box">🎈</div>
+                <div class="icon-text">Balon Oyunu</div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('notepad')">
+                <div class="icon-box">📝</div>
+                <div class="icon-text">Not Defteri</div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('minesweeper')">
+                <div class="icon-box">💣</div>
+                <div class="icon-text">Mayın Tarlası</div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('dino')">
+                <div class="icon-box">🦖</div>
+                <div class="icon-text">Dino Oyunu</div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('browser')">
+                <div class="icon-box">🌐</div>
+                <div class="icon-text">Web Tarayıcı</div>
+            </div>
+            <div class="cyber-viz" onclick="openVersionSelectorFromOS()" title="Sürüm Seç">
+                <div class="cyber-viz-bar" style="animation-delay:0s;"></div>
+                <div class="cyber-viz-bar" style="animation-delay:0.1s;"></div>
+                <div class="cyber-viz-bar" style="animation-delay:0.2s;"></div>
+                <div class="cyber-viz-bar" style="animation-delay:0.3s;"></div>
+                <div class="cyber-viz-bar" style="animation-delay:0.15s;"></div>
+                <div class="cyber-viz-bar" style="animation-delay:0.25s;"></div>
+            </div>
+            <div class="cyber-app-item" onclick="openWindow('snake')">
+                <div class="icon-box">🐍</div>
+                <div class="icon-text">Yılan Oyunu</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 16: 6exta56 (Bio-Organik Orman OS Stili) -->
+    <div id="os_bio" class="os-container" style="display: none;">
+        <div class="bio-topbar">
+            <span class="leaf-icon">🍃</span>
+            <span><b>6EXTA56</b> — BİO-ORGANİK OS</span>
+            <span>Yaşam Ağı Sağlığı: %98.7 | Bölge: Gölge Ormanı</span>
+        </div>
+
+        <div class="bio-sysgear">
+            <div class="bio-sysgear-title">⚙️ SİSTEM GÜÇLENCESİ</div>
+            <div class="bio-sysgear-bar" style="width:90%;"></div>
+            <div class="bio-sysgear-bar" style="width:70%;"></div>
+            <div class="bio-sysgear-bar" style="width:100%;"></div>
+            <div>Enerji: Stabil</div>
+        </div>
+
+        <div class="bio-journal">
+            <div class="bio-journal-title">📜 Orman Günlüğü</div>
+            Bugün "Işıklı Mantarlar" topluluğuyla senkronizasyon sağlandı. Ekosistem dengede.
+        </div>
+
+        <div class="bio-grid">
+            <div class="bio-app-item" onclick="openWindow('files')">
+                <div class="icon-box">📁</div>
+                <div class="icon-text">Dosyalarım</div>
+            </div>
+            <div class="bio-app-item" onclick="openWindow('terminal')">
+                <div class="icon-box">⌨️</div>
+                <div class="icon-text">Komut Sistemi</div>
+            </div>
+            <div class="bio-app-item" onclick="openWindow('paint')">
+                <div class="icon-box">🎨</div>
+                <div class="icon-text">Çizim Alanı</div>
+            </div>
+            <div class="bio-app-item" onclick="openWindow('calculator')">
+                <div class="icon-box">🧮</div>
+                <div class="icon-text">Hesap Makinesi</div>
+            </div>
+            <div class="bio-app-item" onclick="openWindow('balloon')">
+                <div class="icon-box">🎈</div>
+                <div class="icon-text">Balon Oyunu</div>
+            </div>
+            <div class="bio-app-item" onclick="openWindow('notepad')">
+                <div class="icon-box">📝</div>
+                <div class="icon-text">Not Defteri</div>
+            </div>
+            <div class="bio-app-item" onclick="openWindow('snake')">
+                <div class="icon-box">🐍</div>
+                <div class="icon-text">Yılan Oyunu</div>
+            </div>
+            <div class="bio-app-item" onclick="openVersionSelectorFromOS()">
+                <div class="icon-box">🧭</div>
+                <div class="icon-text">Sürüm Seç</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Başlat Menüsü (XP) -->
+    <div id="startMenu" class="start-menu" style="display: none;">
+        <div class="start-header">
+            <div style="width: 36px; height: 36px; background: #f97316; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid white;">6X</div>
+            <div style="font-weight: bold; font-size: 14px;">6exta Kullanıcı</div>
+        </div>
+        <div class="start-items">
+            <button class="start-item" onclick="openVersionSelectorFromOS(); toggleStartMenu();">⚙️ Sürüm Seç</button>
+            <button class="start-item" onclick="openWindow('files'); toggleStartMenu();">📁 Dosyalarım</button>
+            <button class="start-item" onclick="openWindow('terminal'); toggleStartMenu();">⌨️ Komut Sistemi</button>
+            <button class="start-item" onclick="openWindow('paint'); toggleStartMenu();">🎨 Çizim Alanı</button>
+            <button class="start-item" onclick="openWindow('calculator'); toggleStartMenu();">🧮 Hesap Makinesi</button>
+            <button class="start-item" onclick="openWindow('balloon'); toggleStartMenu();">🎈 Balon Oyunu</button>
+            <button class="start-item" onclick="openWindow('notepad'); toggleStartMenu();">📝 Not Defteri</button>
+            <button class="start-item" onclick="openWindow('minesweeper'); toggleStartMenu();">💣 Mayın Tarlası</button>
+            <button class="start-item" onclick="openWindow('snake'); toggleStartMenu();">🐍 Yılan Oyunu</button>
+            <button class="start-item" onclick="openWindow('dino'); toggleStartMenu();">🦖 Dinozor Oyunu</button>
+            <button class="start-item" onclick="openWindow('browser'); toggleStartMenu();">🌐 Web Tarayıcı</button>
+        </div>
+    </div>
+
+    <script>
+        function goToSelector() {
+            document.getElementById('bootScreen').style.display = 'none';
+            document.getElementById('selectorScreen').style.display = 'flex';
+        }
+
+        function switchOS(osName) {
+            document.getElementById('selectorScreen').style.display = 'none';
+            document.querySelectorAll('.os-container').forEach(el => el.style.display = 'none');
+            document.getElementById('os_' + osName).style.display = 'flex';
+        }
+
+        function openVersionSelectorFromOS() {
+            document.querySelectorAll('.os-container').forEach(el => el.style.display = 'none');
+            document.getElementById('selectorScreen').style.display = 'flex';
+        }
+
+        // Saat Güncelleme
+        setInterval(() => {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            document.querySelectorAll('.clockDisplay').forEach(el => el.innerText = timeStr);
+        }, 1000);
+
+        function toggleStartMenu() {
+            const menu = document.getElementById('startMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.addEventListener('click', (e) => {
+            const menu = document.getElementById('startMenu');
+            const startBtn = document.querySelector('.start-btn');
+            if (menu && startBtn && !menu.contains(e.target) && !startBtn.contains(e.target)) {
+                menu.style.display = 'none';
+            }
+        });
+
+        function removeIcon(iconId) {
+            const iconElem = document.getElementById(iconId);
+            if (iconElem) iconElem.remove();
+        }
+
+        function downloadHTMLFile() {
+            const bootScreen = document.getElementById('bootScreen');
+            bootScreen.style.display = 'flex';
+            bootScreen.style.opacity = '1';
+            document.getElementById('selectorScreen').style.display = 'none';
+            document.querySelectorAll('.os-container').forEach(el => el.style.display = 'none');
+            document.getElementById('startMenu').style.display = 'none';
+            document.querySelectorAll('.xp-window').forEach(el => el.remove());
+
+            const cleanHTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+            const blob = new Blob([cleanHTML], { type: 'text/html;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '6exta_os_suite.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        let activeIntervals = {};
+
+        function openWindow(type) {
+            const id = 'win_' + Date.now();
+            const win = document.createElement('div');
+            win.id = id;
+            win.className = 'xp-window';
+
+            let title = type;
+            let bodyContent = '';
+
+            if (type === 'myComputer') {
+                title = 'Bilgisayarım';
+                bodyContent = '<div style="padding:10px;"><b>Yerel Disk (C:)</b><br><span style="color:gray; font-size:11px;">14.2 GB boş alan</span></div>';
+            } else if (type === 'files') {
+                title = 'Dosyalarım';
+                bodyContent = '<div style="padding:10px;"><div style="display:flex; align-items:center; gap:8px; padding:6px; background:#f1f5f9; border-radius:4px; margin-bottom:4px;">📁 Belgeler</div><div style="display:flex; align-items:center; gap:8px; padding:6px; background:#f1f5f9; border-radius:4px; margin-bottom:4px;">📁 Resimler</div><div style="display:flex; align-items:center; gap:8px; padding:6px; background:#f1f5f9; border-radius:4px;">📁 İndirilenler</div></div>';
+            } else if (type === 'notepad') {
+                title = 'Not Defteri';
+                bodyContent = '<textarea style="width:100%; height:100%; border:none; outline:none; resize:none; font-family:monospace;" placeholder="Notlarınızı buraya yazın..."></textarea>';
+            } else if (type === 'minesweeper') {
+                title = 'Mayın Tarlası';
+                bodyContent = '<div style="text-align:center; padding:20px;">Mayın Tarlası Aktif!<br><button class="xp-btn" onclick="openWindow(\'minesweeper\')">Yeni Oyun</button></div>';
+            } else if (type === 'snake') {
+                title = 'Yılan Oyunu';
+                bodyContent = '<div style="text-align:center; padding:10px;"><canvas id="snakeCanvas_'+id+'" width="220" height="220" style="background:black; border:2px solid blue;"></canvas></div>';
+            } else if (type === 'dino') {
+                title = 'Dinozor Oyunu';
+                bodyContent = '<div style="text-align:center; padding:10px;"><strong>Skor: <span id="dinoScore_'+id+'">0</span></strong><br><canvas id="dinoCanvas_'+id+'" width="260" height="130" style="background:#f3f3f3; border:1px solid #999; margin-top:5px;"></canvas><br><button class="xp-btn" style="margin-top:5px; background:#2563eb; color:white;" onclick="jumpDino(\''+id+'\')">Zıpla! 🚀</button></div>';
+            } else if (type === 'balloon') {
+                title = 'Balon Oyunu';
+                bodyContent = '<div style="text-align:center; padding:10px; background:linear-gradient(to bottom, #bae6fd, #e0f2fe); height:100%; box-sizing:border-box;">' +
+                    '<strong>Skor: <span id="balloonScore_'+id+'">0</span></strong>' +
+                    '<div id="balloonArea_'+id+'" style="position:relative; width:100%; height:200px; margin-top:8px; overflow:hidden;"></div>' +
+                    '</div>';
+            } else if (type === 'browser') {
+                title = 'Web Tarayıcı';
+                bodyContent = '<div style="padding:10px;"><input type="text" placeholder="Adres yazın..." style="width:100%; padding:4px; font-size:11px; margin-bottom:10px;"><p>6exta Web Tarayıcısına hoş geldiniz. Çevrimdışı ve güvenli mod aktif.</p></div>';
+            } else if (type === 'terminal') {
+                title = 'Komut Sistemi';
+                bodyContent = '<div style="background:#0c0c0c; height:100%; padding:8px; font-family:\'Courier New\', monospace; font-size:12px; color:#e5e5e5; display:flex; flex-direction:column; overflow:hidden;">' +
+                    '<div id="termOutput_'+id+'" style="flex:1; overflow-y:auto; white-space:pre-wrap; line-height:1.5;">6exta Komut Sistemi [Sürüm 1.0]\n(c) 6exta. Tüm hakları saklıdır.\n\nKullanılabilir komutlar için \'help\' yazın.\n\n</div>' +
+                    '<div style="display:flex; align-items:center; gap:4px; margin-top:4px;">' +
+                    '<span style="color:#4ade80;">6exta&gt;</span>' +
+                    '<input id="termInput_'+id+'" type="text" autocomplete="off" style="flex:1; background:transparent; border:none; outline:none; color:#e5e5e5; font-family:\'Courier New\', monospace; font-size:12px;">' +
+                    '</div></div>';
+            } else if (type === 'paint') {
+                title = 'Çizim Alanı';
+                bodyContent = '<div style="padding:6px; display:flex; flex-direction:column; height:100%; box-sizing:border-box;">' +
+                    '<div style="display:flex; align-items:center; gap:6px; margin-bottom:6px; flex-wrap:wrap;">' +
+                    '<input type="color" id="paintColor_'+id+'" value="#000000" style="width:28px; height:28px; border:none; padding:0; cursor:pointer;">' +
+                    '<input type="range" id="paintSize_'+id+'" min="1" max="20" value="3" style="width:70px;">' +
+                    '<button class="xp-btn" onclick="clearPaint(\''+id+'\')">Temizle</button>' +
+                    '</div>' +
+                    '<canvas id="paintCanvas_'+id+'" width="280" height="200" style="background:white; border:1px solid #999; touch-action:none; cursor:crosshair; flex:1;"></canvas>' +
+                    '</div>';
+            } else if (type === 'calculator') {
+                title = 'Hesap Makinesi';
+                bodyContent = '<div style="padding:8px; display:flex; flex-direction:column; height:100%; box-sizing:border-box; background:#1e293b;">' +
+                    '<input id="calcDisplay_'+id+'" type="text" readonly value="0" style="width:100%; box-sizing:border-box; text-align:right; font-size:20px; padding:10px 8px; margin-bottom:8px; background:#0f172a; color:#e2e8f0; border:1px solid #334155; border-radius:6px; font-family:monospace;">' +
+                    '<div style="display:grid; grid-template-columns:repeat(4,1fr); gap:6px; flex:1;">' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'clear\')">C</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'back\')">⌫</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'%\')">%</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'/\')">÷</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'7\')">7</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'8\')">8</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'9\')">9</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'*\')">×</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'4\')">4</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'5\')">5</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'6\')">6</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'-\')">−</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'1\')">1</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'2\')">2</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'3\')">3</button>' +
+                        '<button class="calc-btn calc-op" onclick="calcInput(\''+id+'\',\'+\')">+</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'0\')" style="grid-column:span 2;">0</button>' +
+                        '<button class="calc-btn" onclick="calcInput(\''+id+'\',\'.\')">.</button>' +
+                        '<button class="calc-btn calc-eq" onclick="calcInput(\''+id+'\',\'=\')">=</button>' +
+                    '</div></div>';
+            }
+
+            win.innerHTML = `
+                <div class="xp-titlebar">
+                    <span>${title}</span>
+                    <button class="xp-close-btn" onclick="closeWindow('${id}')">X</button>
+                </div>
+                <div class="xp-content">${bodyContent}</div>
+            `;
+
+            document.body.appendChild(win);
+
+            let taskbarApps = null;
+            document.querySelectorAll('.os-container').forEach(c => {
+                if (c.style.display !== 'none' && c.style.display !== '') {
+                    const target = c.querySelector('.taskbar-apps');
+                    if (target) taskbarApps = target;
+                }
+            });
+            if (taskbarApps) {
+                const taskBtn = document.createElement('button');
+                taskBtn.id = 'task_' + id;
+                taskBtn.className = 'task-app-btn';
+                taskBtn.innerText = title;
+                taskBtn.onclick = () => {
+                    win.style.display = win.style.display === 'none' ? 'flex' : 'none';
+                };
+                taskbarApps.appendChild(taskBtn);
+            }
+
+            if (type === 'snake') {
+                setTimeout(() => initSnake(id), 100);
+            } else if (type === 'dino') {
+                setTimeout(() => initDino(id), 100);
+            } else if (type === 'terminal') {
+                setTimeout(() => initTerminal(id), 50);
+            } else if (type === 'paint') {
+                setTimeout(() => initPaint(id), 50);
+            } else if (type === 'balloon') {
+                setTimeout(() => initBalloonGame(id), 50);
+            }
+        }
+
+        function closeWindow(id) {
+            if (activeIntervals[id]) {
+                clearInterval(activeIntervals[id]);
+                delete activeIntervals[id];
+            }
+            const win = document.getElementById(id);
+            if (win) win.remove();
+            const taskBtn = document.getElementById('task_' + id);
+            if (taskBtn) taskBtn.remove();
+        }
+
+        function initSnake(id) {
+            const canvas = document.getElementById('snakeCanvas_' + id);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let snake = [{x: 10, y: 10}];
+            let food = {x: 5, y: 5};
+            let dx = 1, dy = 0;
+
+            activeIntervals[id] = setInterval(() => {
+                let head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                if (head.x < 0 || head.x >= 20 || head.y < 0 || head.y >= 20) {
+                    snake = [{x: 10, y: 10}];
+                    dx = 1; dy = 0;
+                    return;
+                }
+                snake.unshift(head);
+                if (head.x === food.x && head.y === food.y) {
+                    food = {x: Math.floor(Math.random()*18), y: Math.floor(Math.random()*18)};
+                } else {
+                    snake.pop();
+                }
+
+                ctx.fillStyle = 'black';
+                ctx.fillRect(0,0,220,220);
+                ctx.fillStyle = 'red';
+                ctx.fillRect(food.x*11, food.y*11, 10, 10);
+                ctx.fillStyle = 'green';
+                snake.forEach(p => ctx.fillRect(p.x*11, p.y*11, 10, 10));
+            }, 120);
+        }
+
+        let dinoStates = {};
+        function initDino(id) {
+            const canvas = document.getElementById('dinoCanvas_' + id);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let dino = {x: 20, y: 90, vy: 0, gravity: 0.6, grounded: true};
+            let obstacle = {x: 260, y: 95, w: 12, h: 20, speed: 3.5};
+            let score = 0;
+
+            dinoStates[id] = () => {
+                if (dino.grounded) {
+                    dino.vy = -8.5;
+                    dino.grounded = false;
+                }
+            };
+
+            activeIntervals[id] = setInterval(() => {
+                dino.vy += dino.gravity;
+                dino.y += dino.vy;
+                if (dino.y >= 90) {
+                    dino.y = 90;
+                    dino.vy = 0;
+                    dino.grounded = true;
+                }
+
+                obstacle.x -= obstacle.speed;
+                if (obstacle.x < -20) {
+                    obstacle.x = 260 + Math.random() * 40;
+                    score += 5;
+                    const scEl = document.getElementById('dinoScore_' + id);
+                    if (scEl) scEl.innerText = score;
+                }
+
+                if (dino.x < obstacle.x + obstacle.w && dino.x + 15 > obstacle.x && dino.y < obstacle.y + obstacle.h && dino.y + 20 > obstacle.y) {
+                    score = 0;
+                    obstacle.x = 260;
+                }
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0,0,260,130);
+
+                ctx.strokeStyle = '#444';
+                ctx.beginPath();
+                ctx.moveTo(0, 115); ctx.lineTo(260, 115); ctx.stroke();
+
+                ctx.fillStyle = '#16a34a';
+                ctx.fillRect(dino.x, dino.y, 15, 20);
+
+                ctx.fillStyle = '#dc2626';
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.w, obstacle.h);
+            }, 1000/60);
+        }
+
+        function jumpDino(id) {
+            if (dinoStates[id]) dinoStates[id]();
+        }
+
+        // ---- Terminal ----
+        let termFsState = {};
+        function initTerminal(id) {
+            const input = document.getElementById('termInput_' + id);
+            const output = document.getElementById('termOutput_' + id);
+            if (!input || !output) return;
+
+            termFsState[id] = {
+                cwd: 'C:\\Kullanicilar\\6exta',
+                files: ['Belgeler', 'Resimler', 'Indirilenler', 'notlar.txt', 'gorevler.txt']
+            };
+
+            input.focus();
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    const cmd = input.value;
+                    output.innerText += '6exta> ' + cmd + '\n';
+                    output.innerText += runTermCommand(id, cmd) + '\n';
+                    input.value = '';
+                    output.scrollTop = output.scrollHeight;
+                }
+            });
+
+            const winEl = document.getElementById(id);
+            if (winEl) {
+                winEl.addEventListener('click', () => input.focus());
+            }
+        }
+
+        function runTermCommand(id, rawCmd) {
+            const state = termFsState[id] || { cwd: 'C:\\Kullanicilar\\6exta', files: [] };
+            const cmd = rawCmd.trim();
+            const lower = cmd.toLowerCase();
+            const parts = cmd.split(' ').filter(Boolean);
+            const base = (parts[0] || '').toLowerCase();
+
+            if (cmd === '') return '';
+
+            if (base === 'help' || base === 'yardim') {
+                return 'Kullanılabilir komutlar:\n' +
+                    '  help / yardim      - Bu listeyi gösterir\n' +
+                    '  dir / ls           - Dizindeki dosyaları listeler\n' +
+                    '  cd [klasor]        - Dizin değiştirir\n' +
+                    '  cls / clear        - Ekranı temizler\n' +
+                    '  echo [metin]       - Metni ekrana yazar\n' +
+                    '  date               - Tarihi gösterir\n' +
+                    '  time               - Saati gösterir\n' +
+                    '  ver / version      - Sürüm bilgisini gösterir\n' +
+                    '  whoami             - Aktif kullanıcıyı gösterir\n' +
+                    '  systeminfo         - Sistem bilgisini gösterir\n' +
+                    '  mkdir [ad]         - Yeni klasör oluşturur\n' +
+                    '  del [ad]           - Dosya siler\n' +
+                    '  exit               - Komut sistemini kapatır';
+            }
+            if (base === 'dir' || base === 'ls') {
+                return state.files.map(f => '  ' + f).join('\n') || '  (Dizin boş)';
+            }
+            if (base === 'cd') {
+                if (parts[1]) {
+                    state.cwd = state.cwd + '\\' + parts[1];
+                    return 'Dizin değiştirildi: ' + state.cwd;
+                }
+                return state.cwd;
+            }
+            if (base === 'cls' || base === 'clear') {
+                const output = document.getElementById('termOutput_' + id);
+                if (output) output.innerText = '';
+                return '';
+            }
+            if (base === 'echo') {
+                return parts.slice(1).join(' ');
+            }
+            if (base === 'date') {
+                return new Date().toLocaleDateString('tr-TR');
+            }
+            if (base === 'time') {
+                return new Date().toLocaleTimeString('tr-TR');
+            }
+            if (base === 'ver' || base === 'version') {
+                return '6exta OS Suite - Komut Sistemi sürüm 1.0';
+            }
+            if (base === 'whoami') {
+                return '6exta\\kullanici';
+            }
+            if (base === 'systeminfo') {
+                return 'Sistem Adı:      6EXTA-PC\n' +
+                    'İşletim Sistemi: 6exta OS Suite\n' +
+                    'Bellek:          8.00 GB\n' +
+                    'Depolama:        14.2 GB boş alan';
+            }
+            if (base === 'mkdir') {
+                if (parts[1]) {
+                    state.files.push(parts[1]);
+                    return 'Klasör oluşturuldu: ' + parts[1];
+                }
+                return 'Kullanım: mkdir [klasor_adi]';
+            }
+            if (base === 'del' || base === 'rm') {
+                if (parts[1]) {
+                    const idx = state.files.indexOf(parts[1]);
+                    if (idx >= 0) {
+                        state.files.splice(idx, 1);
+                        return 'Silindi: ' + parts[1];
+                    }
+                    return 'Dosya bulunamadı: ' + parts[1];
+                }
+                return 'Kullanım: del [dosya_adi]';
+            }
+            if (base === 'exit') {
+                closeWindow(id);
+                return '';
+            }
+
+            return "'" + cmd + "' komutu tanınmıyor. Komut listesi için 'help' yazın.";
+        }
+
+        // ---- Çizim Alanı (Paint) ----
+        function initPaint(id) {
+            const canvas = document.getElementById('paintCanvas_' + id);
+            const colorPicker = document.getElementById('paintColor_' + id);
+            const sizePicker = document.getElementById('paintSize_' + id);
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            let drawing = false;
+            let lastX = 0, lastY = 0;
+
+            function getPos(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                return { x: (clientX - rect.left) * scaleX, y: (clientY - rect.top) * scaleY };
+            }
+
+            function startDraw(e) {
+                drawing = true;
+                const pos = getPos(e);
+                lastX = pos.x;
+                lastY = pos.y;
+                e.preventDefault();
+            }
+
+            function draw(e) {
+                if (!drawing) return;
+                const pos = getPos(e);
+                ctx.strokeStyle = colorPicker ? colorPicker.value : '#000000';
+                ctx.lineWidth = sizePicker ? sizePicker.value : 3;
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                lastX = pos.x;
+                lastY = pos.y;
+                e.preventDefault();
+            }
+
+            function stopDraw() {
+                drawing = false;
+            }
+
+            canvas.addEventListener('mousedown', startDraw);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDraw);
+            canvas.addEventListener('mouseleave', stopDraw);
+            canvas.addEventListener('touchstart', startDraw);
+            canvas.addEventListener('touchmove', draw);
+            canvas.addEventListener('touchend', stopDraw);
+        }
+
+        function clearPaint(id) {
+            const canvas = document.getElementById('paintCanvas_' + id);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // ---- Hesap Makinesi ----
+        let calcStates = {};
+        function calcInput(id, val) {
+            const display = document.getElementById('calcDisplay_' + id);
+            if (!display) return;
+            if (!calcStates[id]) calcStates[id] = { expr: '', justEvaluated: false };
+            const state = calcStates[id];
+
+            if (val === 'clear') {
+                state.expr = '';
+                state.justEvaluated = false;
+                display.value = '0';
+                return;
+            }
+            if (val === 'back') {
+                state.expr = state.expr.slice(0, -1);
+                display.value = state.expr === '' ? '0' : state.expr;
+                return;
+            }
+            if (val === '=') {
+                try {
+                    if (!/^[0-9+\-*/.%\s]+$/.test(state.expr)) throw new Error('invalid');
+                    const result = safeEvaluateExpression(state.expr.replace(/%/g, '/100'));
+                    if (result === undefined || isNaN(result) || !isFinite(result)) throw new Error('invalid');
+                    display.value = String(Math.round(result * 1e10) / 1e10);
+                    state.expr = display.value;
+                    state.justEvaluated = true;
+                } catch (e) {
+                    display.value = 'Hata';
+                    state.expr = '';
+                }
+                return;
+            }
+
+            const isOperator = ['+', '-', '*', '/', '%'].includes(val);
+            if (state.justEvaluated) {
+                state.expr = isOperator ? state.expr + val : val;
+                state.justEvaluated = false;
+            } else {
+                state.expr += val;
+            }
+            display.value = state.expr === '' ? '0' : state.expr;
+        }
+
+        // Function()/eval kullanmadan, yalnızca sayı ve +,-,*,/ operatörlerini
+        // destekleyen güvenli bir aritmetik ifade ayrıştırıcı (işlem önceliğine uyar).
+        function safeEvaluateExpression(expr) {
+            const tokens = expr.match(/(\d+\.?\d*|\.\d+|[+\-*/])/g);
+            if (!tokens || tokens.length === 0) throw new Error('invalid');
+
+            // Önce çarpma/bölmeyi indirgeyerek toplama/çıkarma seviyesine geç
+            const reduced = [];
+            let i = 0;
+            reduced.push(parseFloat(tokens[i]));
+            if (isNaN(reduced[0])) throw new Error('invalid');
+            i++;
+            while (i < tokens.length) {
+                const op = tokens[i];
+                const nextNum = parseFloat(tokens[i + 1]);
+                if (isNaN(nextNum)) throw new Error('invalid');
+                if (op === '*' || op === '/') {
+                    const prev = reduced.pop();
+                    reduced.push(op === '*' ? prev * nextNum : prev / nextNum);
+                } else if (op === '+' || op === '-') {
+                    reduced.push(op);
+                    reduced.push(nextNum);
+                } else {
+                    throw new Error('invalid');
+                }
+                i += 2;
+            }
+
+            let total = reduced[0];
+            for (let j = 1; j < reduced.length; j += 2) {
+                const op = reduced[j];
+                const num = reduced[j + 1];
+                total = op === '+' ? total + num : total - num;
+            }
+            return total;
+        }
+
+        // ---- Balon Oyunu ----
+        let balloonScores = {};
+        function initBalloonGame(id) {
+            const area = document.getElementById('balloonArea_' + id);
+            if (!area) return;
+            area.innerHTML = '';
+            balloonScores[id] = 0;
+            const scoreEl = document.getElementById('balloonScore_' + id);
+            if (scoreEl) scoreEl.innerText = '0';
+
+            const colors = ['#ef4444', '#f59e0b', '#22c55e', '#3b82f6', '#a855f7', '#ec4899'];
+            const count = 8;
+
+            for (let i = 0; i < count; i++) {
+                const balloon = document.createElement('div');
+                balloon.className = 'balloon-item';
+                balloon.style.position = 'absolute';
+                balloon.style.fontSize = '34px';
+                balloon.style.cursor = 'pointer';
+                balloon.style.userSelect = 'none';
+                balloon.style.transition = 'transform 0.15s';
+                balloon.innerText = '🎈';
+                balloon.style.color = colors[i % colors.length];
+                placeBalloonRandomly(balloon, area);
+
+                balloon.addEventListener('click', () => {
+                    if (balloon.dataset.popped === '1') return;
+                    balloon.dataset.popped = '1';
+                    balloon.style.visibility = 'hidden';
+                    balloonScores[id] = (balloonScores[id] || 0) + 1;
+                    const scoreEl2 = document.getElementById('balloonScore_' + id);
+                    if (scoreEl2) scoreEl2.innerText = balloonScores[id];
+
+                    setTimeout(() => {
+                        if (!area.contains(balloon)) return;
+                        placeBalloonRandomly(balloon, area);
+                        balloon.dataset.popped = '0';
+                        balloon.style.visibility = 'visible';
+                    }, 1000);
+                });
+
+                area.appendChild(balloon);
+            }
+        }
+
+        function placeBalloonRandomly(balloon, area) {
+            const areaWidth = area.clientWidth || 280;
+            const areaHeight = area.clientHeight || 200;
+            const maxX = Math.max(areaWidth - 40, 10);
+            const maxY = Math.max(areaHeight - 40, 10);
+            balloon.style.left = Math.floor(Math.random() * maxX) + 'px';
+            balloon.style.top = Math.floor(Math.random() * maxY) + 'px';
+        }
+
+        // ---- Batuhan Yardım Asistanı ----
+        function openHelperModal() {
+            document.getElementById('helperModalOverlay').style.display = 'flex';
+            setTimeout(() => {
+                const input = document.getElementById('helperInput');
+                if (input) input.focus();
+            }, 100);
+        }
+
+        function closeHelperModal() {
+            document.getElementById('helperModalOverlay').style.display = 'none';
+        }
+
+        function addHelperMessage(text, sender) {
+            const log = document.getElementById('helperChatLog');
+            const msg = document.createElement('div');
+            msg.className = 'helper-msg ' + sender;
+            msg.innerText = text;
+            log.appendChild(msg);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function askHelperPreset(question) {
+            addHelperMessage(question, 'user');
+            const answer = getHelperAnswer(question);
+            setTimeout(() => addHelperMessage(answer, 'bot'), 300);
+        }
+
+        function sendHelperMessage() {
+            const input = document.getElementById('helperInput');
+            const question = input.value.trim();
+            if (!question) return;
+            addHelperMessage(question, 'user');
+            input.value = '';
+            const answer = getHelperAnswer(question);
+            setTimeout(() => addHelperMessage(answer, 'bot'), 300);
+        }
+
+        function getHelperAnswer(rawQuestion) {
+            const q = rawQuestion.toLocaleLowerCase('tr').trim();
+
+            // "kimler yaptı" -> çoğul soru, önce bu kontrol edilmeli (daha spesifik)
+            if (q.includes('kimler') && q.includes('yap')) {
+                return 'Bu site 2 yapay zeka ile yapıldı.';
+            }
+            // "kim yaptı" -> tekil soru
+            if (q.includes('kim') && q.includes('yap')) {
+                return 'Bu sistemi ATXEAE isimli biri hobi olarak yaptı.';
+            }
+            // Konsept paylaşma sorusu
+            if (q.includes('paylaş') || (q.includes('konsept') && q.includes('nasıl'))) {
+                return 'Üzgünüm ama bu konuda size yardımcı olamam. Başka bir sorunuz var mı?';
+            }
+
+            return 'Bu konuda net bir bilgim yok. Aşağıdaki örnek sorulardan birini deneyebilir ya da farklı bir şekilde sorabilirsin.';
+        }
+
+    </script>
+
+</body></html>
+
+
+
+
+
