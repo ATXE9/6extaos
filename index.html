@@ -624,6 +624,28 @@
         .origami-app-item:hover .icon-box { transform: scale(1.06); }
         .origami-app-item .icon-text { color: #f1f5f9; font-size: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.6); text-align: center; }
 
+        /* 19. 6exta27 (Kozmik Kartografya Stili) */
+        #os_cosmic {
+            background:
+                radial-gradient(circle at 30% 30%, rgba(196,181,253,0.12), transparent 45%),
+                radial-gradient(circle at 70% 60%, rgba(147,197,253,0.1), transparent 50%),
+                linear-gradient(160deg, #0a0714 0%, #150f2e 40%, #0d0a1f 70%, #050308 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .cosmic-star { position: absolute; width: 2px; height: 2px; background: white; border-radius: 50%; opacity: 0.9; box-shadow: 0 0 4px 1px rgba(255,255,255,0.6); }
+        .cosmic-badge-top { position: absolute; top: 12px; left: 12px; background: rgba(20,15,40,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(196,181,253,0.5); border-radius: 12px; padding: 6px 12px; color: #ede9fe; font-size: 9px; z-index: 15; box-shadow: 0 4px 14px rgba(0,0,0,0.35); max-width: 55%; }
+        .cosmic-badge-top div:first-child { font-size: 12px; font-weight: bold; color: #d8b4fe; letter-spacing: 1px; }
+        .cosmic-gear-badge { position: absolute; top: 12px; right: 12px; background: rgba(20,15,40,0.6); backdrop-filter: blur(8px); border: 1px solid rgba(147,197,253,0.4); border-radius: 12px; padding: 6px 10px; color: #dbeafe; font-size: 8px; z-index: 15; box-shadow: 0 4px 14px rgba(0,0,0,0.35); max-width: 42%; }
+        .cosmic-gear-badge b { display:block; font-size: 9px; margin-bottom: 3px; color: #bfdbfe; }
+        .cosmic-journal { position: absolute; top: 60px; right: 12px; width: min(190px, 46vw); background: rgba(15,10,30,0.68); backdrop-filter: blur(8px); border: 1px solid rgba(196,181,253,0.3); border-radius: 10px; padding: 9px 11px; color: #e9e5ff; font-size: 9px; z-index: 15; box-shadow: 0 6px 18px rgba(0,0,0,0.4); line-height: 1.5; }
+        .cosmic-journal-title { font-weight: bold; font-size: 9px; margin-bottom: 4px; color: #d8b4fe; letter-spacing: 0.5px; }
+        .cosmic-grid { position: relative; z-index: 10; flex: 1; padding: 70px 14px 14px 14px; display: flex; flex-wrap: wrap; gap: 16px; align-content: center; justify-content: center; }
+        .cosmic-app-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; width: 64px; }
+        .cosmic-app-item .icon-box { width: 46px; height: 46px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, rgba(196,181,253,0.35), rgba(30,20,60,0.7) 70%); border: 1px solid rgba(196,181,253,0.5); display:flex; align-items:center; justify-content:center; font-size:20px; box-shadow: 0 0 14px rgba(196,181,253,0.3), inset 0 1px 3px rgba(255,255,255,0.15); }
+        .cosmic-app-item:hover .icon-box { transform: scale(1.06); }
+        .cosmic-app-item .icon-text { color: #ede9fe; font-size: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.7); text-align: center; }
+
         /* Masaüstü ve İkonlar */
         .desktop-area { flex: 1; position: relative; padding: 15px; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
         .desktop-icon { width: 75px; display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
@@ -773,6 +795,11 @@
         <div class="selector-card" onclick="switchOS('origami')">
             <div style="color: #e9d8a6; font-weight: bold; font-size: 15px;">🔷 6exta221 (Kinetik Origami OS)</div>
             <div style="color: #cbd5e1; font-size: 11px;">Katlanmış geometrik yüzeyli koyu arka plan, sistem gözlemcisi ve günlük paneliyle şık bir arayüz.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('cosmic')">
+            <div style="color: #d8b4fe; font-weight: bold; font-size: 15px;">🌌 6exta27 (Kozmik Kartografya OS)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Yıldızlı galaksi arka planı, gezegen görünümlü uygulama simgeleri ve sistem panelleriyle kozmik tema.</div>
         </div>
     </div>
 
@@ -1714,6 +1741,83 @@
                 <div class="icon-text">Yılan Oyunu</div>
             </div>
             <div class="origami-app-item" onclick="openVersionSelectorFromOS()">
+                <div class="icon-box">🧭</div>
+                <div class="icon-text">Sürüm Seç</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 19: 6exta27 (Kozmik Kartografya Stili) -->
+    <div id="os_cosmic" class="os-container" style="display: none;">
+        <div class="cosmic-star" style="top:10%; left:15%;"></div>
+        <div class="cosmic-star" style="top:6%; left:40%;"></div>
+        <div class="cosmic-star" style="top:16%; left:60%;"></div>
+        <div class="cosmic-star" style="top:8%; left:80%;"></div>
+        <div class="cosmic-star" style="top:22%; left:25%;"></div>
+        <div class="cosmic-star" style="top:30%; left:90%;"></div>
+        <div class="cosmic-star" style="top:40%; left:5%;"></div>
+        <div class="cosmic-star" style="top:55%; left:70%;"></div>
+
+        <div class="cosmic-badge-top">
+            <div>6EXTA27</div>
+            <div>KOZMİK KARTOGRAFYA | Uygulama Entegrasyonu: %100 | Döngü: 495</div>
+        </div>
+
+        <div class="cosmic-gear-badge">
+            <b>⚙️ Sistem Gözlemcisi — Uygulama Yükü</b>
+            CPU Yükü: %18<br>
+            Bellek: 6.4 / 64 GB<br>
+            Ağ: 20 Mb/s<br>
+            Öz-Onarım: Aktif
+        </div>
+
+        <div class="cosmic-journal">
+            <div class="cosmic-journal-title">GÜNLÜK | TEMA GÜNCELLEMESİ</div>
+            Bugün "6exta27" arayüzü için tüm sitenin uygulamaları başarıyla kozmik forma entegre edildi. Sistem kararlılığı %100.
+        </div>
+
+        <div class="cosmic-grid">
+            <div class="cosmic-app-item" onclick="openWindow('files')">
+                <div class="icon-box">📁</div>
+                <div class="icon-text">Dosyalarım</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('terminal')">
+                <div class="icon-box">⌨️</div>
+                <div class="icon-text">Komut Sistemi</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('paint')">
+                <div class="icon-box">🎨</div>
+                <div class="icon-text">Çizim Alanı</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('calculator')">
+                <div class="icon-box">🧮</div>
+                <div class="icon-text">Hesap Makinesi</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('balloon')">
+                <div class="icon-box">🎈</div>
+                <div class="icon-text">Balon Oyunu</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('notepad')">
+                <div class="icon-box">📝</div>
+                <div class="icon-text">Not Defteri</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('dino')">
+                <div class="icon-box">🦖</div>
+                <div class="icon-text">Dino Oyunu</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('browser')">
+                <div class="icon-box">🌐</div>
+                <div class="icon-text">Web Tarayıcı</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('minesweeper')">
+                <div class="icon-box">💣</div>
+                <div class="icon-text">Mayın Tarlası</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openWindow('snake')">
+                <div class="icon-box">🐍</div>
+                <div class="icon-text">Yılan Oyunu</div>
+            </div>
+            <div class="cosmic-app-item" onclick="openVersionSelectorFromOS()">
                 <div class="icon-box">🧭</div>
                 <div class="icon-text">Sürüm Seç</div>
             </div>
