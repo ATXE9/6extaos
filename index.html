@@ -646,6 +646,37 @@
         .cosmic-app-item:hover .icon-box { transform: scale(1.06); }
         .cosmic-app-item .icon-text { color: #ede9fe; font-size: 10px; text-shadow: 0 1px 3px rgba(0,0,0,0.7); text-align: center; }
 
+        /* 20. 6extaras (El Çizimi Defter Stili) */
+        #os_sketch {
+            background: #fdf6e8;
+            background-image:
+                repeating-linear-gradient(#fdf6e8 0px, #fdf6e8 27px, #d9cba8 28px),
+                linear-gradient(90deg, transparent 0 44px, rgba(220,90,90,0.35) 44px 45px, transparent 45px);
+            position: relative;
+            overflow: hidden;
+            font-family: 'Comic Sans MS', 'Segoe Print', cursive, sans-serif;
+        }
+        .sketch-topbar { padding: 14px 18px 6px 50px; color: #3f3226; }
+        .sketch-title { font-size: 19px; font-weight: bold; transform: rotate(-1.5deg); display: inline-block; border-bottom: 3px solid #f97316; padding-bottom: 2px; }
+        .sketch-sub { font-size: 10px; color: #8a7a5c; margin-top: 4px; }
+        .sketch-grid { flex: 1; padding: 10px 20px 10px 50px; display: flex; flex-wrap: wrap; gap: 18px; align-content: flex-start; overflow-y: auto; }
+        .sketch-app-item { display: flex; flex-direction: column; align-items: center; gap: 5px; cursor: pointer; width: 68px; }
+        .sketch-app-item .icon-box {
+            width: 48px; height: 48px; display:flex; align-items:center; justify-content:center; font-size:22px;
+            background: #fffaf0; border: 2.5px dashed #a8763e; border-radius: 40% 60% 55% 45% / 50% 45% 55% 50%;
+            box-shadow: 2px 3px 0 rgba(168,118,62,0.25);
+        }
+        .sketch-app-item:nth-child(2n) .icon-box { border-color: #4d8b6f; transform: rotate(-3deg); border-radius: 55% 45% 50% 50% / 45% 55% 45% 55%; }
+        .sketch-app-item:nth-child(3n) .icon-box { border-color: #c0587a; transform: rotate(2deg); }
+        .sketch-app-item:nth-child(4n) .icon-box { border-color: #4472ca; transform: rotate(-2deg); border-radius: 50% 50% 45% 55% / 55% 50% 50% 45%; }
+        .sketch-app-item:hover .icon-box { transform: scale(1.06) rotate(0deg); }
+        .sketch-app-item .icon-text { color: #4a3b26; font-size: 10.5px; text-shadow: none; text-align: center; }
+        .sketch-pin { position: absolute; width: 10px; height: 10px; border-radius: 50%; box-shadow: 0 2px 3px rgba(0,0,0,0.3); }
+        .sketch-taskbar { height: 36px; min-height: 36px; background: #fdf6e8; border-top: 2.5px dashed #a8763e; display: flex; align-items: center; padding: 0 16px; gap: 12px; }
+        .sketch-tb-item { font-size: 11px; color: #6b5940; cursor: pointer; padding: 3px 10px; border: 2px solid #a8763e; border-radius: 12px; background: #fffaf0; }
+        .sketch-tb-item:hover { background: #fef3c7; }
+        .sketch-tb-clock { margin-left: auto; font-size: 11px; color: #6b5940; }
+
         /* Masaüstü ve İkonlar */
         .desktop-area { flex: 1; position: relative; padding: 15px; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
         .desktop-icon { width: 75px; display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; }
@@ -800,6 +831,11 @@
         <div class="selector-card" onclick="switchOS('cosmic')">
             <div style="color: #d8b4fe; font-weight: bold; font-size: 15px;">🌌 6exta27 (Kozmik Kartografya OS)</div>
             <div style="color: #cbd5e1; font-size: 11px;">Yıldızlı galaksi arka planı, gezegen görünümlü uygulama simgeleri ve sistem panelleriyle kozmik tema.</div>
+        </div>
+
+        <div class="selector-card" onclick="switchOS('sketch')">
+            <div style="color: #f97316; font-weight: bold; font-size: 15px;">✏️ 6extaras (El Çizimi Defter OS)</div>
+            <div style="color: #cbd5e1; font-size: 11px;">Kağıt dokulu, elle çizilmiş sıcak ve samimi bir arayüz — 6exta'nın kendi özgün tasarımı.</div>
         </div>
     </div>
 
@@ -1821,6 +1857,64 @@
                 <div class="icon-box">🧭</div>
                 <div class="icon-text">Sürüm Seç</div>
             </div>
+        </div>
+    </div>
+
+    <!-- SÜRÜM 20: 6extaras (El Çizimi Defter Stili — Özgün Tasarım) -->
+    <div id="os_sketch" class="os-container" style="display: none;">
+        <div class="sketch-pin" style="top:8px; left:16px; background:#dc2626;"></div>
+
+        <div class="sketch-topbar">
+            <div class="sketch-title">6extaras 📒</div>
+            <div class="sketch-sub">defterine hoş geldin, bugün ne çizmek istersin?</div>
+        </div>
+
+        <div class="sketch-grid">
+            <div class="sketch-app-item" onclick="openWindow('files')">
+                <div class="icon-box">📁</div>
+                <div class="icon-text">Dosyalarım</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('terminal')">
+                <div class="icon-box">⌨️</div>
+                <div class="icon-text">Komut Sistemi</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('paint')">
+                <div class="icon-box">🖍️</div>
+                <div class="icon-text">Çizim Alanı</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('calculator')">
+                <div class="icon-box">🧮</div>
+                <div class="icon-text">Hesap Makinesi</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('balloon')">
+                <div class="icon-box">🎈</div>
+                <div class="icon-text">Balon Oyunu</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('notepad')">
+                <div class="icon-box">📝</div>
+                <div class="icon-text">Not Defteri</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('dino')">
+                <div class="icon-box">🦖</div>
+                <div class="icon-text">Dino Oyunu</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('browser')">
+                <div class="icon-box">🌐</div>
+                <div class="icon-text">Web Tarayıcı</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('minesweeper')">
+                <div class="icon-box">💣</div>
+                <div class="icon-text">Mayın Tarlası</div>
+            </div>
+            <div class="sketch-app-item" onclick="openWindow('snake')">
+                <div class="icon-box">🐍</div>
+                <div class="icon-text">Yılan Oyunu</div>
+            </div>
+        </div>
+
+        <div class="sketch-taskbar">
+            <div class="sketch-tb-item" onclick="openVersionSelectorFromOS()">✏️ Sürüm Seç</div>
+            <div class="sketch-tb-clock clockDisplay">20:16</div>
         </div>
     </div>
 
