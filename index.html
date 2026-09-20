@@ -713,7 +713,7 @@
         .brut-block:nth-child(3n+2) { background: #fbbf24; }
         .brut-block:nth-child(3n) { background: #dc2626; color: white; }
         .brut-block:hover { transform: translate(-2px,-2px); box-shadow: 8px 8px 0 #111; }
-        .brut-block .icon-box { font-size: 22px; }
+        .brut-block .icon-box { font-size: 22px; width: auto; height: auto; background: none; border: none; box-shadow: none; border-radius: 0; }
         .brut-block .icon-text { font-size: 10px; font-weight: 900; text-transform: uppercase; text-align:center; text-shadow:none; letter-spacing: 0.5px; }
         .brut-footer { background: #111; padding: 6px 16px; display:flex; justify-content:space-between; color:#fff; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
         .brut-footer span { cursor: pointer; }
@@ -735,7 +735,7 @@
         .arcade-btn:nth-child(3n+2) { border-color: #ff2eea; box-shadow: 0 0 8px rgba(255,46,234,0.4), inset 0 0 8px rgba(255,46,234,0.1); }
         .arcade-btn:nth-child(3n) { border-color: #ffd60a; box-shadow: 0 0 8px rgba(255,214,10,0.4), inset 0 0 8px rgba(255,214,10,0.1); }
         .arcade-btn:hover { transform: scale(1.05); }
-        .arcade-btn .icon-box { font-size: 22px; }
+        .arcade-btn .icon-box { font-size: 22px; width: auto; height: auto; background: none; border: none; box-shadow: none; border-radius: 0; }
         .arcade-btn .icon-text { color: #e5e5e5; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; text-align:center; text-shadow:none; }
         .arcade-footer { position: relative; z-index: 10; padding: 6px 16px; display:flex; justify-content:space-between; color:#39ff14; font-size: 10px; letter-spacing: 1px; border-top: 2px solid #39ff14; }
         .arcade-footer span { cursor: pointer; }
@@ -2198,11 +2198,13 @@
         }
 
         // Saat Güncelleme
-        setInterval(() => {
+        function updateClockDisplays() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             document.querySelectorAll('.clockDisplay').forEach(el => el.innerText = timeStr);
-        }, 1000);
+        }
+        updateClockDisplays();
+        setInterval(updateClockDisplays, 1000);
 
         function toggleStartMenu() {
             const menu = document.getElementById('startMenu');
@@ -2372,6 +2374,10 @@
                 clearInterval(activeIntervals[id]);
                 delete activeIntervals[id];
             }
+            delete dinoStates[id];
+            delete termFsState[id];
+            delete calcStates[id];
+            delete balloonScores[id];
             const win = document.getElementById(id);
             if (win) win.remove();
             const taskBtn = document.getElementById('task_' + id);
